@@ -4,6 +4,7 @@ from django.db import models
 
 class User(AbstractUser):
     id = models.CharField(max_length=20, primary_key=True, unique=True, editable=False)
+    email = models.EmailField(unique=True)
     gender = models.CharField(max_length=10, blank=False)
     phone_no = models.CharField(max_length=10, blank=False)
     national_id = models.CharField(max_length=8, blank=False)
