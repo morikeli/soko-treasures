@@ -15,7 +15,7 @@ class SignupForm(UserCreationForm):
         }
 
 
-class EditProfile(forms.ModelForm):
+class EditProfileForm(forms.ModelForm):
     class User:
         model = User
         fields = ['phone_no', 'profile_pic']
