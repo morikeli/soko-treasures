@@ -9,17 +9,17 @@ class SignupForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'gender', 'phone_no', 'password1', 'password2']
         widgets = {
-            'first_name': forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}), required=True),
-            'last_name': forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}), required=True),
-            'username': forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}), required=True),
+            'first_name': forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}),
+            'last_name': forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}),
+            'username': forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}),
         }
 
 
 class EditProfileForm(forms.ModelForm):
-    class User:
+    class Meta:
         model = User
         fields = ['phone_no', 'profile_pic']
         widgets = {
-            'phone_no': forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': INPUT_CLASSES}), required=True)
+            'phone_no': forms.TextInput(attrs={'type': 'tel', 'class': INPUT_CLASSES}),
         }
 
