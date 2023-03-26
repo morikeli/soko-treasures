@@ -7,7 +7,7 @@ class User(AbstractUser):
     email = models.EmailField(unique=True)
     gender = models.CharField(max_length=10, blank=False)
     phone_no = models.CharField(max_length=10, blank=False)
-    national_id = models.CharField(max_length=8, blank=False)
+    national_id = models.CharField(max_length=8, blank=True)
     profile_pic = models.ImageField(upload_to='User-dps/', default='default.png')
     is_customer = models.BooleanField(default=False, editable=False)
     is_shopwoner = models.BooleanField(default=False, editable=False)
