@@ -10,7 +10,7 @@ class User(AbstractUser):
     national_id = models.CharField(max_length=8, blank=True)
     profile_pic = models.ImageField(upload_to='User-dps/', default='default.png')
     is_customer = models.BooleanField(default=False, editable=False)
-    is_shopwoner = models.BooleanField(default=False, editable=False)
+    is_shopowner = models.BooleanField(default=False, editable=False)
     updated = models.DateTimeField(auto_now=True)
 
     REQUIRED_FIELDS = ['username']
