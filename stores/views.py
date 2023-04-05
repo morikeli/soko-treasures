@@ -34,7 +34,9 @@ def add_stocks_view(request, retail_store):
         form = AddNewStockForm(request.POST, request.FILES, instance=store_obj)
 
         if form.is_valid():
-            form.save()
+            new_stock = form.save(commit=False)
+            new_stock.cost = new_stock.price * new_stock.quantity   # calculate cost of the item -> cost = price * quantity
+            new_stock.save()
 
             messages.success(request, 'Item has been added successfully!')
             return redirect('')
@@ -73,7 +75,9 @@ def edit_stockitem_view(request, id):
     if request.method == 'POST':
         form = EditStockItemForm(request.POST, request.FILES, instance=stock_obj)
         if form.is_valid():
-            form.save()
+            update_stock = form.save(commit=False)
+            update_stock.cost = update_stock.price * update_stock.quantity
+            update_stock.save()
 
             messages.warning(request, 'Stock item updated successfully!')
             return redirect('edit_stock_info', id)
