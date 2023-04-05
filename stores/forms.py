@@ -44,8 +44,8 @@ class StoreRegistrationForm(forms.ModelForm):
 
 class AddNewStockForm(forms.ModelForm):
     item = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), help_text='Enter the name of the product you want to add')
-    quantity = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2'}), help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500')
-    price = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2'}), help_text='Enter the price of each item')
+    quantity = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2 mb-2'}), help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500')
+    price = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mb-2'}), help_text='Enter the price of each item')
 
     class Meta:
         model = Stock
@@ -95,9 +95,9 @@ class EditRetailStoreInfoForm(forms.ModelForm):
 
 class EditStockItemForm(forms.ModelForm):
     item = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), help_text='Enter the name of the product you want to add')
-    quantity = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2'}), help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500')
-    price = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2'}), help_text='Enter the price of each item')
+    quantity = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2 mb-2'}), help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500')
+    price = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mb-2'}), help_text='Enter the price of each item')
 
     class Meta:
         model = Stock
-        fields = ['item', 'quantity', 'price', 'img']
+        fields = ['item', 'quantity', 'price', 'img', 'out_of_stock']
