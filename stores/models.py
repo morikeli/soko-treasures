@@ -14,6 +14,7 @@ class RetailStore(models.Model):
     service = models.CharField(max_length=50, blank=False)
     opening_hours = models.TimeField(null=False, blank=False)
     closing_hours = models.TimeField(null=False, blank=False)
+    working_days = models.CharField(max_length=30, blank=False)
     facebook_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)
