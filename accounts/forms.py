@@ -5,10 +5,17 @@ from .models import User
 INPUT_CLASSES = 'mb-2'
 
 class SignupForm(UserCreationForm):
+    SELECT_GENDER = (
+        (None, '-- Select gender --'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    )
+
     first_name = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES , 'autofocus': True}), required=True)
     last_name = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}), label='Surname', required=True)
     email = forms.EmailField(widget=forms.TextInput(attrs={'type': 'email', 'class': INPUT_CLASSES}), required=True)
     phone_no = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': INPUT_CLASSES}), label='Phone Number', required=True)
+    gender = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': INPUT_CLASSES}), choices=SELECT_GENDER)
 
     class Meta:
         model = User
