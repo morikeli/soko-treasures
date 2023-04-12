@@ -53,26 +53,30 @@
 					<h5 class="fw-bold">No data available</h5>
 					{% endfor %}
 				</div>
-
-				<nav aria-label="Pages">
-					<ul class="pagination pagination-sm justify-content-center">
-						{% if page.has_previous %}
-							<li class="page-item"><a href="?page=1" class="page-link">First</a></li>
-							<li class="page-item"><a href="?page={{ page.previous_page_number }}" class="page-link">&laquo;</a></li>
-						{% endif %}
-						{% for num in page.paginator.page_range %}
-							{% if page.number == num %}
-								<li class="page-item active" aria-current="page"><a class="page-link" href="?page={{num}}">{{num}} of {{ page.paginator.num_pages }}</a></li>
-							{% elif num > page.number|add:"-3" and num < page.number|add:"3" %}
-								<li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
-							{% endif %}
-						{% endfor %}
-						{% if page.has_next %}
-							<li class="page-item"><a href="?page={{ page.next_page_number }}" class="page-link">&raquo;</a></li>
-							<li class="page-item"><a href="?page={{ page.paginator.num_pages }}" class="page-link">Last</a></li>
-						{% endif %}
-					</ul>
-				</nav>
+				<div class="row pt-4 mt-3">
+					<div class="col-sm-12 col-md-12">
+						<nav aria-label="Pages">
+							<ul class="pagination pagination-sm justify-content-center">
+								{% if page.has_previous %}
+									<li class="page-item"><a href="?page=1" class="page-link">First</a></li>
+									<li class="page-item"><a href="?page={{ page.previous_page_number }}" class="page-link">&laquo;</a></li>
+								{% endif %}
+								{% for num in page.paginator.page_range %}
+									{% if page.number == num %}
+										<li class="page-item active" aria-current="page"><a class="page-link" href="?page={{num}}">{{num}} of {{ page.paginator.num_pages }}</a></li>
+									{% elif num > page.number|add:"-3" and num < page.number|add:"3" %}
+										<li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+									{% endif %}
+								{% endfor %}
+								{% if page.has_next %}
+									<li class="page-item"><a href="?page={{ page.next_page_number }}" class="page-link">&raquo;</a></li>
+									<li class="page-item"><a href="?page={{ page.paginator.num_pages }}" class="page-link">Last</a></li>
+								{% endif %}
+							</ul>
+						</nav>
+					</div>	
+				</div>
+				
 			</div>
 		</div>
 	</main>
