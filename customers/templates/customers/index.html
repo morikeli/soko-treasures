@@ -1,0 +1,81 @@
+{% extends 'customers/base.html' %}{% block title %}Online market of your choice{% endblock %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+	{% block content %}  
+	<main>
+		<section class="py-5 text-center container">
+			<div class="row py-lg-5">
+				<div class="col-lg-6 col-md-8 mx-auto">
+					<div class="row">
+						<div class="col-sm-12 col-md-12">
+							<h1 class="fw-bold">
+								Hello there!
+								<img height="35px" src="https://user-images.githubusercontent.com/18350557/176309783-0785949b-9127-417c-8b55-ab5a4333674e.gif" alt="gif">
+							</h1>
+							<p class="lead text-body-secondary"><span class="typed" data-typed-items="Buy, Sell, Advertise"></span></p>
+
+							<p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+		<div class="album py-5 bg-body-tertiary">
+			<div class="container">
+				<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+					{% for store in retail_stores %}
+					<div class="col">
+						<div class="card shadow-sm">
+							<img class="shop-photo shadow-xs" src="{{ store.image.url }}" alt="shop-photo">
+							<div class="card-body">
+								<h5 class="card-title text-muted fw-bold">{{ store.name }}</h5>
+								<p class="card-text">{{ store.description|truncatewords:15 }}</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<a href="" class="btn btn-sm btn-outline-secondary">View</a>
+										<a href="" class="btn btn-sm btn-outline-secondary">Edit</a>
+									</div>
+									<small class="text-primary">
+										{{ store.service }}
+									</small>
+								</div>
+							</div>
+						</div>
+					</div>
+					{% empty %}
+					<h5 class="fw-bold">No data available</h5>
+					{% endfor %}
+				</div>
+
+				<nav aria-label="Pages">
+					<ul class="pagination pagination-sm justify-content-center">
+						{% if page.has_previous %}
+							<li class="page-item"><a href="?page=1" class="page-link">First</a></li>
+							<li class="page-item"><a href="?page={{ page.previous_page_number }}" class="page-link">&laquo;</a></li>
+						{% endif %}
+						{% for num in page.paginator.page_range %}
+							{% if page.number == num %}
+								<li class="page-item active" aria-current="page"><a class="page-link" href="?page={{num}}">{{num}} of {{ page.paginator.num_pages }}</a></li>
+							{% elif num > page.number|add:"-3" and num < page.number|add:"3" %}
+								<li class="page-item"><a class="page-link" href="?page={{num}}">{{num}}</a></li>
+							{% endif %}
+						{% endfor %}
+						{% if page.has_next %}
+							<li class="page-item"><a href="?page={{ page.next_page_number }}" class="page-link">&raquo;</a></li>
+							<li class="page-item"><a href="?page={{ page.paginator.num_pages }}" class="page-link">Last</a></li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</main>
+	{% endblock %}
+</body>
+</html>
