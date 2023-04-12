@@ -22,7 +22,7 @@ class RetailStore(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.owner
+        return f'{self.owner}'
     
     class Meta:
         ordering = ['owner']
@@ -41,12 +41,12 @@ class Stock(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.store
+        return f'{self.store}'
 
 
     class Meta:
         ordering = ['-created']
-        verbose_name_plural = 'Retail Store Stock'
+        verbose_name_plural = 'Retail Stores Stocks'
 
 
 class Transactions(models.Model):
