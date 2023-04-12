@@ -29,13 +29,13 @@ class StoreRegistrationForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'type': 'text',}), help_text='Enter the name of your retail store')
     description = forms.CharField(widget=forms.Textarea(attrs={'type': 'text', 'class': 'mt-2 mb-2'}), help_text='Provide a brief summary of the services your store offers')
     mobile_no_1 = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mb-2'}))
-    mobile_no_2 = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mb-2'}))
+    mobile_no_2 = forms.CharField(widget=forms.TextInput(attrs={'type': 'tel', 'class': 'mb-2'}), required=False)
     location = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter street and postal address of your business, e.g. <b>"Example Street, Nairobi"</b>')
     address = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter postal address used by your store/business, e.g. 01-0101, 02-234')
     service = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_SERVICE_OFFERED)
     working_days = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_WORKING_DAYS)
-    opening_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}))
-    closing_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}))
+    opening_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}), help_text='Enter time in 24-hr clock system')
+    closing_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}), help_text='Enter time in 24-hr clock system')
 
     class Meta:
         model = RetailStore
