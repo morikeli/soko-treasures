@@ -18,9 +18,9 @@ def store_registration_view(request):
             new_store.save()
 
             messages.success(request, f'Store {new_store.name} has been registered successfully!')
-            return redirect('')
+            return redirect('index')
 
-    context = {'form': form}
+    context = {'RetailStoreRegistrationForm': form}
     return render(request, 'stores/stores.html', context)
 
 
