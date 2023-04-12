@@ -6,7 +6,7 @@ class RetailStore(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
     owner = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
     name = models.CharField(max_length=50, blank=False)
-    image = models.ImageField(upload_to='Stores/imgs/')
+    image = models.ImageField(upload_to='Stores/imgs/', null=True)
     description = models.TextField(blank=False)
     mobile_no_1 = models.CharField(max_length=10, blank=False)
     mobile_no_2 = models.CharField(max_length=10, blank=True)
