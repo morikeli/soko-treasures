@@ -34,7 +34,7 @@ class StoreRegistrationForm(forms.ModelForm):
     address = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter postal address used by your store/business, e.g. 01-0101, 02-234')
     service = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_SERVICE_OFFERED)
     working_days = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_WORKING_DAYS)
-    opening_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}), help_text='Enter time in 24-hr clock system')
+    opening_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}))
     closing_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}), help_text='Enter time in 24-hr clock system')
 
     class Meta:
