@@ -16,10 +16,9 @@
 						<div class="col-sm-12 col-md-12">
 							<h1 class="fw-bold">
 								Hello there!
-								<img height="35px" src="https://user-images.githubusercontent.com/18350557/176309783-0785949b-9127-417c-8b55-ab5a4333674e.gif" alt="gif">
+								<img height="32px" src="https://user-images.githubusercontent.com/18350557/176309783-0785949b-9127-417c-8b55-ab5a4333674e.gif" alt="">
 							</h1>
-							<p class="lead text-body-secondary"><span class="typed" data-typed-items="Buy, Sell, Advertise"></span></p>
-
+							<p class="text-secondary"><span class="typed" data-typed-items="Buy, Sell, Advertise"></span></p>
 							<p class="lead text-body-secondary">Something short and leading about the collection below—its contents, the creator, etc. Make it short and sweet, but not too short so folks don't simply skip over it entirely.</p>
 						</div>
 					</div>
@@ -38,7 +37,7 @@
 								<p class="card-text">{{ store.description|truncatewords:15 }}</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a href="" class="btn btn-sm btn-outline-secondary">View</a>
+										<a href="{% url 'retail_store_info' store.id %}" class="btn btn-sm btn-outline-secondary">View</a>
 										<a href="" class="btn btn-sm btn-outline-secondary">Edit</a>
 									</div>
 									<small class="text-primary">
@@ -79,6 +78,7 @@
 			</div>
 		</div>
 	</main>
+    <a href="{% url 'index' %}" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 	{% endblock %}
 </body>
 </html>
