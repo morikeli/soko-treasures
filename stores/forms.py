@@ -36,7 +36,6 @@ class StoreRegistrationForm(forms.ModelForm):
     working_days = forms.ChoiceField(widget=forms.Select(attrs={'type': 'select', 'class': 'mb-2'}), choices=SELECT_WORKING_DAYS)
     opening_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}))
     closing_hours = forms.CharField(widget=forms.TimeInput(attrs={'type': 'time', 'class': 'mb-2'}), help_text='Enter time in 24-hr clock system')
-    image = forms.CharField(widget=forms.TextInput(attrs={'type': 'file', 'class': 'form-control mb-2'}), required=False)
 
     class Meta:
         model = RetailStore
