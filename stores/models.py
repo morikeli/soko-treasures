@@ -33,6 +33,7 @@ class Stock(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
     store = models.ForeignKey(RetailStore, on_delete=models.CASCADE, editable=False)
     item = models.CharField(max_length=150, blank=False)
+    description = models.TextField(blank=True)
     quantity = models.PositiveIntegerField(default=0)
     img = models.ImageField(upload_to='Item-pics/', default='')
     price = models.PositiveIntegerField(default=0)
