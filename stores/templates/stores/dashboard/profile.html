@@ -1,0 +1,154 @@
+{% extends 'stores/dashboard/base.html' %}{% block title %}Profile{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-4">
+					<div class="card">
+						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+							<img src="{{request.user.profile_pic.url}}" alt="Profile" class="rounded-circle">
+							<h2>{{request.user.retailstore.owner|title}}</h2>
+							<h3>{{request.user.retailstore.owner}}</h3>
+							<div class="social-links mt-2">
+								{% if request.use.retailstore.twitter_url %}<a href="{{ request.user.retailstore.twitter_url }}" class="twitter"><i class="bi-twitter"></i></a>{% endif %}
+								{% if request.use.retailstore.facebook_url %}<a href="{{ request.user.retailstore.facebook_url }}" class="facebook"><i class="bi-facebook"></i></a>{% endif %}
+								{% if request.use.retailstore.instagram_url %}<a href="{{ request.user.retailstore.instagram_url }}" class="instagram"><i class="bi-instagram"></i></a>{% endif %}
+								{% if request.use.retailstore.linkedin_url %}<a href="{{ request.user.retailstore.linkedin_url }}" class="linkedin"><i class="bi-linkedin"></i></a>{% endif %}
+							  </div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-body pt-3">
+							<ul class="nav nav-tabs nav-tabs-bordered">
+								<li class="nav-item">
+									<button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
+								</li>
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+								</li>
+								<li class="nav-item">
+									<button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
+								</li>
+							</ul>
+							<div class="tab-content pt-2">
+								{% include 'messages.html' %}
+								<div class="tab-pane fade show active profile-overview" id="profile-overview">
+									<h5 class="card-title">About</h5>
+					                <p class="small fst-italic">{{ request.user.retailstore.description }}</p>
+									<h5 class="card-title">Profile Details</h5>
+
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Full Name</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.owner|title}}</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Retail Store</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.name|default:" -- "}}</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Location</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.location|default:" -- "}}</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Address</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.address|default:" -- "}}</div>
+									</div>
+									
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Service</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.service|default:" -- "}}</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Working hours</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.opening_hours|default:" -- "}} - {{request.user.retailstore.closing_hours|default:" -- "}}</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Working days</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.working_days|default:" -- "}}</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-3 col-md-4 label">Mobile Number</div>
+										<div class="col-lg-9 col-md-8">{{request.user.retailstore.mobile_no_1|default:" -- "}}{% if request.user.retailstore.mobile_no_2 %}, {{request.user.retailstore.mobile_no_2|default:" -- "}}{% endif %}</div>
+									</div>
+
+								</div>
+
+								<div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+									<form action="" method="post" enctype="multipart/form-data">
+										{% csrf_token %}
+										<div class="row mb-3">
+											<label for="image" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
+											<div class="col-md-8 col-lg-9">
+												<img src="{{request.user.profile_pic.url}}" alt="Profile">
+											</div>
+										</div>
+										<div class="row mb-2">
+											<div class="col-md-12 col-lg-12">
+												{{EditProfileForm|crispy}}
+											</div>
+										</div>
+										<div class="text-center d-grid gap-2">
+											<button type="submit" class="btn btn-outline-primary">Update profile</button>
+										</div>
+									</form>
+
+								</div>
+
+								<div class="tab-pane fade pt-3" id="profile-change-password">
+									<form action="" method="post">
+
+										<div class="row mb-3">
+										<label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+										<div class="col-md-8 col-lg-9">
+											<input name="password" type="password" class="form-control" id="currentPassword">
+										</div>
+										</div>
+
+										<div class="row mb-3">
+										<label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+										<div class="col-md-8 col-lg-9">
+											<input name="newpassword" type="password" class="form-control" id="newPassword">
+										</div>
+										</div>
+
+										<div class="row mb-3">
+										<label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+										<div class="col-md-8 col-lg-9">
+											<input name="renewpassword" type="password" class="form-control" id="renewPassword">
+										</div>
+										</div>
+
+										<div class="text-center">
+										<button type="submit" class="btn btn-primary">Change Password</button>
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html> 
