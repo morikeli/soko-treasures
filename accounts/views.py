@@ -1,18 +1,18 @@
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LogoutView
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import SignupForm, EditProfileForm
-
+from .models import User
 
 def login_view(request):
     form = AuthenticationForm()
 
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
-        # print(form.data)
+        
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
@@ -27,7 +27,7 @@ def login_view(request):
                     try:
                         if user_account.is_shopowner is True and user_account.retailstore.owner is not None:
                             login(request, user_account)
-                            return redirect('index')
+                            return redirect('homepage')     # return the user to the retailstore dashboard
                     except:
                         login(request, user_account)
                         return redirect('add_new_store')
@@ -66,6 +66,25 @@ def profile_view(request):
 
     context = {'form': form}
     return render(request, 'accounts/profile.html', context)
+
+@login_required(login_url='user_login')
+@user_passes_test(lambda user: user.is_shopowner is True and user.is_staff is False and user.is_superuser is False)
+def update_staff_profile_view(request, staff_name):
+    """ This view enables staff members of a retail store to update their profile. """
+    staff = User.objects.get(username=staff_name)
+
+    form = EditProfileForm(instance=staff)
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, request.FILES, instance=staff)
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'You have successfully your profile!')
+            return redirect('staff_profile', staff_name)
+
+    context = {'EditProfileForm': form}
+    return render(request, 'dashboard/profile.html', context)
 
 class LogoutUser(LogoutView):
     template_name = 'accounts/logout.html'
