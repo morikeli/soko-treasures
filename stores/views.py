@@ -42,7 +42,7 @@ def add_stocks_view(request, retail_store):
             return redirect('')
 
 
-    context = {'form': form}
+    context = {'AddStockItemForm': form}
     return render(request, 'stores/stock.html', context)
 
 
