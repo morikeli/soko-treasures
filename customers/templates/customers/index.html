@@ -31,14 +31,18 @@
 					{% for store in retail_stores %}
 					<div class="col">
 						<div class="card shadow-sm">
-							<img class="shop-photo shadow-xs" src="{{ store.image.url }}" alt="shop-photo">
+							<a href="{% url 'retail_store_info' store.id %}">
+								<img class="shop-photo shadow-xs" src="{{ store.image.url }}" alt="shop-photo">
+							</a>
 							<div class="card-body">
-								<h5 class="card-title text-muted fw-bold">{{ store.name }}</h5>
+								<a href="{% url 'retail_store_info' store.id %}">
+									<h5 class="card-title text-muted fw-bold">{{ store.name }}</h5>
+								</a>
 								<p class="card-text">{{ store.description|truncatewords:15 }}</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a href="{% url 'retail_store_info' store.id %}" class="btn btn-sm btn-outline-secondary">View</a>
-										<a href="" class="btn btn-sm btn-outline-secondary">Edit</a>
+										<a href="" class="btn btn-sm btn-outline-secondary">Products</a>
+										<a href="" class="btn btn-sm btn-outline-danger">Edit</a>
 									</div>
 									<small class="text-primary">
 										{{ store.service }}
