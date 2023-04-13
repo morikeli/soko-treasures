@@ -1,0 +1,89 @@
+{% extends 'customers/navbar.html' %}{% block title %}Retail Store info.{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <main class="container mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card mb-3 p-4">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="{{ store.image.url }}" class="img-fluid rounded-start" alt="store-photo">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h2 class="card-title text-center">Retail Store info</h2>
+                                <div class="d-flex justify-content-between align-items-end">
+                                    <div class="ms-2 me-auto">
+                                        <h4 class="card-text"><i class="bi-cart-fill"></i> {{ store.name }}</h4>
+                                    </div>
+                                    <a href="{% url 'retail_store_info' store.id %}">
+                                        <i class="bi-star-fill"></i>
+                                    </a>
+                                </div>
+                                <hr>
+                                <p class="card-text description">{{ store.description }}</p>
+                                <div class="row">
+                                    <div class="col-md-12 col-lg-12 table-responsive">
+                                        <table class="table table-borderless w-100">
+                                            <tbody>
+                                                <tr>
+                                                    <td><i class="bi-star-fill"></i> Specialises in</td><td  class="text-end">{{ store.service }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="bi-geo-alt-fill"></i> Location</td><td class="text-end">{{ store.location }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="bi-mailbox2"></i> Address</td><td class="text-end">{{ store.address }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="bi-clock-fill"></i> Working hours</td><td class="text-end">{{ store.opening_hours }} - {{ store.closing_hours }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="bi-calendar-day-fill"></i> Working days</td><td class="text-end">{{ store.working_days }}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td><i class="bi-telephone-outbound-fill"></i> Contact(s)</td><td class="text-end">{{ store.mobile_no_1 }} {% if store.mobile_no_2 %} &centerdot; {{ store.mobile_no_2 }}{% endif %}</td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-end socials" colspan="2">
+                                                        <i class="text-end bi-facebook"></i>
+                                                        <i class="bi-instagram"></i>
+                                                        <i class="bi-twitter"></i>
+                                                        <i class="bi-linkedin"></i>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="card-footer text-center">
+                                    <h5 class="small">
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#modal--form">
+                                            <i class="bi-telephone-outbound-fill"></i> Report &centerdot; 
+                                        </a>
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#modal--form">
+                                            <i class="bi-emoji-smile-fill"></i> Feedback &centerdot; 
+                                        </a>
+                                        <a href="" data-bs-toggle="modal" data-bs-target="#modal--form">
+                                            <i class="bi-star-fill"></i> Rate this store
+                                        </a>
+                                    </h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <a href="{% url 'retail_store_info' store.id %}" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+    {% endblock %}
+</body>
+</html>
