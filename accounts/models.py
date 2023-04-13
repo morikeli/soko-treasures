@@ -1,6 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
+from PIL import Image
 
 class User(AbstractUser):
     id = models.CharField(max_length=20, primary_key=True, unique=True, editable=False)
@@ -14,6 +14,17 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = ['username']
     USERNAME_FIELD = 'email'
+
+    def save(self, *args, **kwargs):
+        super(User, self).save(*args, **kwargs)
+
+        dp = Image.open(self.profile_pic.path)
+
+        if dp.height > 480 and dp.width > 480:
+            output_size = (480, 480)
+            dp.thumbnail(output_size)
+            dp.save(self.profile_pic.path)
+    
 
     def __str__(self):
         return self.username
