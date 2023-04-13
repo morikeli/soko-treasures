@@ -10,6 +10,7 @@ from stores.models import RetailStore
 def index_view(request):
     """ This view displays the default template. Any user can use this template to navigate throughout the website. """
     stores = RetailStore.objects.all().order_by('name')
+    
     p = Paginator(stores, 2) 
     page_number = request.GET.get('page')
 
@@ -26,6 +27,13 @@ def index_view(request):
     context = {'retail_stores': stores, 'page': page_obj}
     return render(request, 'customers/index.html', context)
 
+
+def store_details_view(request, retail_store):
+    """ This view displays info of the provided retail store """
+    store = RetailStore.objects.get(id=retail_store)
+
+    context = {'store': store}
+    return render(request, 'customers/store-info.html', context)
 
 def place_order_view(request):
 
