@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from stores.models import Stock
 from .models import Orders
-from stores.models import RetailStore
+from stores.models import RetailStore, Stock
 
 
 def index_view(request):
@@ -34,6 +34,37 @@ def store_details_view(request, retail_store):
 
     context = {'store': store}
     return render(request, 'customers/store-info.html', context)
+
+
+def all_products_view(request, retail_store):
+    """ Display all products in stock """
+    items = Stock.objects.filter(store__name=retail_store).order_by('item').all()
+
+    p = Paginator(items, 10) 
+    page_number = request.GET.get('page')
+
+    try:
+        page_obj = p.get_page(page_number)
+
+    except PageNotAnInteger:
+        # if page_number is not an integer then assign the first page
+        page_obj = p.page(1)
+    except EmptyPage:
+        # if page is empty then return last page
+        page_obj = p.page(p.num_pages)
+
+    context= {'items': items, 'page': page_obj}
+    return render(request, 'customers/products.html', context)
+
+
+def products_details_view(request, pk, item, retail_store):
+    """ Display info of a particular product """
+    item = Stock.objects.get(id=pk, item=item, store=retail_store)
+
+
+    context = {'product': item}
+    return render(request, 'customers/product-info.html', context)
+
 
 def place_order_view(request):
 
