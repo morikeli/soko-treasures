@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .forms import SignupForm, EditProfileForm
 from .models import User
+from stores.models import RetailStore
 
 def login_view(request):
     form = AuthenticationForm()
@@ -25,10 +26,12 @@ def login_view(request):
                 
                 else:
                     try:
-                        if user_account.is_shopowner is True and user_account.retailstore.owner is not None:
+                        store = RetailStore.objects.get(owner=user_account)
+                        if user_account.is_shopowner is True and store is not None:
                             login(request, user_account)
-                            return redirect('homepage')     # return the user to the retailstore dashboard
-                    except:
+                            return redirect('dashboard', user_account.username)     # return the user to the retailstore dashboard
+                    
+                    except RetailStore.DoesNotExist:
                         login(request, user_account)
                         return redirect('add_new_store')
                     
