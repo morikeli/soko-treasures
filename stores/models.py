@@ -13,8 +13,8 @@ class RetailStore(models.Model):
     location = models.CharField(max_length=100, blank=False)
     address = models.CharField(max_length=50, blank=False)
     service = models.CharField(max_length=50, blank=False)
-    opening_hours = models.TimeField(null=False, blank=False)
-    closing_hours = models.TimeField(null=False, blank=False)
+    opening_hours = models.TimeField(null=True, blank=False)
+    closing_hours = models.TimeField(null=True, blank=False)
     working_days = models.CharField(max_length=30, blank=False)
     facebook_url = models.URLField(blank=True)
     instagram_url = models.URLField(blank=True)
@@ -49,9 +49,9 @@ class Branches(models.Model):
 
 class Employees(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    employee = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
+    employee = models.OneToOneField(User, on_delete=models.CASCADE, editable=True)
     store = models.OneToOneField(RetailStore, on_delete=models.CASCADE, editable=False)
-    branch = models.OneToOneField(Branches, on_delete=models.CASCADE)
+    branch = models.OneToOneField(Branches, on_delete=models.CASCADE, null=True)
     salary = models.PositiveIntegerField(default=0, blank=False)
     role = models.CharField(max_length=20, blank=False)
     created = models.DateTimeField(auto_now_add=True)
