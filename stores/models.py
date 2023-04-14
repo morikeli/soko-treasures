@@ -49,7 +49,7 @@ class Branches(models.Model):
 
 class Employees(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    store = models.OneToOneField(RetailStore, on_delete=models.CASCADE, editable=False)
+    store = models.ForeignKey(RetailStore, on_delete=models.CASCADE, editable=False)
     branch = models.OneToOneField(Branches, on_delete=models.CASCADE, null=True)
     employee = models.CharField(max_length=100, blank=False)
     gender = models.CharField(max_length=7)
