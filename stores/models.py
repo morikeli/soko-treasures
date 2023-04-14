@@ -49,9 +49,10 @@ class Branches(models.Model):
 
 class Employees(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    employee = models.OneToOneField(User, on_delete=models.CASCADE, editable=True)
     store = models.OneToOneField(RetailStore, on_delete=models.CASCADE, editable=False)
     branch = models.OneToOneField(Branches, on_delete=models.CASCADE, null=True)
+    employee = models.CharField(max_length=100, blank=False)
+    gender = models.CharField(max_length=7)
     salary = models.PositiveIntegerField(default=0, blank=False)
     role = models.CharField(max_length=20, blank=False)
     created = models.DateTimeField(auto_now_add=True)
