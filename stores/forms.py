@@ -84,9 +84,18 @@ class RetailStoreContactsandSocialLinksForm(forms.ModelForm):
         
 
 class AddNewStockForm(forms.ModelForm):
-    item = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), help_text='Enter the name of the product you want to add')
-    quantity = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2 mb-2'}), help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500')
-    price = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mb-2'}), help_text='Enter the price of each item')
+    item = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text'}),
+        help_text='Enter the name of the product you want to add',
+        )
+    quantity = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2 mb-2'}),
+        help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500',
+        )
+    price = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'number', 'class': 'mb-2'}),
+        help_text='Enter the price of each item',
+        )
 
     class Meta:
         model = Stock
@@ -94,8 +103,14 @@ class AddNewStockForm(forms.ModelForm):
 
 
 class AddNewRetailStoreBranchForm(forms.ModelForm):
-    location = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter street and postal address of your the branch store, e.g. <b>"Example Street, Mombasa"</b>')
-    address = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter postal address and postal code used by the branch store, e.g. 01-0101, 02-234')
+    location = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
+        help_text='Enter street and postal address of your the branch store, e.g. <b>"Example Street, Mombasa"</b>',
+        )
+    address = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
+        help_text='Enter postal address and postal code used by the branch store, e.g. 01-0101, 02-234',
+        )
 
     class Meta:
         model = Branches
@@ -103,8 +118,19 @@ class AddNewRetailStoreBranchForm(forms.ModelForm):
 
 
 class AddNewEmployeeForm(forms.ModelForm):
-    salary = forms.CharField(widget=forms.TextInput(attrs={'type': 'select', 'min': '0', 'max': '100000000'}), required=True, help_text='Enter the salary of this employee')
-    role = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), required=True, help_text='Is he/she a supervisor, secretary, manager or a security officer?')
+    employee = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
+        help_text='Enter the full name of an employee',
+        )
+    salary = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-1', 'min': '0', 'max': '100000000'}),
+        required=True, help_text='Enter the salary of this employee',
+        )
+    role = forms.CharField(widget=forms.TextInput(
+        attrs={'type': 'text', 'class': 'mt-1'}),
+        required=True,
+        help_text='Is he/she a supervisor, secretary, manager or a security officer?',
+        )
 
     class Meta:
         model = Employees
@@ -194,9 +220,18 @@ class UpdateRetailStoreContactsandSocialLinksForm(forms.ModelForm):
 
 
 class EditStockItemForm(forms.ModelForm):
-    item = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), help_text='Enter the name of the product you want to add')
-    quantity = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2 mb-2'}), help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500')
-    price = forms.CharField(widget=forms.TextInput(attrs={'type': 'number', 'class': 'mb-2'}), help_text='Enter the price of each item')
+    item = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text'}),
+        help_text='Enter the name of the product you want to add',
+        )
+    quantity = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-2 mb-2'}),
+        help_text='Enter the quantity of the item, e.g. 2, 10, 100, 500',
+        )
+    price = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'number', 'class': 'mb-2'}),
+        help_text='Enter the price of each item',
+        )
 
     class Meta:
         model = Stock
@@ -204,8 +239,14 @@ class EditStockItemForm(forms.ModelForm):
 
 
 class EditRetailStoreBranchForm(forms.ModelForm):
-    location = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter street and postal address of your the branch store, e.g. <b>"Example Street, Mombasa"</b>')
-    address = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter postal address and postal code used by the branch store, e.g. 01-0101, 02-234')
+    location = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
+        help_text='Enter street and postal address of your the branch store, e.g. <b>"Example Street, Mombasa"</b>',
+        )
+    address = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
+        help_text='Enter postal address and postal code used by the branch store, e.g. 01-0101, 02-234',
+        )
 
     class Meta:
         model = Branches
@@ -213,8 +254,16 @@ class EditRetailStoreBranchForm(forms.ModelForm):
 
 
 class EditEmployeeDetailsForm(forms.ModelForm):
-    salary = forms.CharField(widget=forms.TextInput(attrs={'type': 'select', 'min': '0', 'max': '100000000'}), required=True, help_text='Enter the salary of this employee')
-    role = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), required=True, help_text='Is he/she a supervisor, secretary, manager or a security officer?')
+    salary = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'select', 'min': '0', 'max': '100000000'}),
+        required=True,
+        help_text='Enter the salary of this employee',
+        )
+    role = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text'}),
+        required=True,
+        help_text='Is he/she a supervisor, secretary, manager or a security officer?'
+        )
 
     class Meta:
         model = Employees
