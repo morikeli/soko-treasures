@@ -118,10 +118,19 @@ class AddNewRetailStoreBranchForm(forms.ModelForm):
 
 
 class AddNewEmployeeForm(forms.ModelForm):
+    SELECT_GENDER = (
+        (None, '-- Select gender --'),
+        ('Male', 'Male'),
+        ('Female', 'Female'),
+    )
     employee = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
         help_text='Enter the full name of an employee',
         )
+    gender = forms.ChoiceField(
+        widget=forms.Select(attrs={'type': 'select'}),
+        choices=SELECT_GENDER,
+    )
     salary = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'number', 'class': 'mt-1', 'min': '0', 'max': '100000000'}),
         required=True, help_text='Enter the salary of this employee',
@@ -134,7 +143,7 @@ class AddNewEmployeeForm(forms.ModelForm):
 
     class Meta:
         model = Employees
-        fields = ['employee', 'salary', 'role']
+        fields = ['employee', 'gender', 'salary', 'role']
 
 
 # forms to edit info.
