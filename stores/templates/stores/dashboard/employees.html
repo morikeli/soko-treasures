@@ -1,0 +1,110 @@
+{% extends 'stores/dashboard/base.html' %}{% block title %}Employees {% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-4">
+					<div class="card">
+						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+							<img src="{{request.user.profile_pic.url}}" alt="Profile" class="rounded-circle">
+							<h2>{{request.user.retailstore.owner|title}}</h2>
+							<h3>{{request.user.retailstore.owner}}</h3>
+							<div class="social-links mt-2">
+								{% if request.use.retailstore.twitter_url %}<a href="{{ request.user.retailstore.twitter_url }}" class="twitter"><i class="bi-twitter"></i></a>{% endif %}
+								{% if request.use.retailstore.facebook_url %}<a href="{{ request.user.retailstore.facebook_url }}" class="facebook"><i class="bi-facebook"></i></a>{% endif %}
+								{% if request.use.retailstore.instagram_url %}<a href="{{ request.user.retailstore.instagram_url }}" class="instagram"><i class="bi-instagram"></i></a>{% endif %}
+								{% if request.use.retailstore.linkedin_url %}<a href="{{ request.user.retailstore.linkedin_url }}" class="linkedin"><i class="bi-linkedin"></i></a>{% endif %}
+							  </div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-body pt-3 vertical-tabs">
+                            <div class="d-flex align-items-start">
+                                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <button class="nav-link active" id="v-pills-employees-tab" data-bs-toggle="pill" data-bs-target="#v-pills-employees" type="button" role="tab" aria-controls="v-pills-employees" aria-selected="true">
+                                        Employees
+                                    </button>
+                                    <button class="nav-link" id="v-new-employee-tab" data-bs-toggle="pill" data-bs-target="#v-pills-new-employee" type="button" role="tab" aria-controls="v-pills-new-employee" aria-selected="false">
+                                        Add new employee
+                                    </button>
+                                </div>
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade show active" id="v-pills-employees" role="tabpanel" aria-labelledby="v-pills-employees-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h5 class="card-title">Employee records | <span class="fw-bold">{{ store_obj.name }}</span></h5>
+                                                {% include 'messages.html' %}
+                                                <div class="table-responsive">
+                                                    <table class="table w-100 table-bordered">
+                                                        <thead>
+                                                            <tr class="table-active">
+                                                                <th>#</th>
+                                                                <th>Employee</th>
+                                                                <th>Gender</th>
+                                                                <th>Store</th>
+                                                                <th>Branch</th>
+                                                                <th>Role</th>
+                                                                <th>Salary</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for employee in employees %}
+                                                            <tr>
+                                                                <td class="text-center">{{ forloop.counter }}</td>
+                                                                <td class="text-end">{{ employee.employee|title|default:"--" }}</td>
+                                                                <td class="text-end">{{ employee.gender|default:"--" }}</td>
+                                                                <td class="text-end">{{ employee.store|default:"--" }}</td>
+                                                                <td class="text-end">{{ employee.branch|default:"--" }}</td>
+                                                                <td class="text-end">{{ employee.role|title|default:"--" }}</td>
+                                                                <td class="text-end">{{ employee.salary|default:"--" }}</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-new-employee" role="tabpanel" aria-labelledby="v-pills-new-employee-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form action="" method="post">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="text-center">Add employees form</h5>
+                                                            <h6 class="small fst-italic">Use this form to register new employees in your retail store</h6>
+                                                            {{ AddNewEmployeeForm|crispy }}
+                                                            <hr>
+                                                            <div class="d-grid gap-2 mt-2">
+                                                                <button type="submit" class="btn btn-outline-secondary">Submit</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html>
