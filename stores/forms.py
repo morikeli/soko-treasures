@@ -1,4 +1,4 @@
-from .models import RetailStore, Stock
+from .models import RetailStore, Stock, Branches, Employees
 from django import forms
 
 
@@ -55,6 +55,24 @@ class AddNewStockForm(forms.ModelForm):
         fields = ['item', 'quantity', 'price', 'img']
 
 
+class AddNewRetailStoreBranchForm(forms.ModelForm):
+    location = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter street and postal address of your the branch store, e.g. <b>"Example Street, Mombasa"</b>')
+    address = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter postal address and postal code used by the branch store, e.g. 01-0101, 02-234')
+
+    class Meta:
+        model = Branches
+        fields = ['location', 'address', 'image']
+
+
+class AddNewEmployeeForm(forms.ModelForm):
+    salary = forms.CharField(widget=forms.TextInput(attrs={'type': 'select', 'min': '0', 'max': '100000000'}), required=True, help_text='Enter the salary of this employee')
+    role = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), required=True, help_text='Is he/she a supervisor, secretary, manager or a security officer?')
+
+    class Meta:
+        model = Employees
+        fields = ['employee', 'salary', 'role']
+
+
 # forms to edit info.
 class EditRetailStoreInfoForm(forms.ModelForm):
     SELECT_SERVICE_OFFERED = (
@@ -104,3 +122,22 @@ class EditStockItemForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ['item', 'quantity', 'price', 'img', 'out_of_stock']
+
+
+class EditRetailStoreBranchForm(forms.ModelForm):
+    location = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter street and postal address of your the branch store, e.g. <b>"Example Street, Mombasa"</b>')
+    address = forms.CharField(widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}), help_text='Enter postal address and postal code used by the branch store, e.g. 01-0101, 02-234')
+
+    class Meta:
+        model = Branches
+        fields = ['location', 'address', 'image']
+
+
+class EditEmployeeDetailsForm(forms.ModelForm):
+    salary = forms.CharField(widget=forms.TextInput(attrs={'type': 'select', 'min': '0', 'max': '100000000'}), required=True, help_text='Enter the salary of this employee')
+    role = forms.CharField(widget=forms.TextInput(attrs={'type': 'text'}), required=True, help_text='Is he/she a supervisor, secretary, manager or a security officer?')
+
+    class Meta:
+        model = Employees
+        fields = ['employee', 'salary', 'role']
+
