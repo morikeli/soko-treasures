@@ -1,0 +1,186 @@
+{% extends 'stores/dashboard/base.html' %}{% block title %}Profile{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-4">
+					<div class="card">
+						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+							<img src="{{request.user.profile_pic.url}}" alt="Profile" class="rounded-circle">
+							<h2>{{request.user.retailstore.owner|title}}</h2>
+							<h3>{{request.user.retailstore.name|default:"--"}}</h3>
+							<div class="social-links mt-2">
+								{% if request.use.retailstore.twitter_url %}<a href="{{ store_obj.retailstore.twitter_url }}" class="twitter"><i class="bi-twitter"></i></a>{% endif %}
+								{% if request.use.retailstore.facebook_url %}<a href="{{store_obj.retailstore.facebook_url }}" class="facebook"><i class="bi-facebook"></i></a>{% endif %}
+								{% if request.use.retailstore.instagram_url %}<a href="{store_obj.retailstore.instagram_url }}" class="instagram"><i class="bi-instagram"></i></a>{% endif %}
+								{% if request.use.retailstore.linkedin_url %}<a href="{{store_obj.retailstore.linkedin_url }}" class="linkedin"><i class="bi-linkedin"></i></a>{% endif %}
+							</div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-body pt-3 vertical-tabs">
+                            <div class="d-flex align-items-start">
+                                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <button class="nav-link active" id="v-pills-edit-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-edit-profile" type="button" role="tab" aria-controls="v-pills-edit-profile" aria-selected="true">
+                                        Store details {% if store_obj is None %} <i class="bi-x-circle-fill" style="color: #dd3534"></i> {% else %} <i class="bi-check-circle-fill" style="color: #13bb36"></i> {% endif %}
+                                    </button>
+									<button class="nav-link" id="v-pills-c_password-tab" data-bs-toggle="pill" data-bs-target="#v-pills-c_password" type="button" role="tab" aria-controls="v-pills-c_password" aria-selected="false">
+                                        Store location {% if store_obj.location == '' %} <i class="bi-x-circle-fill" style="color: #dd3534"></i> {% else %} <i class="bi-check-circle-fill" style="color: #13bb36"></i> {% endif %}
+                                    </button>
+                                    <button class="nav-link" id="v-pills-privacy-tab" data-bs-toggle="pill" data-bs-target="#v-pills-privacy" type="button" role="tab" aria-controls="v-pills-privacy" aria-selected="false">
+                                        Contacts {% if store_obj.mobile_no_1 == '' %} <i class="bi-x-circle-fill" style="color: #dd3534"></i> {% else %} <i class="bi-check-circle-fill" style="color: #13bb36"></i> {% endif %}
+									</button>
+                                </div>
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade show active" id="v-pills-edit-profile" role="tabpanel" aria-labelledby="v-pills-edit-profile-tab">
+                                        {% if store_obj is not None %}
+										<div class="row">
+											<div class="table-responsive">
+												<table class="table table-responsive table-striped table-bordered">
+													<thead>
+														<tr>
+															<th class="text-center">#</th>
+															<th class="text-center">Retail store details</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr><td>Retail Store</td><td class="text-end">{{ store_obj.name }}</td></tr>
+														<tr><td>Description</td><td class="text-end">{{ store_obj.description }}</td></tr>
+														<tr><td>Service</td><td class="text-end">{{ store_obj.service }}</td></tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+										{% else %}
+										<div class="row">
+                                            <div class="col-md-12 col-lg-12">
+                                                <h5 class="card-title">Store Registration Form</h5>
+												<h6 class="small text-muted fst-italic">Provide your store/business details in the provided forms. Click the tabs to display more forms.</h6>
+                                                <form action="" method="post">
+													{% csrf_token %}
+													<div class="row">
+														<div class="col-md-12">
+															{% include 'messages.html' %}
+															{{ RetailStoreInfoForm|crispy }}
+															<hr>
+															<div class="d-grid gap-2 mt-2">
+																<button type="submit" class="btn btn-outline-secondary">Submit</button>
+															</div>
+														</div>
+													</div>
+												</form>
+                                            </div>
+                                        </div>
+										{% endif %}
+                                    </div>
+									<div class="tab-pane fade" id="v-pills-c_password" role="tabpanel" aria-labelledby="v-pills-c_password-tab">
+										{% if store_obj.location != '' %}
+										<div class="row">
+											<div class="col-md-12">
+												<div class="table-responsive">
+													<table class="table table-responsive table-striped table-bordered">
+														<thead>
+															<tr>
+																<th class="text-center">#</th>
+																<th class="text-end">Retail store details</th>
+															</tr>
+														</thead>
+														<tbody>
+															<tr><td>Retail Store Location</td><td class="text-end">{{ store_obj.location }}</td></tr>
+															<tr><td>Address</td><td class="text-end">{{ store_obj.address }}</td></tr>
+															<tr><td>Working days</td><td class="text-end">{{ store_obj.working_days }}</td></tr>
+															<tr><td>Working hours</td><td class="text-end">{{ store_obj.opening_hours }} - {{ store_obj.closing_hours }}</td></tr>
+														</tbody>
+													</table>
+												</div>
+											</div>
+										</div>
+										{% else %}
+										<div class="row">
+                                            <div class="col-md-12 col-lg-12">
+                                                <h5 class="card-title">Store registration form: location, working hours & days</h5>
+                                                <form action="" method="post">
+													{% csrf_token %}
+													<div class="row">
+														<div class="col-md-12">
+															{% include 'messages.html' %}
+															{{ RetailStoreLocationForm|crispy }}
+															<hr>
+															<div class="d-grid gap-2 mt-2">
+																<button type="submit" class="btn btn-outline-secondary">Submit</button>
+															</div>
+														</div>
+													</div>
+												</form>
+                                            </div>
+                                        </div>
+										{% endif %}
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-privacy" role="tabpanel" aria-labelledby="v-pills-privacy-tab">
+										{% if store_obj.mobile_no_1 != '' %}
+										<div class="row">
+											<div class="table-responsive col-md-12">
+												<table class="table table-responsive table-striped table-bordered">
+													<thead>
+														<tr>
+															<th class="text-center">#</th>
+															<th class="text-end">Retail store details</th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr><td>Mobile Number 1</td><td class="text-end">{{ store_obj.mobile_no_1 }}</td></tr>
+														<tr><td>Mobile Number 2</td><td class="text-end">{{ store_obj.mobile_no_2 }}</td></tr>
+													</tbody>
+												</table>
+												<div class="social-links mt-2">
+													{% if request.use.retailstore.twitter_url %}<a href="{{ store_obj.retailstore.twitter_url }}" class="twitter"><i class="bi-twitter"></i></a>{% endif %}
+													{% if request.use.retailstore.facebook_url %}<a href="{{store_obj.retailstore.facebook_url }}" class="facebook"><i class="bi-facebook"></i></a>{% endif %}
+													{% if request.use.retailstore.instagram_url %}<a href="{store_obj.retailstore.instagram_url }}" class="instagram"><i class="bi-instagram"></i></a>{% endif %}
+													{% if request.use.retailstore.linkedin_url %}<a href="{{store_obj.retailstore.linkedin_url }}" class="linkedin"><i class="bi-linkedin"></i></a>{% endif %}
+												</div>
+											</div>
+										</div>
+										{% else %}
+										<div class="row">
+                                            <div class="col-md-12">
+                                                <h5 class="card-title">Store registration form: contact and socials section</h5>
+                                                <form action="" method="post">
+													{% csrf_token %}
+													<div class="row">
+														<div class="col-md-12">
+															{% include 'messages.html' %}
+															{{ RetailStoreContactForm|crispy }}
+															<hr>
+															<div class="d-grid gap-2 mt-2">
+																<button type="submit" class="btn btn-outline-secondary">Submit</button>
+															</div>
+														</div>
+													</div>
+												</form>
+                                            </div>
+                                        </div>
+										{% endif %}
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html>
