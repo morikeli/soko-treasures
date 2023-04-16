@@ -29,6 +29,35 @@
 				</div>
 
 				<div class="col-xl-8">
+                    {% for branch in retail_store_branches %}
+                    <div class="modal" tabindex="-1" id="edit-branch-info-form-{{ branch.id }}">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Edit branch details</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <p class="small text-center fst-italic">
+                                                Use this form to edit your retail store's branch details.
+                                            </p>
+                                            {{ EditBranchDetailsForm|crispy }}
+                                            <hr>
+                                            <div class="d-grid gap-2 mt-2">
+                                                <button type="submit" class="btn btn-outline-primary">Save changes</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    {% endfor %}
 					<div class="card">
 						<div class="card-body pt-3 vertical-tabs">
                             <div class="d-flex align-items-start">
@@ -53,7 +82,6 @@
                                                                 <th>Name</th>
                                                                 <th>Location</th>
                                                                 <th>Address</th>
-                                                                <th>Update info</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
@@ -62,7 +90,13 @@
                                                                 <td class="text-center">{{ branch.branch }}</td>
                                                                 <td class="text-center">{{ branch.location }}</td>
                                                                 <td class="text-center">{{ branch.address }}</td>
-                                                                <td><a href="" class="text-warning text-center" style="text-decoration: none;"><i class="bi-pencil-square"></i> Edit</a></td>
+                                                                <td>
+                                                                    {% if form %}
+                                                                    <a href="" class="text-warning text-center" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#edit-branch-info-form-{{ branch.id }}">
+                                                                        <i class="bi-pencil-square"></i> Edit
+                                                                    </a>
+                                                                    {% endif %}
+                                                                </td>
                                                             </tr>
                                                             {% empty %}
                                                             <tr>
