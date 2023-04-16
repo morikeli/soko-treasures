@@ -23,11 +23,12 @@ class RetailStore(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.owner}'
+        return self.name
     
     class Meta:
         ordering = ['owner']
         verbose_name_plural = 'Retail Stores'
+        
 
 
 class Branches(models.Model):
