@@ -97,6 +97,13 @@
                                                                     </a>
                                                                 </td>
                                                                 {% endif %}
+                                                                <td>
+                                                                    {% if form %}
+                                                                    <a href="" class="text-warning text-center" style="text-decoration: none;" data-bs-toggle="modal" data-bs-target="#edit-branch-info-form-{{ branch.id }}">
+                                                                        <i class="bi-pencil-square"></i> Edit
+                                                                    </a>
+                                                                    {% endif %}
+                                                                </td>
                                                             </tr>
                                                             {% empty %}
                                                             <tr>
