@@ -86,6 +86,7 @@ class RetailStoreContactsandSocialLinksForm(forms.ModelForm):
 class AddNewStockForm(forms.ModelForm):
     item = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'text'}),
+        label='Name',
         help_text='Enter the name of the product you want to add',
         )
     quantity = forms.CharField(
@@ -96,10 +97,14 @@ class AddNewStockForm(forms.ModelForm):
         widget=forms.TextInput(attrs={'type': 'number', 'class': 'mb-2'}),
         help_text='Enter the price of each item',
         )
+    out_of_stock = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'mt-1'}),
+        required=False,
+    )
 
     class Meta:
         model = Stock
-        fields = ['item', 'quantity', 'price', 'img']
+        fields = ['item', 'description', 'quantity', 'price', 'img', 'out_of_stock']
 
 
 class AddNewRetailStoreBranchForm(forms.ModelForm):
