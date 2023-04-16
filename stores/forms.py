@@ -110,7 +110,7 @@ class AddNewStockForm(forms.ModelForm):
 class AddNewRetailStoreBranchForm(forms.ModelForm):
     location = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
-        help_text='Enter street and postal address of your the branch store, e.g. <b>"Example Street, Mombasa"</b>',
+        help_text='Enter street and county/state of your the branch store, e.g. <b>"Example Street, Mombasa; Street2, Arizona, USA"</b>',
         )
     address = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
