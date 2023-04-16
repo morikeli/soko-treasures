@@ -160,7 +160,7 @@
                     </ul>
                 </li>
                 <li class="nav-item dropdown pe-3">
-                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
+                    <a class="nav-link nav-profile d-flex align-items-center pe-0" href="" data-bs-toggle="dropdown">
                         <img src="{{ request.user.profile_pic.url }}" alt="profile-pic" class="rounded-circle">
                         <span class="d-none d-md-block dropdown-toggle ps-2">{{request.user|title}}</span>
                     </a>
@@ -173,8 +173,8 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{% url 'staff_profile' request.user %}">
-                                <i class="bi bi-person"></i>
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'staff_profile' url_obj request.user %}">
+                                <i class="bi-person"></i>
                                 <span>My Profile</span>
                             </a>
                         </li>
@@ -182,8 +182,8 @@
                             <hr class="dropdown-divider">
                         </li>
                         <li>
-                            <a class="dropdown-item d-flex align-items-center" href="{% url 'staff_profile' request.user %}">
-                                <i class="bi bi-gear"></i>
+                            <a class="dropdown-item d-flex align-items-center" href="{% url 'staff_profile' url_obj request.user %}">
+                                <i class="bi-gear"></i>
                                 <span>Account Settings</span>
                             </a>
                         </li>
@@ -192,7 +192,7 @@
                         </li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="">
-                                <i class="bi bi-question-circle"></i>
+                                <i class="bi-question-circle"></i>
                                 <span>Need Help?</span>
                             </a>
                         </li>
@@ -201,7 +201,7 @@
                         </li>
                         <li>
                             <a class="dropdown-item d-flex align-items-center" href="{% url 'logout_user' %}">
-                                <i class="bi bi-box-arrow-right"></i>
+                                <i class="bi-box-arrow-right"></i>
                                 <span>Sign Out</span>
                             </a>
                         </li>
@@ -220,34 +220,36 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="" target="">
+                <a class="nav-link" href="{% url 'employees' url_obj %}">
                     <i class="bi-people-fill"></i><span>Employees</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{% url 'add_products' url_obj %}">
                     <i class="bi-bar-chart-line-fill"></i><span>Stock records</span>
                 </a>
             </li>
+            {% if retail_store is not None and retail_store.branch is not None  %}
             <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{% url 'branches' %}">
                     <i class="bi-geo-alt-fill"></i><span>Branches</span>
                 </a>
             </li>
+            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="">
                     <i class="bi-cash-coin"></i><span>Transactions records</span>
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="">
+                <a class="nav-link" href="{% url 'edit_store_info' url_obj %}">
                     <i class="bi-shop"></i><span>Your retail store profile</span>
                 </a>
             </li>
             <li><hr class="dropdown-divider"></li>
             <li class="nav-heading">Pages</li>
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'staff_profile' request.user %}">
+                <a class="nav-link" href="{% url 'staff_profile' url_obj request.user %}">
                     <i class="bi-person-bounding-box"></i>
                     <span>Profile</span>
                 </a>
@@ -266,7 +268,7 @@
 
     <footer id="footer" class="footer">
         <div class="copyright">
-            <strong>&copy; 2022<span> Uchaguzi Online</span> | ALL RIGHTS RESERVED.</strong>
+            <strong>&copy; 2023<span> Soko</span> | ALL RIGHTS RESERVED.</strong>
         </div>
     </footer>
     <a href="" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi-arrow-up-short"></i></a>
