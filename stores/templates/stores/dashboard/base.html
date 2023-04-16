@@ -229,13 +229,11 @@
                     <i class="bi-bar-chart-line-fill"></i><span>Stock records</span>
                 </a>
             </li>
-            {% if retail_store is not None and retail_store.branch is not None  %}
             <li class="nav-item">
-                <a class="nav-link" href="{% url 'branches' %}">
+                <a class="nav-link" href="{% url 'branches' url_obj %}">
                     <i class="bi-geo-alt-fill"></i><span>Branches</span>
                 </a>
             </li>
-            {% endif %}
             <li class="nav-item">
                 <a class="nav-link" href="">
                     <i class="bi-cash-coin"></i><span>Transactions records</span>
