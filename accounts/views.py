@@ -72,9 +72,10 @@ def profile_view(request):
 
 @login_required(login_url='user_login')
 @user_passes_test(lambda user: user.is_shopowner is True and user.is_staff is False and user.is_superuser is False)
-def update_staff_profile_view(request, staff_name):
+def staff_profile_view(request, store, staff):
     """ This view enables staff members of a retail store to update their profile. """
-    staff = User.objects.get(username=staff_name)
+    url_obj = RetailStore.objects.get(id=store)
+    staff = User.objects.get(username=staff)
 
     form = EditProfileForm(instance=staff)
     if request.method == 'POST':
@@ -84,9 +85,12 @@ def update_staff_profile_view(request, staff_name):
             form.save()
 
             messages.success(request, 'You have successfully your profile!')
-            return redirect('staff_profile', staff_name)
+            return redirect('staff_profile', store)
 
-    context = {'EditProfileForm': form}
+    context = {
+        'EditProfileForm': form, 
+        'url_obj': store, # refer to context ={} in employees_view() in stores/views.py
+        }
     return render(request, 'dashboard/profile.html', context)
 
 class LogoutUser(LogoutView):
