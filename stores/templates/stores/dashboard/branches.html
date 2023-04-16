@@ -1,0 +1,110 @@
+{% extends 'stores/dashboard/base.html' %}{% block title %}Profile{% endblock %}
+{% load crispy_forms_tags %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport">
+</head>
+<body>
+	{% block content %}
+	<main id="main" class="main">
+		<section class="section profile">
+			<div class="row">
+				<div class="col-xl-4">
+					<div class="card">
+						<div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+							<img src="{{request.user.profile_pic.url}}" alt="Profile" class="rounded-circle">
+							<h2>{{ store_obj.name|title }}</h2>
+							<h3>{{ store_obj.service }}</h3>
+							<div class="social-links mt-2">
+								{% if store_obj.twitter_url %}<a href="{{ request.user.retailstore.twitter_url }}" class="twitter"><i class="bi-twitter"></i></a>{% endif %}
+								{% if store_obj.facebook_url %}<a href="{{ request.user.retailstore.facebook_url }}" class="facebook"><i class="bi-facebook"></i></a>{% endif %}
+								{% if store_obj.instagram_url %}<a href="{{ request.user.retailstore.instagram_url }}" class="instagram"><i class="bi-instagram"></i></a>{% endif %}
+								{% if store_obj.linkedin_url %}<a href="{{ request.user.retailstore.linkedin_url }}" class="linkedin"><i class="bi-linkedin"></i></a>{% endif %}
+							  </div>
+						</div>
+					</div>
+
+				</div>
+
+				<div class="col-xl-8">
+					<div class="card">
+						<div class="card-body pt-3 vertical-tabs">
+                            <div class="d-flex align-items-start">
+                                <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <button class="nav-link active" id="v-pills-branches-tab" data-bs-toggle="pill" data-bs-target="#v-pills-view-branch" type="button" role="tab" aria-controls="v-pills-view-branch" aria-selected="true">
+                                        Branch details
+                                    </button>
+                                    <button class="nav-link" id="v-pills-new-branch-tab" data-bs-toggle="pill" data-bs-target="#v-pills-new-branch" type="button" role="tab" aria-controls="v-pills-new-branch" aria-selected="false">
+                                        Add new branch
+                                    </button>
+                                </div>
+                                <div class="tab-content" id="v-pills-tabContent">
+                                    <div class="tab-pane fade show active" id="v-pills-view-branch" role="tabpanel" aria-labelledby="v-pills-branches-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                {% include 'messages.html' %}
+                                                <h5 class="card-title">Branch records for retail store | <span>{{ store_obj.name }}</span></h5>
+                                                <div class="table-responsive">
+                                                    <table class="table table-bordered text-center">
+                                                        <thead>
+                                                            <tr class="table-active text-center">
+                                                                <th>Name</th>
+                                                                <th>Location</th>
+                                                                <th>Address</th>
+                                                                <th>Update info</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {% for branch in retail_store_branches %}
+                                                            <tr>
+                                                                <td class="text-center">{{ branch.branch }}</td>
+                                                                <td class="text-center">{{ branch.location }}</td>
+                                                                <td class="text-center">{{ branch.address }}</td>
+                                                                <td><a href="" class="text-warning text-center" style="text-decoration: none;"><i class="bi-pencil-square"></i> Edit</a></td>
+                                                            </tr>
+                                                            {% empty %}
+                                                            <tr>
+                                                                <td colspan="4" class="text-muted text-center fst-italic">No data available</td>
+                                                            </tr>
+                                                            {% endfor %}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="v-pills-new-branch" role="tabpanel" aria-labelledby="v-pills-new-branch-tab">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <form action="" method="post" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-md-12">
+                                                            <h5 class="card-title">Branch(es) Form | <span>{{ store_obj.name }}</span></h5>
+                                                            <h6 class="small fst-italic card-text">
+                                                                Use this form to add new branch of your retail store
+                                                            </h6>
+                                                            {{ AddNewBranchForm|crispy }}
+                                                            <hr>
+                                                            <div class="d-grid gap-2 mt-2">
+                                                                <button type="submit" class="btn btn-outline-secondary">Submit</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</main>
+	{% endblock %}
+</body>
+</html> 
