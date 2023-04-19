@@ -28,20 +28,20 @@
 					{% for item in items %}
 					<div class="col">
 						<div class="card shadow-sm">
-							<a href="{% url 'product_info' product.id product.item product.store %}">
+							<a href="{% url 'product_info' item.id %}">
 								<img class="shop-photo shadow-xs" src="{{ item.img.url }}" alt="shop-photo">
 							</a>
 							<div class="card-body">
-								<a href="{% url 'product_info' product.id product.item product.store %}">
+								<a href="{% url 'product_info' item.id %}">
 									<h5 class="card-title text-muted fw-bold">{{ item.item }}</h5>
 								</a>
 								<p class="card-text">{{ item.description|truncatewords:15 }}</p>
 								<div class="d-flex justify-content-between align-items-center">
 									<div class="btn-group">
-										<a href="" class="btn btn-sm btn-outline-success">Buy</a>
+										<a href="{% url 'checkout' item.store_id %}" class="btn btn-sm btn-outline-success">Buy</a>
 										<a href="" class="btn btn-sm btn-outline-danger">Edit</a>
 									</div>
-									<small class="text-primary">
+									<small class="text-success">
 										<i class="bi-cash-coin"></i> {{ item.price }}
 									</small>
 								</div>

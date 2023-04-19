@@ -57,9 +57,10 @@ def all_products_view(request, retail_store):
     return render(request, 'customers/products.html', context)
 
 
-def products_details_view(request, pk, item, retail_store):
+def products_details_view(request, pk):
     """ Display info of a particular product """
-    item = Stock.objects.get(id=pk, item=item, store=retail_store)
+    item = Stock.objects.get(id=pk)
+
 
 
     context = {'product': item}
@@ -70,3 +71,10 @@ def place_order_view(request):
 
     context = {}
     return render(request, 'customers/', context)
+
+def checkout_view(request, retail_store):
+    store = RetailStore.objects.get(id=retail_store)
+
+    
+    context = {}
+    return render(request, 'customers/checkout.html', context)

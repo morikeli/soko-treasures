@@ -20,3 +20,13 @@ class Orders(models.Model):
         ordering = ['buyer']
         verbose_name_plural = 'Customers Orders'
 
+class Payments(models.Model):
+    id = models.CharField(max_length=30, primary_key=True, unique=True, editable=False)
+    client = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.client}'
+    
+    
