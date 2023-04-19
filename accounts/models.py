@@ -14,6 +14,7 @@ class User(AbstractUser):
     dob = models.DateField(null=True, blank=False)
     age = models.PositiveIntegerField(default=0, editable=False)
     profile_pic = models.ImageField(upload_to='Users-Dps/', default='default.png')
+    is_businessaccount = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now_add=True)
 
     REQUIRED_FIELDS = ['username']
