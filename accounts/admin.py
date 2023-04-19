@@ -1,3 +1,13 @@
+from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
+from .forms import SignupForm
+from .models import User
 
-# Register your models here.
+
+class UsersLayout(UserAdmin):
+    model = User
+    add_form = SignupForm
+    list_display = ['username', 'gender', 'country', 'is_businessaccount']
+    readonly_fields = ['gender', 'phone_no', 'dob', 'national_id', 'country', 'city', 'is_businessaccount', 'profile_pic']
+
+admin.site.register(User, UsersLayout)
