@@ -48,12 +48,17 @@ class SignupForm(UserCreationForm):
         widget=forms.TextInput(attrs={'type': 'tel'}),
         help_text='Enter your phone number without your country code'
     )
+    is_businessaccount = forms.BooleanField(
+        widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'py-3'}),
+        label="I'm creating a business account",
+        help_text='<b>Uncheck the box if you are creating a personal account. If you are creating a business account then chack the box.</b>',
+    )
 
     class Meta:
         model = User
         fields = [
-            'last_name', 'first_name', 'username', 'email', 'gender', 'country', 'city', 'phone_no',
-            'national_id', 'dob', 'password1', 'password2',
+            'last_name', 'first_name', 'username', 'email', 'gender', 'dob', 'phone_no',
+            'national_id', 'password1', 'password2', 'is_businessaccount',
             ]
 
 class UpdateProfileForm(forms.ModelForm):
@@ -65,4 +70,5 @@ class UpdateProfileForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['phone_no', 'profile_pic']
+        fields = ['country', 'city', 'phone_no', 'profile_pic']
+
