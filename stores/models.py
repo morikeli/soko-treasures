@@ -11,6 +11,7 @@ class RetailStores(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
     name = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)     # owner of the retail store
     store = models.CharField(max_length=50, blank=False)    # name of the retail store
+    description = models.TextField(blank=True)  # bio of the retail store
     image = models.ImageField(upload_to='Retail-Stores/stores/imgs/', default='shop.svg')
     mobile_no_1 = models.CharField(max_length=10, blank=False)
     mobile_no_2 = models.CharField(max_length=10, blank=True)
