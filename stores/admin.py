@@ -6,7 +6,7 @@ from .models import RetailStores, Branches, Employees
 class RetailStoresTable(admin.ModelAdmin):
     list_display = ['store', 'name', 'location']
     readonly_fields = [
-        'store', 'mobile_no_1', 'mobile_no_2', ' location', 'address', 'service', 'opening_hours', 
+        'store', 'mobile_no_1', 'mobile_no_2', 'address', 'service', 'opening_hours', 
         'closing_hours', 'working_days', 'facebook_url', 'twitter_url', 'image',
         ]
 
@@ -18,5 +18,5 @@ class BranchesTable(admin.ModelAdmin):
 @admin.register(Employees)
 class EmployeesInfoTable(admin.ModelAdmin):
     list_display = ['full_name', 'gender', 'retail_store', 'branch', 'role']
-    readonly_fields = ['full_name', 'branch', 'gender', 'phone_no', 'email', 'role', 'salary', 'image']
+    readonly_fields = ['full_name', 'branch', 'gender', 'phone_no', 'email', 'role', 'salary', 'profile_pic']
 
