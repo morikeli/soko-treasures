@@ -43,6 +43,9 @@ class RetailStores(models.Model):
 
 
 class Branches(models.Model):
+    """
+        This table stores details about branches of related retail stores.
+    """
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
     branch = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)  # branch of the retail store
     name = models.CharField(max_length=50, blank=False)     # name of the branch
@@ -71,6 +74,9 @@ class Branches(models.Model):
 
 
 class Employees(models.Model):
+    """
+        This table stores details about employees working for various retail stores.
+    """
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
     retail_store = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
     branch = models.CharField(max_length=50, blank=True)    # employeed in which branch store
