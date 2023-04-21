@@ -101,3 +101,21 @@ class RetailStoreContactandSocialsForm(forms.ModelForm):
         model = RetailStores
         fields = ['facebook_url', 'twitter_url', 'linkedin_url']
 
+
+class BranchRegistrationForm(forms.ModelForm):
+    """
+        This form is used to add details about a branch store.
+    """
+    location = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter location of this branch: Street, County/City'}),
+    )
+    address = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2', 'placeholder': 'Enter P.O. Box used by your branch store'}),
+    )
+    image = forms.FileField(
+        widget=forms.FileInput(attrs={'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png, .svg'}),
+    )
+
+    class Meta:
+        model = Branches
+        fields = '__all__'
