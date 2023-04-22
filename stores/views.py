@@ -28,13 +28,29 @@ class RetailStoresRegistrationView(View):
     def post(self, request, pk):
         store_info_form = RetailStoresInfoForm()
 
+        try:
+            store_obj = RetailStores.objects.get(id=pk)
+            store_location_form = RetailStoreLocationandAddressForm(instance=store_obj)
+            store_contact_form = RetailStoreContactandSocialsForm(instance=store_obj)
+        
+        except RetailStores.DoesNotExist:
+            messages.error(request, 'Uknown error occured!')
+            return redirect('registration', pk)
+
         if store_info_form.is_valid():
             new_store = store_info_form.save(commit=False)
             new_store.name = request.user
             new_store.save()
 
             messages.success(request, 'Retail store details successfully saved!')
-            return redirect('registration', pk)        
+            return redirect('registration', pk)
+
+        elif store_location_form.is_valid():
+            pass
+
+        elif store_contact_form.is_valid():
+            pass
+
 
 class RegisterBranchStoreView(View):
     def get(self, request, pk):
