@@ -91,7 +91,7 @@ class RegisterBranchStoreView(View):
             messages.success(request, 'Branch details successfully saved!')
             return redirect('add_branch', pk)
         
-class EmployeesRegistrationForm(View):
+class AddNewEmployeeView(View):
     def get(self, request, pk):
         store = RetailStores.objects.get(id=pk)
         employees_form = AddEmployeesForm()
