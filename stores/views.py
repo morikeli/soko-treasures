@@ -46,10 +46,16 @@ class RetailStoresRegistrationView(View):
             return redirect('registration', pk)
 
         elif store_location_form.is_valid():
-            pass
+            store_location_form.save()
+
+            messages.success(request, 'Store info. successfully saved!')
+            return redirect('registration', pk)
 
         elif store_contact_form.is_valid():
-            pass
+            store_contact_form.save()
+            
+            messages.success(request, 'Contact and social handles successfully saved!')
+            return redirect('dashboard', request.user)
 
 
 class RegisterBranchStoreView(View):
