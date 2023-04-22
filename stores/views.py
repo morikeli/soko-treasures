@@ -10,6 +10,16 @@ from .forms import (
 from .models import RetailStores, Branches, Employees, Products
 
 
+class DashboardHomepageView(View):
+    """
+        This is the homepage of the dashboard.
+    """
+    def get(self, request, staff):
+        
+        context = {}
+        return render(request, 'dashboard/homepage.html', context)
+
+
 class RetailStoresRegistrationView(View):
     def get(self, request, pk):
         store = RetailStores.objects.get(id=pk)
@@ -81,7 +91,7 @@ class RegisterBranchStoreView(View):
             messages.success(request, 'Branch details successfully saved!')
             return redirect('add_branch', pk)
         
-class EmployeesRegistrationForm(View):
+class AddNewEmployeesView(View):
     def get(self, request, pk):
         store = RetailStores.objects.get(id=pk)
         employees_form = AddEmployeesForm()
