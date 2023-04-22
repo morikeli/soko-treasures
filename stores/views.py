@@ -10,6 +10,16 @@ from .forms import (
 from .models import RetailStores, Branches, Employees, Products
 
 
+class DashboardHomepageView(View):
+    """
+        This is the homepage of the dashboard in business accounts.
+    """
+    def get(self, request, staff):
+
+        context = {}
+        return render(request, 'dashboard/homepage.html', context)
+
+
 class RetailStoresRegistrationView(View):
     def get(self, request, pk):
         store = RetailStores.objects.get(id=pk)
