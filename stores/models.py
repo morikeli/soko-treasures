@@ -84,7 +84,7 @@ class Employees(models.Model):
     retail_store = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
     branch = models.CharField(max_length=50, blank=True)    # employeed in which branch store
     full_name = models.CharField(max_length=50, blank=False)
-    profile_pic = models.ImageField(upload_to='Retail-Stores/employees/dps/')
+    profile_pic = models.ImageField(upload_to='Retail-Stores/employees/dps/', default='default.png')
     gender = models.CharField(max_length=7, blank=False)
     phone_no = models.CharField(max_length=10, blank=False)
     email = models.EmailField(unique=True, blank=False)
