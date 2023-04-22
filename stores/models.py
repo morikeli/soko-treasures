@@ -109,4 +109,35 @@ class Employees(models.Model):
     class Meta:
         ordering = ['retail_store', 'full_name']
         verbose_name_plural = 'Employees Records'
+
+
+class Products(models.Model):
+    id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
+    seller = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
+    name = models.CharField(max_length=50, blank=False)
+    description = models.TextField(blank=True)
+    quantity = models.PositiveIntegerField(default=False)
+    price = models.PositiveIntegerField(default=0)
+    cost = models.PositiveIntegerField(default=0, editable=False)
+    image = models.ImageField(upload_to='Products/Retail-Stores/', default='cart.png')
+    out_of_stock = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        super(Products, self).save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 and img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
+    class Meta:
+        ordering = ['seller', 'name']
+        verbose_name_plural = 'Users products'
     
