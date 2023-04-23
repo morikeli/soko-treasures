@@ -36,7 +36,7 @@ class Products(models.Model):
 
 class Transactions(models.Model):
     """
-        This model store info. about personal transactions the used made, i.e. goods bought from
+        This model store info. about personal transactions the user made, i.e. goods he/she bought from
         a vendor. 
     """
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
