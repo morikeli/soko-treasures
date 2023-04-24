@@ -48,7 +48,7 @@ def signup_view(request):
 class UpdateProfileView(View):
     def get(self, request, user):
         user_obj = User.objects.get(username=user)
-        form = UpdateProfileForm(instance=user_obj)
+        form = UpdateProfileForm(request.POST, instance=user_obj)
 
         context = {'UpdateProfileForm': form}
         return render(request, 'accounts/profile.html', context)
@@ -61,8 +61,7 @@ class UpdateProfileView(View):
             form.save()
 
             messages.success(request, 'Profile successfully updated!')
-            return redirect('profile', user)
-        
+        return redirect('profile', user)
 
 class LogoutUsersView(LogoutView):
     template_name = 'accounts/logout.html'
