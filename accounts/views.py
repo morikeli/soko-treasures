@@ -27,24 +27,21 @@ class UsersLoginView(View):
             if user_account is not None:
                 pass
 
+def signup_view(request):
+    form = SignupForm()
 
-class SignupView(View):
-    def get(self, request):
-        form = SignupForm()
-
-        context = {'SignupForm': form}
-        return render(request, 'accounts/signup.html', context)
-    
-    def post(self, request):
-        form = SignupForm()
+    if request.method == 'POST':
+        form = SignupForm(request.POST)
 
         if form.is_valid():
             new_user = form.save(commit=False)
             new_user.save()
-            
+
             messages.success(request, 'User account successfully created!')
             return redirect('profile', new_user.username)
-
+    
+    context = {'SignupForm': form}
+    return render(request, 'accounts/signup.html', context)
 
 class UpdateProfileView(View):
     def get(self, request, user):
