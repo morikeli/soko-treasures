@@ -33,7 +33,7 @@ class SignupForm(UserCreationForm):
         choices=SELECT_GENDER,
     )
     dob = forms.DateField(
-        widget=forms.DateInput(attrs={'class': 'mb-2'}),
+        widget=forms.DateInput(attrs={'type': 'date' , 'class': 'mb-2'}),
     )
     national_id = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'text', 'class': 'mt-2 mb-2'}),
@@ -45,6 +45,7 @@ class SignupForm(UserCreationForm):
     is_businessaccount = forms.BooleanField(
         widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'mt-2'}),
         label="I'm creating a business account",
+        required=False,
         help_text='<br><b>Uncheck the box if you are creating a personal account. If you are creating a business account then chack the box.</b>',
     )
 
