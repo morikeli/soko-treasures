@@ -43,6 +43,8 @@ def signup_view(request):
     context = {'SignupForm': form}
     return render(request, 'accounts/signup.html', context)
 
+@login_required(login_url='login')
+@user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
 class UpdateProfileView(View):
     def get(self, request, user):
         user_obj = User.objects.get(username=user)
