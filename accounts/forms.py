@@ -35,23 +35,17 @@ class SignupForm(UserCreationForm):
     dob = forms.DateField(
         widget=forms.DateInput(attrs={'class': 'mb-2'}),
     )
-    country = forms.CharField(
-        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
-    )
     national_id = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'text', 'class': 'mt-2 mb-2'}),
-    )
-    city = forms.CharField(
-        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
     )
     phone_no = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'tel'}),
         help_text='Enter your phone number without your country code'
     )
     is_businessaccount = forms.BooleanField(
-        widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'py-3'}),
+        widget=forms.CheckboxInput(attrs={'type': 'checkbox', 'class': 'mt-2'}),
         label="I'm creating a business account",
-        help_text='<b>Uncheck the box if you are creating a personal account. If you are creating a business account then chack the box.</b>',
+        help_text='<br><b>Uncheck the box if you are creating a personal account. If you are creating a business account then chack the box.</b>',
     )
 
     class Meta:
@@ -66,6 +60,12 @@ class UpdateProfileForm(forms.ModelForm):
     phone_no = forms.CharField(
         widget=forms.TextInput(attrs={'type': 'tel'}),
         help_text='Enter your phone number without your country code'
+    )
+    country = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
+    )
+    city = forms.CharField(
+        widget=forms.TextInput(attrs={'type': 'text', 'class': 'mb-2'}),
     )
 
     class Meta:
