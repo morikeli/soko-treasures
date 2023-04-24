@@ -33,7 +33,7 @@ class SignupView(View):
         form = SignupForm()
 
         context = {'SignupForm': form}
-        return render(request, 'acounts/signup.html', context)
+        return render(request, 'accounts/signup.html', context)
     
     def post(self, request):
         form = SignupForm()
