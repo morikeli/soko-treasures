@@ -8,6 +8,7 @@ from .forms import (
     EditRetailStoreContactandSocialsForm, UpdateBranchDetailsForm, UpdateEmployeesProfileForm, UpdateProductsForm,
 )
 from .models import RetailStores, Branches, Employees, Products
+from accounts.models import User
 
 
 class DashboardHomepageView(View):
@@ -15,6 +16,7 @@ class DashboardHomepageView(View):
         This is the homepage of the dashboard in business accounts.
     """
     def get(self, request, staff):
+        user_obj = User.objects.get(username=staff)
 
         context = {}
         return render(request, 'dashboard/homepage.html', context)
