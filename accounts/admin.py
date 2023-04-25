@@ -10,9 +10,13 @@ class UsersLayout(UserAdmin):
     model = User
     add_form = SignupForm
     list_display = ['username', 'gender', 'country', 'is_businessaccount']
-    readonly_fields = ['gender', 'phone_no', 'dob', 'national_id', 'country', 'city', 'is_businessaccount', 'profile_pic']
+    readonly_fields = ['gender', 'phone_no', 'dob', 'national_id', 'country', 'city', 'profile_pic']
     formfield_overrides = {
         models.TextField: {'widget': SummernoteWidget}
     }
+    fieldsets = (
+        *UserAdmin.fieldsets,
+        ('User Role', {'fields': ['is_businessaccount']})
+    )
 
 admin.site.register(User, UsersLayout)
