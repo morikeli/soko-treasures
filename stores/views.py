@@ -23,8 +23,7 @@ class DashboardHomepageView(View):
 
 
 class RetailStoresRegistrationView(View):
-    def get(self, request, pk):
-        store = RetailStores.objects.get(id=pk)
+    def get(self, request):
         store_info_form = RetailStoresInfoForm()
         store_location_form = RetailStoreLocationandAddressForm()
         store_contact_form = RetailStoreContactandSocialsForm()
@@ -37,17 +36,17 @@ class RetailStoresRegistrationView(View):
         return render(request, 'dashboard/registration.html', context)
 
 
-    def post(self, request, pk):
+    def post(self, request):
         store_info_form = RetailStoresInfoForm()
 
         try:
-            store_obj = RetailStores.objects.get(id=pk)
+            store_obj = RetailStores.objects.get(name=request.user)
             store_location_form = RetailStoreLocationandAddressForm(instance=store_obj)
             store_contact_form = RetailStoreContactandSocialsForm(instance=store_obj)
         
         except RetailStores.DoesNotExist:
             messages.error(request, 'Unknown error occured!')
-            return redirect('registration', pk)
+            return redirect('registration')
 
         if store_info_form.is_valid():
             new_store = store_info_form.save(commit=False)
@@ -55,13 +54,13 @@ class RetailStoresRegistrationView(View):
             new_store.save()
 
             messages.success(request, 'Retail store details successfully saved!')
-            return redirect('registration', pk)
+            return redirect('registration')
 
         elif store_location_form.is_valid():
             store_location_form.save()
 
             messages.success(request, 'Store info. successfully saved!')
-            return redirect('registration', pk)
+            return redirect('registration')
 
         elif store_contact_form.is_valid():
             store_contact_form.save()
