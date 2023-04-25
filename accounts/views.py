@@ -5,27 +5,42 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib import auth
 from django.views import View
+from stores.models import RetailStores, Employees
 from .forms import SignupForm, UpdateProfileForm
 from .models import User
 
-class UsersLoginView(View):
-    def get(self, request):
-        form = AuthenticationForm()
 
-        context = {'LoginForm': form}
-        return render(request, 'accounts/login.html', context)
-    
-    def post(self, request):
+def login_view(request):
+    form = AuthenticationForm()
+
+    if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
-
+        
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            user_account = auth.authenticate(username=username, password=password)
-            
+            user_account = auth.authenticate(email=username, password=password)
+
             if user_account is not None:
-                pass
+                if user_account.is_businessaccount is False:
+                    auth.login(request, user_account)
+                
+                else:
+                    try:
+                        store = RetailStores.objects.get(name=user_account)
+
+                        if user_account.is_businessaccount is True and store is not None:
+                            auth.login(request, user_account)
+                            return redirect('dashboard', user_account.username)                                                                   
+                    
+                    except RetailStores.DoesNotExist:
+                        auth.login(request, user_account)
+                        return redirect('registration')
+                        
+    context = {'LoginForm': form}
+    return render(request, 'accounts/login.html', context)
+
 
 def signup_view(request):
     form = SignupForm()
