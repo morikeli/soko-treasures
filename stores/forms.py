@@ -88,13 +88,13 @@ class RetailStoreContactandSocialsForm(forms.ModelForm):
         This form is used to add social media handles of a retail store
     """
     facebook_url = forms.URLField(
-        forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
+        widget=forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
     )
     twitter_url = forms.URLField(
-        forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
+        widget=forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
     )
     linkedin_url = forms.URLField(
-        forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
+        widget=forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
     )
 
     class Meta:
@@ -188,7 +188,7 @@ class AddProductsForm(forms.ModelForm):
 
     class Meta:
         model = Products
-        fields = ['name', 'description', 'quantity', 'price', 'cost', 'image']
+        fields = ['name', 'description', 'quantity', 'price', 'image']
 
     
 # Forms provided for editing.
@@ -274,13 +274,13 @@ class EditRetailStoreContactandSocialsForm(forms.ModelForm):
         This form is used to update social media handles of a retail store
     """
     facebook_url = forms.URLField(
-        forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
+        widget=forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
     )
     twitter_url = forms.URLField(
-        forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
+        widget=forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
     )
     linkedin_url = forms.URLField(
-        forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
+        widget=forms.URLInput(attrs={'type': 'url', 'class': 'mb-2'}),
     )
 
     class Meta:
@@ -379,5 +379,5 @@ class UpdateProductsForm(forms.ModelForm):
 
     class Meta:
         model = Products
-        fields = ['name', 'description', 'quantity', 'price', 'cost', 'image']
+        fields = ['name', 'description', 'quantity', 'price', 'image']
 
