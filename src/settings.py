@@ -52,7 +52,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR/'templates', BASE_DIR/'templates/accounts',],
+        'DIRS': [BASE_DIR/'templates', BASE_DIR/'templates/accounts', BASE_DIR/'templates/dashboard',],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
