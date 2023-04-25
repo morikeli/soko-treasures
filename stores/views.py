@@ -33,7 +33,7 @@ class RetailStoresRegistrationView(View):
             'RetailStoreContactandSocialsForm': store_contact_form,
             
             }
-        return render(request, 'dashboard/registration.html', context)
+        return render(request, 'stores/registration.html', context)
 
 
     def post(self, request):
@@ -77,7 +77,7 @@ class RegisterBranchStoreView(View):
         context = {
             'BranchRegistrationForm': branch_reg_form,
         }
-        return render(request, 'dashboard/', context)
+        return render(request, 'stores/', context)
     
 
     def post(self, request, pk):
@@ -100,7 +100,7 @@ class AddNewEmployeeView(View):
         context = {
             'AddNewEmployeeForm': employees_form,
             }
-        return render(request, 'dashboard/employees.html', context)
+        return render(request, 'stores/employees.html', context)
     
 
     def post(self, request, pk):
@@ -123,7 +123,7 @@ class AddNewProductsView(View):
         context = {
             'AddProductsForm': product_form,
         }
-        return render(request, 'dashboard/stock-management.html', context)
+        return render(request, 'stores/stock-management.html', context)
     
 
     def post(self, request, pk):
@@ -152,7 +152,7 @@ class EditRetailStoreDetailsView(View):
             'RetailStoreContactandSocialsForm': store_contact_form,
             
             }
-        return render(request, 'dashboard/registration.html', context)
+        return render(request, 'stores/registration.html', context)
 
     def post(self, request, pk):
         store = RetailStores.objects.get(id=pk)
@@ -186,7 +186,7 @@ class EditBranchStoreInfoView(View):
         context = {
             'BranchRegistrationForm': branch_reg_form,
         }
-        return render(request, 'dashboard/', context)
+        return render(request, 'stores/', context)
     
 
     def post(self, request, pk):
@@ -209,7 +209,7 @@ class AddNewEmployeeView(View):
         context = {
             'AddNewEmployeeForm': employees_form,
             }
-        return render(request, 'dashboard/employees.html', context)
+        return render(request, 'stores/employees.html', context)
     
 
     def post(self, request, pk):
@@ -232,7 +232,7 @@ class AddNewProductsView(View):
         context = {
             'AddProductsForm': product_form,
         }
-        return render(request, 'dashboard/stock-management.html', context)
+        return render(request, 'stores/stock-management.html', context)
     
 
     def post(self, request, pk):
