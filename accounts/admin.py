@@ -1,11 +1,22 @@
+from django_summernote.widgets import SummernoteWidget
 from django.contrib.auth.admin import UserAdmin
 from django.contrib import admin
+from django.db import models
 from .forms import SignupForm
 from .models import User
 
-class UserLayout(UserAdmin):
+
+class UsersLayout(UserAdmin):
     model = User
     add_form = SignupForm
-    list_display = ['username', 'email', 'gender', 'is_staff', 'date_joined',]
+    list_display = ['username', 'gender', 'country', 'is_businessaccount']
+    readonly_fields = ['gender', 'phone_no', 'dob', 'national_id', 'country', 'city', 'profile_pic']
+    formfield_overrides = {
+        models.TextField: {'widget': SummernoteWidget}
+    }
+    fieldsets = (
+        *UserAdmin.fieldsets,
+        ('User Role', {'fields': ['is_businessaccount']})
+    )
 
-admin.site.register(User, UserLayout)
+admin.site.register(User, UsersLayout)

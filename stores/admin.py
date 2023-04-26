@@ -1,28 +1,34 @@
+from django_summernote.widgets import SummernoteWidget
+from django.db import models
 from django.contrib import admin
-from .models import RetailStore, Stock, Transactions, Branches, Employees
+from .models import RetailStores, Branches, Employees, Products
 
-@admin.register(RetailStore)
-class RetailStoreTable(admin.ModelAdmin):
-    list_display = ['owner', 'name', 'location', 'service']
-    readonly_fields = ['name', 'description', 'mobile_no_1', 'mobile_no_2', 'location', 'address', 'service', 'opening_hours', 'closing_hours', 'working_days', 'facebook_url', 'instagram_url', 'linkedin_url']
+
+@admin.register(RetailStores)
+class RetailStoresTable(admin.ModelAdmin):
+    list_display = ['store', 'name', 'location']
+    readonly_fields = [
+        'store', 'mobile_no_1', 'mobile_no_2', 'address', 'service', 'opening_hours', 
+        'closing_hours', 'working_days', 'facebook_url', 'twitter_url', 'image',
+        ]
+    formfield_overrides = {
+        models.TextField: {'widget': SummernoteWidget}
+    }
 
 @admin.register(Branches)
-class RetailBranchesTable(admin.ModelAdmin):
-    list_display = ['branch', 'location', 'address']
-    readonly_fields = ['location', 'address', 'image']
-
+class BranchesTable(admin.ModelAdmin):
+    list_display = ['name', 'branch', 'location', 'address']
+    readonly_fields = ['name', 'location', 'address', 'image']
 
 @admin.register(Employees)
-class RetailStoresEmployeesTable(admin.ModelAdmin):
-    list_display = ['employee', 'store', 'salary', 'role']
-    readonly_fields = ['employee', 'store', 'branch', 'salary', 'role']
+class EmployeesInfoTable(admin.ModelAdmin):
+    list_display = ['full_name', 'gender', 'retail_store', 'branch', 'role']
+    readonly_fields = ['full_name', 'branch', 'gender', 'phone_no', 'email', 'role', 'salary', 'profile_pic']
 
-@admin.register(Stock)
-class StockTable(admin.ModelAdmin):
-    list_display = ['store', 'item', 'cost', 'out_of_stock']
-    readonly_fields = ['store', 'item', 'quantity', 'img', 'price', 'out_of_stock']
-
-@admin.register(Transactions)
-class TransactionsTable(admin.ModelAdmin):
-    list_display = ['shop', 'customer', 'item', 'quantity', 'cost', 'payment']
-    readonly_fields = ['shop', 'customer', 'item', 'quantity', 'price', 'cost', 'payment']
+@admin.register(Products)
+class ProductsTable(admin.ModelAdmin):
+    list_display = []
+    readonly_fields = []
+    formfield_overrides = {
+        models.TextField: {'widget': SummernoteWidget}
+    }

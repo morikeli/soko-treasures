@@ -1,270 +1,250 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.views import View
 from .forms import (
-    RetailStoreInfoForm, RetailStoreLocationForm, RetailStoreContactsandSocialLinksForm, AddNewStockForm, UpdateRetailStoreInfoForm,
-    UpdateRetailStoreLocationForm, UpdateRetailStoreContactsandSocialLinksForm, EditStockItemForm, AddNewEmployeeForm, EditEmployeeDetailsForm,
-    AddNewRetailStoreBranchForm, EditRetailStoreBranchForm,
-    )
-from .models import RetailStore, Stock, Employees, Branches
+    RetailStoresInfoForm, RetailStoreContactandSocialsForm, RetailStoreLocationandAddressForm, AddEmployeesForm,
+    BranchRegistrationForm, AddProductsForm, EditRetailStoresInfoForm, EditRetailStoreLocationandAddressForm,
+    EditRetailStoreContactandSocialsForm, UpdateBranchDetailsForm, UpdateEmployeesProfileForm, UpdateProductsForm,
+)
+from .models import RetailStores, Branches, Employees, Products
 from accounts.models import User
 
 
-@login_required(login_url='user_login')
-def homepage_view(request, staff_member):
-    staff = User.objects.get(username=staff_member, is_shopowner=True)
-    url_obj = RetailStore.objects.get(owner=request.user).id    # to be used in url tags in base template. Ref. context = {} in employees_view(request).
-    store_obj = RetailStore.objects.get(id=url_obj)
+class DashboardHomepageView(View):
+    """
+        This is the homepage of the dashboard in business accounts.
+    """
+    def get(self, request, staff):
+        user_obj = User.objects.get(username=staff)
 
-    # Calculations
-    
-    # Sales
-    # total_sales
-
-    # Stock -> Available products (still in stock)
-    products = Stock.objects.filter(store=url_obj, out_of_stock=False).all().count()
-     
-
-    context = {
-        'staff': staff, 'url_obj': url_obj, 'store_obj': store_obj,
-        'products': products,
-
-        }
-    return render(request, 'dashboard/homepage.html', context)
-
-@login_required(login_url='user_login')
-def retails_stores_branches_view(request, store):
-    branch_store = RetailStore.objects.get(id=store)
-    retail_store_branches = Branches.objects.filter(branch=branch_store).all().order_by('branch')
-
-    branch_form = AddNewRetailStoreBranchForm()
-    edit_branch_form = EditRetailStoreBranchForm(instance=branch_store)
-
-    if request.method == 'POST':
-        branch_form = AddNewRetailStoreBranchForm(request.POST, request.FILES)
-        edit_branch_form = EditRetailStoreBranchForm(request.POST, request.FILES, instance=branch_store)
-
-        if branch_form.is_valid():
-            new_branch = branch_form.save(commit=False)
-            new_branch.branch_id = branch_store
-            new_branch.branch = branch_store
-            new_branch.save()
-
-            messages.success(request, 'Branch info. successfully saved!')
-            return redirect('branches', store)
-        
-        elif edit_branch_form.is_valid():
-            edit_branch_form.save()
-
-            messages.info(request, 'Branch details successfully updated and saved!')
-            return redirect('branches', store)
-
-    context = {
-        'retail_store_branches': retail_store_branches,
-        'AddNewBranchForm': branch_form, 'EditBranchDetailsForm': edit_branch_form,
-        'url_obj': store, 'store_obj': branch_store,
-        }
-    return render(request, 'dashboard/branches.html', context)
-
-@login_required(login_url='user_login')
-def employees_view(request, store):
-    store_obj = RetailStore.objects.get(id=store)
-    employees = Employees.objects.filter(store_id=store_obj).all().order_by('employee')
-    add_employee_form = AddNewEmployeeForm()
-
-    try:
-        # add code to update employee details
-        pass
+        context = {}
+        return render(request, 'dashboard/homepage.html', context)
 
 
-    except Employees.DoesNotExist:
-        pass
+class RetailStoresRegistrationView(View):
+    def get(self, request):
+        store_info_form = RetailStoresInfoForm()
+        store_location_form = RetailStoreLocationandAddressForm()
+        store_contact_form = RetailStoreContactandSocialsForm()
 
-    if request.method == 'POST':
-        add_employee_form = AddNewEmployeeForm(request.POST)
+        context = {
+            'RetailStoreInfoForm': store_info_form, 'RetailStoreLocationandAddressForm': store_location_form,
+            'RetailStoreContactandSocialsForm': store_contact_form,
+            
+            }
+        return render(request, 'stores/registration.html', context)
 
-        if add_employee_form.is_valid():
-            employee_record = add_employee_form.save(commit=False)  # new employee record
-            employee_record.store = store_obj
-            employee_record.save()
 
-            messages.success(request, 'Employee details successfully saved')
-            return redirect('employees', store)
+    def post(self, request):
+        store_info_form = RetailStoresInfoForm()
 
-    context = {
-        'employees': employees, 'AddNewEmployeeForm': add_employee_form,
-        
-        # url_obj is used in url tags in base template while store_obj is used in specified templates, in this case, employees.html
-        # using store_obj in url tags raises a NoReverseMatch Error.
-        'url_obj': store, 
-        'store_obj': store_obj,
-
-        }
-    return render(request, 'dashboard/employees.html', context)
-
-@login_required(login_url='user_login')
-def stock_records_view(request, store):
-    store_obj = RetailStore.objects.get(id=store)
-    items = Stock.objects.filter(store_id=store_obj).all().order_by('item')  # products available in stock
-    add_items_form = AddNewStockForm()  # form to add new item in a given retail store
-
-    if request.method == 'POST':
-        add_items_form = AddNewStockForm(request.POST, request.FILES)
-
-        if add_items_form.is_valid():
-            product_record = add_items_form.save(commit=False)
-            product_record.store = store_obj
-
-            # calculate cost of the item
-            product_record.cost = product_record.quantity * product_record.price
-            product_record.save()
-
-            messages.success(request, 'Product successfully saved!')
-            return redirect('add_products', store)
-
-    context = {'items': items, 'url_obj': store, 'AddNewItemsToStockForm': add_items_form, 'store_obj': store_obj}
-    return render(request, 'dashboard/stock-records.html', context)
-
-@login_required(login_url='user_login')
-def stores_view(request):
-
-    context = {}
-    return render(request, 'dashboard/stores.html', context)
-
-def transactions_view(request):
-
-    context = {}
-    return render(request, 'dashboard/transactions.html', context)
-
-@login_required(login_url='user_login')
-def store_registration_view(request):
-    store_info_form = RetailStoreInfoForm()
-    store_location_form = RetailStoreLocationForm()
-    store_contact_form = RetailStoreContactsandSocialLinksForm()
-
-    if request.method == 'POST':
-        store_info_form = RetailStoreInfoForm(request.POST, request.FILES)
-
-        # save store_info_form details in database
-        # Once they are stored use RetailStore.owner as the obj and use CRUD in store_location_form and store_contact_form
-        # to update RetailStore details
         try:
-            obj = RetailStore.objects.get(owner=request.user)
-            store_location_form = RetailStoreLocationForm(request.POST, instance=obj)
-            store_contact_form = RetailStoreContactsandSocialLinksForm(request.POST, instance=obj)
-        except RetailStore.DoesNotExist:
-            pass
+            store_obj = RetailStores.objects.get(name=request.user)
+            store_location_form = RetailStoreLocationandAddressForm(instance=store_obj)
+            store_contact_form = RetailStoreContactandSocialsForm(instance=store_obj)
+        
+        except RetailStores.DoesNotExist:
+            messages.error(request, 'Unknown error occured!')
+            return redirect('registration')
 
         if store_info_form.is_valid():
             new_store = store_info_form.save(commit=False)
-            new_store.owner = request.user
-            new_store.save()    # save store record
+            new_store.name = request.user
+            new_store.save()
 
-            messages.success(request, f'Store "{new_store.name}" has been successfully registered!')
-            return redirect('add_new_store')
+            messages.success(request, 'Retail store details successfully saved!')
+            return redirect('registration')
+
+        elif store_location_form.is_valid():
+            store_location_form.save()
+
+            messages.success(request, 'Store info. successfully saved!')
+            return redirect('registration')
+
+        elif store_contact_form.is_valid():
+            store_contact_form.save()
+            
+            messages.success(request, 'Contact and social handles successfully saved!')
+            return redirect('dashboard', request.user)
+
+
+class RegisterBranchStoreView(View):
+    def get(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        branch_reg_form = BranchRegistrationForm()
+
+        context = {
+            'BranchRegistrationForm': branch_reg_form,
+        }
+        return render(request, 'stores/', context)
+    
+
+    def post(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        branch_reg_form = BranchRegistrationForm()
+
+        if branch_reg_form.is_valid():
+            form = branch_reg_form.save(commit=False)
+            form.branch = store
+            form.save()
+
+            messages.success(request, 'Branch details successfully saved!')
+            return redirect('add_branch', pk)
+        
+class AddNewEmployeeView(View):
+    def get(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        employees_form = AddEmployeesForm()
+
+        context = {
+            'AddNewEmployeeForm': employees_form,
+            }
+        return render(request, 'stores/employees.html', context)
+    
+
+    def post(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        employees_form = AddEmployeesForm()
+
+        if employees_form.is_valid():
+            form = employees_form.save(commit=False)
+            form.retail_store = store
+            form.save()
+
+            messages.success(request, 'Employee successfully saved!')
+            return redirect('add_employee', pk)
+
+class AddNewProductsView(View):
+    def get(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        product_form = AddProductsForm()
+
+        context = {
+            'AddProductsForm': product_form,
+        }
+        return render(request, 'stores/stock-management.html', context)
+    
+
+    def post(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        products_form = AddProductsForm()
+
+        if products_form.is_valid():
+            form = products_form.save(commit=False)
+            form.seller = store
+            form.cost = form.price * form.quantity  # calculate cost of the item
+            form.save()
+
+            messages.success(request, 'Item record successfully saved!')
+            return redirect('products', pk)
+
+# CRUD operations
+class EditRetailStoreDetailsView(View):
+    def get(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        store_info_form = EditRetailStoresInfoForm(instance=store)
+        store_location_form = EditRetailStoreLocationandAddressForm(instance=store)
+        store_contact_form = EditRetailStoreContactandSocialsForm(instance=store)
+
+        context = {
+            'RetailStoreInfoForm': store_info_form, 'RetailStoreLocationandAddressForm': store_location_form,
+            'RetailStoreContactandSocialsForm': store_contact_form,
+            
+            }
+        return render(request, 'stores/registration.html', context)
+
+    def post(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        store_info_form = EditRetailStoresInfoForm(instance=store)
+        store_location_form = EditRetailStoreLocationandAddressForm(instance=store)
+        store_contact_form = EditRetailStoreContactandSocialsForm(instance=store)
+
+        if store_info_form.is_valid():
+            store_info_form.save()
+
+            messages.info(request, 'Retail Store details successfully updated!')
+            return redirect('registration', pk)
         
         elif store_location_form.is_valid():
             store_location_form.save()
 
-            messages.success(request, 'Location and time details have been successfully saved!')
-            return redirect('add_new_store')
+            messages.info(request, 'Store info successfully updated!')
+            return redirect('registration', pk)
         
         elif store_contact_form.is_valid():
             store_contact_form.save()
-
-            messages.success(request, 'Contact info successfully saved!')
+            
+            messages.success(request, 'Contact and social handles successfully saved!')
             return redirect('dashboard', request.user)
-        
-    try:
-        store_obj = RetailStore.objects.get(owner=request.user)
-    except RetailStore.DoesNotExist:
-        store_obj = None
 
-    context = {
-        'RetailStoreInfoForm': store_info_form, 'RetailStoreLocationForm': store_location_form, 'RetailStoreContactForm': store_contact_form,
-        'store_obj': store_obj,
+class EditBranchStoreInfoView(View):
+    def get(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        branch_reg_form = UpdateBranchDetailsForm(instance=store)
+
+        context = {
+            'BranchRegistrationForm': branch_reg_form,
         }
-    return render(request, 'dashboard/stores.html', context)
+        return render(request, 'stores/', context)
+    
 
+    def post(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        branch_reg_form = UpdateBranchDetailsForm(instance=store)
 
-@login_required(login_url='user_login')
-@user_passes_test(lambda user: user.is_shopowner is True and user.is_staff is False and  user.is_superuser is False)
-def add_stocks_view(request, retail_store):
-    store_obj = RetailStore.objects.get(store=retail_store)
-    form = AddNewStockForm(instance=store_obj)
+        if branch_reg_form.is_valid():
+            form = branch_reg_form.save(commit=False)
+            form.branch = store
+            form.save()
 
-    if request.method == 'POST':
-        form = AddNewStockForm(request.POST, request.FILES, instance=store_obj)
-
-        if form.is_valid():
-            new_stock = form.save(commit=False)
-            new_stock.cost = new_stock.price * new_stock.quantity   # calculate cost of the item -> cost = price * quantity
-            new_stock.save()
-
-            messages.success(request, 'Item has been added successfully!')
-            return redirect('')
-
-
-    context = {'AddStockItemForm': form}
-    return render(request, 'stores/stock.html', context)
-
-
-# view to handle CRUD - Update
-
-@login_required(login_url='user_login')
-@user_passes_test(lambda user: user.is_shopowner is True and user.is_staff is False and  user.is_superuser is False)
-def edit_retailstore_view(request, store):
-    store_obj = RetailStore.objects.get(id=store)
-    edit_store_info_form = RetailStoreInfoForm(instance=store_obj)
-    edit_store_location_form = RetailStoreLocationForm(instance=store_obj)
-    edit_store_contact_form = RetailStoreContactsandSocialLinksForm(instance=store_obj)
-
-    if request.method == 'POST':
-        edit_store_info_form = RetailStoreInfoForm(request.POST, request.FILES, instance=store_obj)
-        edit_store_location_form = RetailStoreLocationForm(request.POST, instance=store_obj)
-        edit_store_contact_form = RetailStoreContactsandSocialLinksForm(request.POST, instance=store_obj)
-
-        if edit_store_info_form.is_valid():
-            edit_store_info_form.save()
-
-            messages.info(request, f'Store details has been successfully updated!')
-            return redirect('add_new_store')
+            messages.success(request, 'Branch details successfully saved!')
+            return redirect('add_branch', pk)
         
-        elif edit_store_location_form.is_valid():
-            edit_store_location_form.save()
+class AddNewEmployeeView(View):
+    def get(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        employees_form = UpdateEmployeesProfileForm(instance=store)
 
-            messages.info(request, 'Details have been successfully saved!')
-            return redirect('add_new_store')
-        
-        elif edit_store_contact_form.is_valid():
-            edit_store_contact_form.save()
+        context = {
+            'AddNewEmployeeForm': employees_form,
+            }
+        return render(request, 'stores/employees.html', context)
+    
 
-            messages.info(request, 'Contact info. updated successfully!')
-            return redirect('add_new_store')
-        
-    context = {
-        'EditStoreDetailsForm': edit_store_info_form, 'EditStoreLocationForm': edit_store_location_form,
-        'EditStoreContactForm': edit_store_contact_form, 
-        'url_obj': store,  # ref. to 
+    def post(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        employees_form = UpdateEmployeesProfileForm(instance=store)
+
+        if employees_form.is_valid():
+            form = employees_form.save(commit=False)
+            form.retail_store = store
+            form.save()
+
+            messages.success(request, 'Employee successfully saved!')
+            return redirect('add_employee', pk)
+
+class AddNewProductsView(View):
+    def get(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        product_form = UpdateProductsForm(instance=store)
+
+        context = {
+            'AddProductsForm': product_form,
         }
-    return render(request, 'dashboard/store-info.html', context)
+        return render(request, 'stores/stock-management.html', context)
+    
 
-@login_required(login_url='user_login')
-@user_passes_test(lambda user: user.is_shopowner is True and user.is_staff is False and  user.is_superuser is False)
-def edit_stockitem_view(request, id):
-    stock_obj = Stock.objects.get(id=id)
-    form = EditStockItemForm(instance=stock_obj)
+    def post(self, request, pk):
+        store = RetailStores.objects.get(id=pk)
+        products_form = UpdateProductsForm(instance=store)
 
-    if request.method == 'POST':
-        form = EditStockItemForm(request.POST, request.FILES, instance=stock_obj)
-        if form.is_valid():
-            update_stock = form.save(commit=False)
-            update_stock.cost = update_stock.price * update_stock.quantity
-            update_stock.save()
+        if products_form.is_valid():
+            form = products_form.save(commit=False)
+            form.seller = store
+            form.cost = form.price * form.quantity  # calculate cost of the item
+            form.save()
 
-            messages.warning(request, 'Stock item updated successfully!')
-            return redirect('edit_stock_info', id)
-
-    context = {'EditStockInfo': form}
-    return render(request, 'stores/', context)
+            messages.success(request, 'Item record successfully saved!')
+            return redirect('products', pk)
 

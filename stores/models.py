@@ -1,112 +1,143 @@
 from django.db import models
 from accounts.models import User
+from PIL import Image
 
 
-class RetailStore(models.Model):
+class RetailStores(models.Model):
+    """
+        Users who create business account, have to register their retail stores. This table will store info.
+        about their retail stores.
+    """
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)
-    name = models.CharField(max_length=50, blank=False)
-    image = models.ImageField(upload_to='Stores/main/imgs/', default='shop.svg')
-    description = models.TextField(blank=False)
+    name = models.OneToOneField(User, on_delete=models.CASCADE, editable=False)     # owner of the retail store
+    store = models.CharField(max_length=50, blank=False)    # name of the retail store
+    description = models.TextField(blank=True)  # bio of the retail store
+    image = models.ImageField(upload_to='Retail-Stores/stores/imgs/', default='shop.svg')
     mobile_no_1 = models.CharField(max_length=10, blank=False)
     mobile_no_2 = models.CharField(max_length=10, blank=True)
-    location = models.CharField(max_length=100, blank=False)
-    address = models.CharField(max_length=50, blank=False)
-    service = models.CharField(max_length=50, blank=False)
+    location = models.CharField(max_length=50, blank=False)
+    address = models.CharField(max_length=8, blank=False)
+    service = models.CharField(max_length=30, blank=False)
     opening_hours = models.TimeField(null=True, blank=False)
     closing_hours = models.TimeField(null=True, blank=False)
-    working_days = models.CharField(max_length=30, blank=False)
+    working_days = models.CharField(max_length=20, blank=False)
     facebook_url = models.URLField(blank=True)
-    instagram_url = models.URLField(blank=True)
+    twitter_url = models.URLField(blank=True)
     linkedin_url = models.URLField(blank=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.store
+    
+    def save(self, *args, **kwargs):
+        super(RetailStores, self).save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        if img.height > 600 and img.width > 600:
+            output_size = (600, 600)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
+    class Meta:
+        ordering = ['name', 'location']
+        verbose_name_plural = 'Retail Stores'
+
+
+class Branches(models.Model):
+    """
+        This table stores details about branches of related retail stores.
+    """
+    id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
+    branch = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)  # branch of the retail store
+    name = models.CharField(max_length=50, blank=False)     # name of the branch
+    location = models.CharField(max_length=50, blank=False)
+    address = models.CharField(max_length=8, blank=False)
+    image = models.ImageField(upload_to='Retail-Stores/branches/imgs/', default='shop.svg')
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
     
+    def save(self, *args, **kwargs):
+        super(Branches, self).save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        if img.height > 600 and img.width > 600:
+            output_size = (600, 600)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
     class Meta:
-        ordering = ['owner']
-        verbose_name_plural = 'Retail Stores'
-        
-
-
-class Branches(models.Model):
-    id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    branch = models.ForeignKey(RetailStore, on_delete=models.CASCADE, editable=False)
-    location = models.CharField(max_length=100, blank=False)
-    address = models.CharField(max_length=10, blank=False)
-    image = models.ImageField(upload_to='Stores/branches/imgs/', default='shop.svg')
-    created = models.DateTimeField(auto_now_add=True)
-    edited = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'{self.branch}'
-    
-    class Meta:
-        ordering = ['branch']
+        ordering = ['branch', 'name', 'location']
         verbose_name_plural = 'Branches'
 
 
 class Employees(models.Model):
+    """
+        This table stores details about employees working for various retail stores.
+    """
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    store = models.ForeignKey(RetailStore, on_delete=models.CASCADE, editable=False)
-    branch = models.OneToOneField(Branches, on_delete=models.CASCADE, null=True)
-    employee = models.CharField(max_length=100, blank=False)
-    gender = models.CharField(max_length=7)
-    salary = models.PositiveIntegerField(default=0, blank=False)
-    role = models.CharField(max_length=20, blank=False)
+    retail_store = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
+    branch = models.CharField(max_length=50, blank=True)    # employeed in which branch store
+    full_name = models.CharField(max_length=50, blank=False)
+    profile_pic = models.ImageField(upload_to='Retail-Stores/employees/dps/', default='default.png')
+    gender = models.CharField(max_length=7, blank=False)
+    phone_no = models.CharField(max_length=10, blank=False)
+    email = models.EmailField(unique=True, blank=False)
+    role = models.CharField(max_length=30, blank=False)     # role of the employee
+    salary = models.PositiveIntegerField(default=0)
     created = models.DateTimeField(auto_now_add=True)
-    edited = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f'{self.employee}'
-
-    class Meta:
-        ordering = ['employee', 'store']
-        verbose_name_plural = 'Employees'
-
-
-class Stock(models.Model):
-    id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    store = models.ForeignKey(RetailStore, on_delete=models.CASCADE, editable=False)
-    item = models.CharField(max_length=150, blank=False)
-    description = models.TextField(blank=True)
-    quantity = models.PositiveIntegerField(default=0)
-    img = models.ImageField(upload_to='Item-pics/', default='')
-    price = models.PositiveIntegerField(default=0)
-    cost = models.PositiveIntegerField(default=0, editable=False)
-    out_of_stock = models.BooleanField(default=False)
-    created = models.DateTimeField(auto_now=True)
-    updated = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.store}'
-
-
-    class Meta:
-        ordering = ['-created']
-        verbose_name_plural = 'Retail Stores Stocks'
-
-
-class Transactions(models.Model):
-    id = models.CharField(max_length=30, primary_key=True, unique=True, editable=False)
-    shop = models.ForeignKey(RetailStore, on_delete=models.CASCADE, editable=False) 
-    customer = models.ForeignKey(User, on_delete=models.DO_NOTHING, editable=False)
-    item = models.CharField(max_length=150, blank=False)
-    quantity = models.PositiveIntegerField(default=0, editable=False)
-    price = models.PositiveIntegerField(default=0, editable=False)
-    cost = models.PositiveIntegerField(default=0, editable=False)
-    payment = models.CharField(max_length=5, blank=False)
-    bought = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.customer}'
-
+        return self.name
     
-    class Meta:
-        ordering = ['-bought']
-        verbose_name_plural = 'Transactions'
+    def save(self, *args, **kwargs):
+        super(Employees, self).save(*args, **kwargs)
 
+        img = Image.open(self.profile_pic.path)
+
+        if img.height > 300 and img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.profile_pic.path)
+
+    class Meta:
+        ordering = ['retail_store', 'full_name']
+        verbose_name_plural = 'Employees Records'
+
+
+class Products(models.Model):
+    id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
+    seller = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
+    name = models.CharField(max_length=50, blank=False)
+    description = models.TextField(blank=True)
+    quantity = models.PositiveIntegerField(default=False)
+    price = models.PositiveIntegerField(default=0)
+    cost = models.PositiveIntegerField(default=0, editable=False)
+    image = models.ImageField(upload_to='Products/Retail-Stores/', default='cart.png')
+    out_of_stock = models.BooleanField(default=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        super(Products, self).save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+
+        if img.height > 300 and img.width > 300:
+            output_size = (300, 300)
+            img.thumbnail(output_size)
+            img.save(self.image.path)
+
+    class Meta:
+        ordering = ['seller', 'name']
+        verbose_name_plural = 'Users products'
     

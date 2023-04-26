@@ -1,12 +1,14 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.views import LogoutView
+from django.contrib.auth.forms import AuthenticationForm
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from .forms import SignupForm, EditProfileForm
+from django.contrib import auth
+from django.views import View
+from stores.models import RetailStores, Employees
+from .forms import SignupForm, UpdateProfileForm
 from .models import User
-from stores.models import RetailStore
+
 
 def login_view(request):
     form = AuthenticationForm()
@@ -18,81 +20,63 @@ def login_view(request):
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
 
-            user_account = authenticate(email=username, password=password)
+            user_account = auth.authenticate(email=username, password=password)
 
             if user_account is not None:
-                if user_account.is_shopowner is False:
-                    login(request, user_account)
+                if user_account.is_businessaccount is False:
+                    auth.login(request, user_account)
                 
                 else:
                     try:
-                        store = RetailStore.objects.get(owner=user_account)
-                        if user_account.is_shopowner is True and store is not None:
-                            login(request, user_account)
-                            return redirect('dashboard', user_account.username)     # return the user to the retailstore dashboard
-                    
-                    except RetailStore.DoesNotExist:
-                        login(request, user_account)
-                        return redirect('add_new_store')
-                    
+                        store = RetailStores.objects.get(name=user_account)
 
+                        if user_account.is_businessaccount is True and store is not None:
+                            auth.login(request, user_account)
+                            return redirect('dashboard', user_account.username)                                                                   
+                    
+                    except RetailStores.DoesNotExist:
+                        auth.login(request, user_account)
+                        return redirect('registration')
+                        
     context = {'LoginForm': form}
     return render(request, 'accounts/login.html', context)
+
 
 def signup_view(request):
     form = SignupForm()
 
     if request.method == 'POST':
         form = SignupForm(request.POST)
+
         if form.is_valid():
             new_user = form.save(commit=False)
-            new_user.is_customer = True
             new_user.save()
 
-            messages.success(request, 'Account created successfully!')
-            return redirect('user_login')
-
+            messages.success(request, 'User account successfully created!')
+            return redirect('profile', new_user.username)
+    
     context = {'SignupForm': form}
     return render(request, 'accounts/signup.html', context)
 
-@login_required(login_url='user_login')
-def profile_view(request):
-    form = EditProfileForm(instance=request.user)
+@login_required(login_url='login')
+@user_passes_test(lambda user: user.is_staff is False and user.is_superuser is False)
+class UpdateProfileView(View):
+    def get(self, request, user):
+        user_obj = User.objects.get(username=user)
+        form = UpdateProfileForm(request.POST, instance=user_obj)
 
-    if request.method == 'POST':
-        form = EditProfileForm(request.POST, request.FILES, instance=request.user)
-
-        if form.is_valid():
-            form.save()
-            messages.info(request, 'Profile updated successfully!')
-            return redirect('homepage')
-
-    context = {'form': form}
-    return render(request, 'accounts/profile.html', context)
-
-@login_required(login_url='user_login')
-@user_passes_test(lambda user: user.is_shopowner is True and user.is_staff is False and user.is_superuser is False)
-def staff_profile_view(request, store, staff):
-    """ This view enables staff members of a retail store to update their profile. """
-    url_obj = RetailStore.objects.get(id=store)
-    staff = User.objects.get(username=staff)
-
-    form = EditProfileForm(instance=staff)
-    if request.method == 'POST':
-        form = EditProfileForm(request.POST, request.FILES, instance=staff)
+        context = {'UpdateProfileForm': form}
+        return render(request, 'accounts/profile.html', context)
+    
+    def post(self, request, user):
+        user_obj = User.objects.get(username=user)
+        form = UpdateProfileForm(instance=user_obj)
 
         if form.is_valid():
             form.save()
 
-            messages.success(request, 'You have successfully your profile!')
-            return redirect('staff_profile', store)
+            messages.success(request, 'Profile successfully updated!')
+        return redirect('profile', user)
 
-    context = {
-        'EditProfileForm': form, 
-        'url_obj': store, # refer to context ={} in employees_view() in stores/views.py
-        }
-    return render(request, 'dashboard/profile.html', context)
-
-class LogoutUser(LogoutView):
+class LogoutUsersView(LogoutView):
     template_name = 'accounts/logout.html'
-
