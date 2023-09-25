@@ -12,7 +12,7 @@ class User(AbstractUser):
     age = models.PositiveIntegerField(editable=False)
     country = models.CharField(max_length=70, blank=False)
     national_id = models.PositiveIntegerField(blank=False)
-    mobile_no = PhoneNumber()
+    mobile_no = PhoneNumberField(blank=False)
     profile_pic = models.ImageField(upload_to='Users/dps/', default='default.png')
     updated = models.DateTimeField(auto_now=True)
 
