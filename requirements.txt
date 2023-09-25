@@ -10,9 +10,11 @@ Django==4.2.3
 django-allauth==0.53.1
 django-crispy-forms==1.14.0
 django-environ==0.10.0
+django-phonenumber-field==7.1.0
 django-summernote==0.8.20.0
 idna==3.4
 oauthlib==3.2.2
+phonenumberslite==8.13.21
 Pillow==9.4.0
 pycparser==2.21
 PyJWT==2.6.0
