@@ -30,7 +30,8 @@ class SignupView(View):
             messages.success(request, 'Account successfully created!')
             return redirect('login')
         
-        return render(request, self.template_name)
+        context = {'SignupForm': form}
+        return render(request, self.template_name, context)
     
 @method_decorator(login_required(login_url='login'), name='get')
 class UserProfileView(View):
@@ -52,7 +53,8 @@ class UserProfileView(View):
             messages.info(request, 'You have edited your profile!')
             return redirect('user_profile')
         
-        return render(request, self.template_name)
+        context = {'EditProfileForm': form}
+        return render(request, self.template_name, context)
 
 class LogoutUser(LogoutView):
     template_name = 'accounts/logout.html'
