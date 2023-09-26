@@ -8,7 +8,7 @@ class User(AbstractUser):
     id = models.CharField(max_length=25, primary_key=True, editable=False, unique=True)
     email = models.EmailField(unique=True, blank=False)
     gender = models.CharField(max_length=7, blank=False)
-    dob = models.DateTimeField(blank=False, null=True)
+    dob = models.DateField(blank=False, null=True)
     age = models.PositiveIntegerField(default=0, editable=False)
     country = models.CharField(max_length=70, blank=False)
     national_id = models.PositiveIntegerField(default=0, blank=False)
