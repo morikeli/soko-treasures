@@ -16,7 +16,7 @@ class RetailStoresRegistrationView(View):
         return render(request, self.template_name, context)
     
     def post(self, request, username, *args, **kwargs):
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, request.FILES)
 
         if form.is_valid():
             form.save()
