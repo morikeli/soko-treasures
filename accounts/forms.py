@@ -10,7 +10,10 @@ class SignupForm(UserCreationForm):
         ('Male', 'Male'),
         ('Female', 'Female')
     )
-
+    SELECT_COUNTRY = (
+        (None, '-- Select your country of origin --'),
+        ('Kenya', 'Kenya'),
+    )
     first_name = forms.CharField(widget=forms.TextInput(attrs={
             'type': 'text', 'class': 'mb-2', 'autofocus': True
         }),
@@ -21,7 +24,7 @@ class SignupForm(UserCreationForm):
         }),
         required=True,
     )
-    mobile_no = PhoneNumberField(region='KE')
+    mobile_no = PhoneNumberField()
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'type': 'email', 'class': 'mb-2',
         }),
@@ -39,11 +42,12 @@ class SignupForm(UserCreationForm):
     country = forms.ChoiceField(widget=forms.Select(attrs={
             'type': 'select', 'class': 'mb-2'
         }),
+        choices=SELECT_COUNTRY,
         required=True,
         label='Country of origin',
     )
     national_id = forms.CharField(widget=forms.TextInput(attrs={
-        'type': 'text', 'class': 'mb-2',
+        'type': 'text', 'class': 'mb-2', 'maxlength': '8',
         }),
         required=True,
     )
