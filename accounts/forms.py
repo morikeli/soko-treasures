@@ -1,3 +1,4 @@
+from phonenumber_field.formfields import PhoneNumberField
 from django.contrib.auth.forms import UserCreationForm
 from .utils import validate_image_file
 from .models import User
@@ -20,6 +21,7 @@ class SignupForm(UserCreationForm):
         }),
         required=True,
     )
+    mobile_no = PhoneNumberField(region='KE')
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'type': 'email', 'class': 'mb-2',
         }),
@@ -48,7 +50,9 @@ class SignupForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'gender', 'dob', 'country', 'national_id']
+        fields = [
+            'first_name', 'last_name', 'email', 'mobile_no', 'gender', 'dob', 'country', 'national_id',
+        ]
     
 class EditProfileForm(forms.ModelForm):
     SELECT_GENDER = (
