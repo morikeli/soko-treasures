@@ -21,7 +21,14 @@ a:hover {
 h1, h2, h3, h4, h5, h6 {
   	font-family: "Nunito", sans-serif;
 }
-
+.form-container {
+	margin-top: 7%;
+}
+@media (max-width: 1024px) {
+	.form-container {
+		margin-top: 15%;
+	}
+}
 form input {
 	margin-bottom: 2.6%;
 }
