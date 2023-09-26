@@ -22,6 +22,14 @@ h1, h2, h3, h4, h5, h6 {
   	font-family: "Nunito", sans-serif;
 }
 
+form input {
+	margin-bottom: 2.6%;
+}
+form label {
+	color: #093f9c;
+	font-weight: 600;
+}
+
 #main {
 	margin-top: 60px;
 	padding: 20px 30px;
@@ -263,7 +271,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .card-title {
 	padding: 20px 0 15px 0;
-	font-size: 18px;
+	font-size: 22px;
 	font-weight: 500;
 	color: #012970;
 	font-family: "Poppins", sans-serif;
