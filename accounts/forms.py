@@ -24,7 +24,16 @@ class SignupForm(UserCreationForm):
         }),
         required=True,
     )
-    mobile_no = PhoneNumberField()
+    username = forms.CharField(widget=forms.TextInput(attrs={
+           'type': 'text', 'class': 'mb-2',
+        }),
+        required=True,
+    )
+    mobile_no = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'tel', 'class': 'mb-0',
+        }),
+        help_text='Enter your phone number including your country code, e.g. +254112345678'
+    )
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'type': 'email', 'class': 'mb-2',
         }),
@@ -55,7 +64,7 @@ class SignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = [
-            'first_name', 'last_name', 'email', 'mobile_no', 'gender', 'dob', 'country', 'national_id',
+            'first_name', 'last_name', 'username', 'email', 'mobile_no', 'gender', 'dob', 'country', 'national_id',
         ]
     
 class EditProfileForm(forms.ModelForm):
