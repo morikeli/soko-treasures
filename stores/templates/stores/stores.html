@@ -1,0 +1,73 @@
+    {% extends 'base.html' %}{% block title %}Your viewing {{ store_info.name|title }}'s details{% endblock %}
+    {% block content %}
+    <main>
+        <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{store_info.cover_photo.url}});">
+            <div class="container position-relative d-flex flex-column align-items-center">
+                <h2>{{ store_info.name|title }}</h2>
+                <h4 class="text-white">{{ store_info.services }}</h4>    
+            </div>
+        </div>
+    
+        <section class="retail-store-details">
+            <div class="container my-5" data-aos="fade-up">
+                <div class="row gy-4">
+                    <div class="col-lg-8">
+                        <div class="slides-1 retail-store-details-slider swiper">
+                            <div class="swiper-wrapper align-items-center">
+                                <div class="swiper-slide">
+                                    <img src="{{ store_info.image.url }}" alt="image">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ store_info.image.url }}" alt="image">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ store_info.image.url }}" alt="image">
+                                </div>
+                                <div class="swiper-slide">
+                                    <img src="{{ store_info.image.url }}" alt="image">
+                                </div>
+                            </div>
+                            <div class="swiper-pagination"></div>
+                        </div>
+                    </div>
+            
+                    <div class="col-lg-4">
+                        <div class="retail-store-info">
+                            <h3>Store details</h3>
+                            <ul>
+                                <li><strong>Name</strong>: {{ store_info.name }}</li>
+                                <li><strong>Seller</strong>: {{ store_info.owner.first_name|title }} {{ store_info.owner.last_name|title }}</li>
+                                <li><strong>Services</strong>: {{ store_info.services }}</li>
+                                <li>
+                                    <strong>Rating</strong>: 
+                                    {% if store_info.rating == 1 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% elif store_info.rating == 2 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% elif store_info.rating == 3 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% elif store_info.rating == 4 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i>
+                                    {% elif store_info.rating == 5 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i>
+                                    {% else %}
+                                        <i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% endif %}    
+                                </li>
+                                <li> 
+                                    <a href=""><i class="bi-facebook" style="font-size: 25px;"></i></a>
+                                    <a href=""><i class="bi-twitter" style="font-size: 25px;"></i></a>
+                                    <a href=""><i class="bi-instagram" style="font-size: 25px;"></i></a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="retail-store-description">
+                            <h2>Retail store bio</h2>
+                            <p>{{ store_info.description }}</p>
+                        </div>
+                    </div>    
+                </div>
+            </div>
+        </section>
+    </main>
+    {% endblock %}
