@@ -8,7 +8,9 @@ class RetailStores(models.Model):
     name = models.CharField(max_length=60, blank=False)   # name of the retail store
     description = models.TextField()
     services = models.CharField(max_length=50, blank=False, db_column='Services offered')
-    image = models.ImageField(upload_to=f'Retail-Stores/{name}/imgs/', default='shop.svg')
+    image = models.ImageField(upload_to='Retail-Stores/imgs/', default='shop.jpg')
+    cover_photo = models.ImageField(upload_to='Retail-Stores/imgs/cover-photos/', default='cover-photo.jpg')
+    rating = models.PositiveIntegerField(default=0)
     fb_url = models.URLField(blank=True)
     x_url = models.URLField(blank=True)
     ig_url = models.URLField(blank=True)
