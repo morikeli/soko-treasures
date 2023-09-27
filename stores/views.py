@@ -4,6 +4,19 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
 from .forms import CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm
+from .models import RetailStores, Products
+
+
+class HomepageView(View):
+    template_name = 'stores/index.html'
+
+    def get(self, request, *args, **kwargs):
+        stores = RetailStores.objects.all()
+        
+        context = {
+            'retail_stores': stores,
+        }
+        return render(request, self.template_name, context)
 
 @method_decorator(login_required(login_url='login'), name='get')
 class RetailStoresRegistrationView(View):
