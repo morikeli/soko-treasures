@@ -11,7 +11,7 @@
                         <h2>Buy or sell products and services with Soko online market</h2>
                         <p class="mt-3">
                             <a href="" class="btn btn-outline-secondary my-2">Products for sale</a>
-                            <a href="" class="btn btn-outline-primary my-2">View retail stores</a>
+                            <a href="#retail-stores" class="scrollto btn btn-outline-primary my-2">View retail stores</a>
                         </p>
                     </div>
                 </div>
@@ -21,7 +21,7 @@
             <div class="container">
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                     {% for store in retail_stores %}
-                    <div class="col">
+                    <div id="retail-stores" class="col">
                         <div class="card shadow-sm">
                             <img src="{{ store.image.url }}" alt="store">
                             <div class="card-body">
