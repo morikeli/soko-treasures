@@ -18,6 +18,21 @@ class HomepageView(View):
         }
         return render(request, self.template_name, context)
 
+class RetailStoreInfoView(View):
+    template_name = 'stores/stores.html'
+
+    def get(self, request, retailstore, *args, **kwargs):
+        store_info = RetailStores.objects.get(id=retailstore)
+        products = Products.objects.filter(seller_id=retailstore, out_of_stock=False)  # products for sale
+
+        context = {
+            'store_info': store_info,
+            'products': products,
+        }
+        return render(request, self.template_name, context)
+
+# Dashboard views
+
 @method_decorator(login_required(login_url='login'), name='get')
 class RetailStoresRegistrationView(View):
     form_class = CreateRetailStoreForm
@@ -56,6 +71,8 @@ class NewProductsView(View):
             form.save()
             messages.info(request, 'Product has been added successfully!')
             return redirect('add_product', store)
+
+# CRUD views
 
 @method_decorator(login_required(login_url='login'), name='get')
 class UpdateRetailStoreInfo(View):
