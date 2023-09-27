@@ -43,7 +43,7 @@ class Products(models.Model):
     quantity = models.PositiveIntegerField(default=0)
     price = models.FloatField(default=0.00)
     cost = models.FloatField(default=0.00, editable=False)
-    img_file = models.ImageField(upload_to=f'Products/{seller}/imgs/', default='')
+    img_file = models.ImageField(upload_to='Products/imgs/', default='cart.jpeg')
     out_of_stock = models.BooleanField(default=False, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
