@@ -24,11 +24,17 @@ class RetailStores(models.Model):
         super(RetailStores, self).save(*args, **kwargs)
 
         img = Image.open(self.image.path)
+        cover_img = Image.open(self.cover_photo.path)
 
         if img.height > 480 and img.width > 640:
             output_size = (640, 480)
             img.thumbnail(output_size)
             img.save(self.image.path)
+        
+        if cover_img.height > 720 and cover_img.width > 1280:
+            output_size = (1280, 720)
+            cover_img.thumbnail(output_size)
+            cover_img.save(self.cover_photo.path)
     
     class Meta:
         ordering = ['name']
