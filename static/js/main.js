@@ -39,6 +39,24 @@
 		})
 	}
 
+	// Hero active state on scroll
+	let heroRetailStoreLink = select('.scrollto', true)
+	const heroRetailStoreLinkActive = () => {
+		let position = window.scrollY + 200
+		heroRetailStoreLink.forEach(heroretailstorelink => {
+			if (!heroretailstorelink.hash) return
+			let section = select(heroretailstorelink.hash)
+			if (!section) return
+			if (position >= section.offsetTop && position <= (section.offsetTop + section.offsetHeight)) {
+				heroretailstorelink.classList.add('active')
+			} else {
+				heroretailstorelink.classList.remove('active')
+			}
+		})
+	}
+	window.addEventListener('load', heroRetailStoreLinkActive)
+	onscroll(document, heroRetailStoreLinkActive)
+
 	// toggle class .header-scrolled to #header when page is scrolled
 	let selectHeader = select('#header')
 	if (selectHeader) {
