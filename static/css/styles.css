@@ -121,11 +121,83 @@ form label {
 	font-weight: 600;
 	color: black;
 }
-
 @media (min-width: 768px) {
 	.hero .hero-subtitle {
 		font-size: 2.5rem;
 	}
+}
+.breadcrumbs {
+	padding: 140px 0 60px 0;
+	min-height: 30vh;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
+} 
+.breadcrumbs:before {
+	content: "";
+	background-color: rgba(27, 47, 69, 0.7);
+	position: absolute;
+	inset: 0;
+}
+.breadcrumbs h2 {
+	font-size: 55px;
+	font-weight: 500;
+	color: #fff;
+	font-family: "Nunito", sans-serif;
+}
+.retail-store-details .retail-store-details-slider img {
+	width: 100%;
+}  
+.retail-store-details .retail-store-details-slider .swiper-pagination {
+	margin-top: 20px;
+	position: relative;
+}
+.retail-store-details .retail-store-details-slider .swiper-pagination .swiper-pagination-bullet {
+	width: 15px;
+	height: 15px;
+	background-color: #fff;
+	opacity: 1;
+	border: 1px solid #3f3e3e;
+}  
+.retail-store-details .retail-store-details-slider .swiper-pagination .swiper-pagination-bullet-active {
+	background-color: #0f0f0f;
+}
+  
+.retail-store-details .retail-store-info {
+	padding: 30px;
+	box-shadow: 0px 0 30px rgba(27, 47, 69, 0.1);
+}
+  
+.retail-store-details .retail-store-info h3 {
+	font-size: 22px;
+	font-weight: 700;
+	margin-bottom: 20px;
+	padding-bottom: 20px;
+	border-bottom: 1px solid #d6e2ef;
+}  
+.retail-store-details .retail-store-info ul {
+	list-style: none;
+	padding: 0;
+	font-size: 15px;
+}
+  
+.retail-store-details .retail-store-info ul li+li {
+	margin-top: 10px;
+}
+  
+.retail-store-details .retail-store-description {
+	padding-top: 30px;
+}
+  
+.retail-store-details .retail-store-description h2 {
+	font-size: 26px;
+	font-weight: 700;
+	margin-bottom: 20px;
+	color: var(--color-secondary);
+}
+.retail-store-details .retail-store-description p {
+	padding: 0;
 }
 
 .pagetitle {
