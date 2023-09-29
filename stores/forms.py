@@ -14,12 +14,12 @@ class CreateRetailStoreForm(forms.ModelForm):
         ('Laundry', 'Laundry'),
     )
     name = forms.CharField(widget=forms.TextInput(attrs={
-        'type': 'text',
+        'type': 'text', 'class': 'mb-0',
         }),
         help_text='Enter the name of your retail store',
     )
     description = forms.CharField(widget=forms.Textarea(attrs={
-            'type': 'text', 'class': 'mt-2',
+            'type': 'text',
         }),
         help_text='Provide details about your store: mobile no., location, address, working days, opening/closing hours, etc.',
     )
@@ -44,8 +44,9 @@ class CreateRetailStoreForm(forms.ModelForm):
         label='Instagram url link',
     )
     image = forms.FileField(widget=forms.FileInput(attrs={
-            'type': 'file', 'class': 'form-control mt-2 mb-2', 'accept': '.jpg, .jpeg, .png',
+            'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
         }),
+        help_text='Upload a photo of your retail store',
         required=False,
         validators=[validate_image_file],
     )
