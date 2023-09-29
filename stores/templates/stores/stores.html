@@ -110,6 +110,11 @@
                                             </div>
                                         </div>
                                     </div>
+                                    {% empty %}
+                                    <div class="col-md-12 col-lg-12 text-center">
+                                        <i class="bi-emoji-expressionless" style="font-size: 45px;"></i>
+                                        <h6 class="text-center text-muted fst-italic">No products available</h6>
+                                    </div>
                                     {% endfor %}
                                 </div>
                                 <div class="swiper-pagination"></div>
