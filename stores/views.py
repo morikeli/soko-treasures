@@ -34,9 +34,18 @@ class RetailStoreInfoView(View):
 # Dashboard views
 
 @method_decorator(login_required(login_url='login'), name='get')
+class DashboardView(View):
+    template_name = 'dashboard/homepage.html'
+
+    def get(self, request, *args, **kwargs):
+        
+        context = {}
+        return render(request, self.template_name, context)
+
+@method_decorator(login_required(login_url='login'), name='get')
 class RetailStoresRegistrationView(View):
     form_class = CreateRetailStoreForm
-    template_name = ''
+    template_name = 'dashboard/create-store.html'
 
     def get(self, request, username, *args, **kwargs):
         form = self.form_class()
