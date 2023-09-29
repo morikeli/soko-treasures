@@ -73,6 +73,10 @@ class EditProfileForm(forms.ModelForm):
         ('Male', 'Male'),
         ('Female', 'Female')
     )
+    SELECT_COUNTRY = (
+        (None, '-- Select your country of origin --'),
+        ('Kenya', 'Kenya'),
+    )
 
     first_name = forms.CharField(widget=forms.TextInput(attrs={
             'type': 'text', 'class': 'mb-2', 'autofocus': True
@@ -105,6 +109,7 @@ class EditProfileForm(forms.ModelForm):
     country = forms.ChoiceField(widget=forms.Select(attrs={
             'type': 'select', 'class': 'mb-2'
         }),
+        choices=SELECT_COUNTRY,
         required=True,
         disabled=True,
         label='Country of origin',
@@ -118,7 +123,7 @@ class EditProfileForm(forms.ModelForm):
     )
     profile_pic = forms.FileField(
         widget=forms.FileInput(attrs={
-            'type': 'file', 'class': 'form-control mt-2 mb-2', 'accept': '.jpg, .jpeg, .png',
+            'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
         }),
         required=False,
         validators=[validate_image_file],
@@ -127,6 +132,6 @@ class EditProfileForm(forms.ModelForm):
     class Meta:
         model = User
         fields = [
-            'first_name', 'last_name', 'gender', 'dob',
+            'first_name', 'last_name', 'email', 'gender', 'dob',
             'country', 'national_id', 'mobile_no', 'profile_pic',
         ]
