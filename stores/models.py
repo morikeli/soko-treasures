@@ -68,6 +68,6 @@ class Products(models.Model):
             img.save(self.img_file.path)
     
     class Meta:
-        ordering = ['product', 'seller']
+        ordering = ['seller', 'product']
         verbose_name_plural = 'Products'
 
