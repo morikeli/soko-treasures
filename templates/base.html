@@ -28,12 +28,14 @@
                     <div class="col-sm-4 offset-md-1 py-4">
                         <h4>Quick links</h4>
                         <ul class="list-unstyled">
-                            <li><a href="{% url 'login' %}" class="text-white"><i class="bi-door-closed-fill"></i> Login</a></li>
-                            <li><a href="{% url 'signup' %}" class="text-white"><i class="bi-person-fill-add"></i> Sign up</a></li>
                             {% if user.is_authenticated %}
+                            <li><a href="{% url 'dashboard' %}" class="text-white"><i class="bi-grid-1x2-fill"></i> Dashboard</a></li>
                             <li><a href="{% url 'register_store' request.user.username %}" class="text-white"><i class="bi-person-fill-add"></i> Register your store</a></li>
                             <li><a href="{% url 'user_profile' %}" class="text-white"><i class="bi-person-circle"></i> Profile</a></li>
                             <li><a href="{% url 'logout_user' %}" class="text-white"><i class="bi-door-open-fill"></i> Logout</a></li>
+                            {% else %}
+                            <li><a href="{% url 'login' %}" class="text-white"><i class="bi-door-closed-fill"></i> Login</a></li>
+                            <li><a href="{% url 'signup' %}" class="text-white"><i class="bi-person-fill-add"></i> Sign up</a></li>
                             {% endif %}
                         </ul>
                     </div>
