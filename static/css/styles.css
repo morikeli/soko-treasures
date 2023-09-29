@@ -839,13 +839,16 @@ form label {
 .sidebar-nav .nav-link .bi-grid-1x2-fill {
 	color: #0cdf6e;
 }
-.sidebar-nav .nav-link .bi-car-front-fill {
+.sidebar-nav .nav-link .bi-cart-plus-fill {
 	color: #161697;
 }
-.sidebar-nav .nav-link .bi-map-fill {
+.sidebar-nav .nav-link .bi-box-fill {
+	color: #a52a2a88;
+}
+.sidebar-nav .nav-link .bi-people-fill {
 	color: #df1717;
 }
-.sidebar-nav .nav-link .bi-clipboard2-data-fill {
+.sidebar-nav .nav-link .bi-graph-up-fill {
   	color: #249951;
 }
 .sidebar-nav .nav-link .bi-person-bounding-box {
@@ -853,12 +856,6 @@ form label {
 }
 .sidebar-nav .nav-link .bi-door-open-fill {
 	color: #db192c;
-}
-.sidebar-nav .nav-link .bi-bar-chart-line-fill {
-	color: #0c0c88;
-}
-.sidebar-nav .nav-link .bi-mortarboard-fill {
-	color: #524e4e;
 }
 
 .sidebar-nav .nav-link:hover {
