@@ -82,24 +82,26 @@ class NewProductsView(View):
             return redirect('add_product', store)
 
 # CRUD views
-
 @method_decorator(login_required(login_url='login'), name='get')
 class UpdateRetailStoreInfo(View):
     form_class = EditStoreInfoForm
-    template_name = ''
+    template_name = 'dashboard/store-info.html'
 
-    def get(self, request, store, *args, **kwargs):
-        form = self.form_class(instance=store)
-        context = {'EditStoreInfoForm': form}
+    def get(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        form = self.form_class(instance=store_obj)
+
+        context = {'EditStoreInfoForm': form, 'store_obj': store_obj}
         return render(request, self.template_name, context)
     
-    def post(self, request, store, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES, instance=store)
+    def post(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        form = self.form_class(request.POST, request.FILES, instance=store_obj)
         
         if form.is_valid():
             form.save()
             messages.warning(request, 'You have updated your retail store info!')
-            return redirect('edit_store', store)
+            return redirect('edit_store', store_id)
 
 @method_decorator(login_required(login_url='login'), name='get')
 class EditProductsView(View):
