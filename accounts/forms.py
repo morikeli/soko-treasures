@@ -4,6 +4,21 @@ from .utils import validate_image_file
 from .models import User
 from django import forms
 
+class UserLoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text',
+        }),
+        label='Email',
+    )
+    store_name = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text',
+        })
+    )
+    password = forms.CharField(widget=forms.PasswordInput(attrs={
+            'type': 'password',
+        })
+    )
+
 class SignupForm(UserCreationForm):
     SELECT_GENDER = (
         (None, '-- Select your gender --'),
