@@ -37,9 +37,10 @@ class RetailStoreInfoView(View):
 class DashboardView(View):
     template_name = 'dashboard/homepage.html'
 
-    def get(self, request, *args, **kwargs):
-        
-        context = {}
+    def get(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+
+        context = {'store_obj': store_obj}
         return render(request, self.template_name, context)
 
 @method_decorator(login_required(login_url='login'), name='get')
