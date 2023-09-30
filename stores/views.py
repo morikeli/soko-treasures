@@ -83,7 +83,7 @@ class NewProductsView(View):
 
 # CRUD views
 @method_decorator(login_required(login_url='login'), name='get')
-class UpdateRetailStoreInfo(View):
+class UpdateRetailStoreInfoView(View):
     form_class = EditStoreInfoForm
     template_name = 'dashboard/store-info.html'
 
