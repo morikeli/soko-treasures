@@ -130,7 +130,13 @@ class EditStoreInfoForm(forms.ModelForm):
         label='Instagram url link',
     )
     image = forms.FileField(widget=forms.FileInput(attrs={
-            'type': 'file', 'class': 'form-control mt-2 mb-2', 'accept': '.jpg, .jpeg, .png',
+            'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
+        }),
+        required=False,
+        validators=[validate_image_file],
+    )
+    cover_photo = forms.FileField(widget=forms.FileInput(attrs={
+            'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
         }),
         required=False,
         validators=[validate_image_file],
