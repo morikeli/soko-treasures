@@ -126,7 +126,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-MESSAGES_TAGS = {
+MESSAGE_TAGS = {
     messages.ERROR: 'danger',
 }
 LOGIN_REDIRECT_URL = 'index'
