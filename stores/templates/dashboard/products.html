@@ -33,11 +33,12 @@
                                                 <tr class="table-primary">
                                                     <th>#</th>
                                                     <th>Product</th>
+                                                    <th>Description</th>
                                                     <th>Quantity</th>
                                                     <th>Price</th>
                                                     <th>Total cost</th>
                                                     <th>Image</th>
-                                                    <th>Out of stock</th>
+                                                    <th>In stock</th>
                                                     <th>Info.</th>
                                                 </tr>
                                             </thead>
@@ -66,6 +67,7 @@
                                                 <tr>
                                                     <td>{{ forloop.counter }}</td>
                                                     <td>{{ item.product }}</td>
+                                                    <td>{{ item.description|truncatewords:5 }}</td>
                                                     <td>{{ item.quantity }}</td>
                                                     <td>{{ item.price|floatformat:"2g" }}</td>
                                                     <td>{{ item.cost|floatformat:"2g" }}</td>
