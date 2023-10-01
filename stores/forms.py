@@ -142,11 +142,6 @@ class EditStoreInfoForm(forms.ModelForm):
         fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url', 'image']
 
 class EditProductInfoForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={
-        'type': 'text',
-        }),
-        help_text='Enter the name of your retail store',
-    )
     description = forms.CharField(widget=forms.Textarea(attrs={
             'type': 'text', 'class': 'mt-2',
         }),
