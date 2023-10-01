@@ -57,7 +57,7 @@
                                                                 <h6 class="text-muted fst-italic">{{ item.description }}</h6>
                                                             </div>
                                                             <div class="modal-footer">
-                                                                <a href="" class="btn btn-sm btn-outline-secondary"><i class="bi-pen-fill"></i> Edit</a>
+                                                                <a href="{% url 'edit_product' item.id %}" class="btn btn-sm btn-outline-secondary"><i class="bi-pen-fill"></i> Edit</a>
                                                                 <a href="" class="btn btn-sm btn-danger"><i class="bi-trash-fill"></i> Delete</a>
                                                             </div>
                                                         </div>
