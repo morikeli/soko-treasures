@@ -15,5 +15,5 @@ def generate_productsID(sender, instance, **kwargs):
     
     # calculate the cost of the items.
     # If the quantity of the product is 10 and each has a price $10 then the cost is $100/= (10 items x $10/=)
-    if instance.cost:
+    if instance.cost or instance.cost == 0:
         instance.cost = instance.price * instance.quantity
