@@ -56,11 +56,6 @@ class CreateRetailStoreForm(forms.ModelForm):
         fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url', 'image']
 
 class AddProductForm(forms.ModelForm):
-    name = forms.CharField(widget=forms.TextInput(attrs={
-        'type': 'text',
-        }),
-        help_text='Enter the name of your retail store',
-    )
     description = forms.CharField(widget=forms.Textarea(attrs={
             'type': 'text', 'class': 'mt-2',
         }),
@@ -77,7 +72,7 @@ class AddProductForm(forms.ModelForm):
     img_file = forms.FileField(widget=forms.FileInput(attrs={
             'type': 'file', 'class': 'form-control mt-2 mb-2', 'accept': '.jpg, .jpeg, .png',
         }),
-        required=False,
+        required=True,
         validators=[validate_image_file],
     )
 
