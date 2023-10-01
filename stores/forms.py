@@ -59,7 +59,7 @@ class AddProductForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
             'type': 'text', 'class': 'mt-2',
         }),
-        help_text='Provide details about this product',
+        help_text='Provide details about this product, e.g. products specs or warranty or dimensions, etc.',
     )
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
             'type': 'number', 'class': 'mt-2 mb-2', 'min': '0',
@@ -145,7 +145,7 @@ class EditProductInfoForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
             'type': 'text', 'class': 'mt-2',
         }),
-        help_text='Provide details about this product',
+        help_text='Provide details about this product, e.g. products specs or warranty or dimensions, etc.',
     )
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
             'type': 'number', 'class': 'mt-2 mb-2', 'min': '0',
