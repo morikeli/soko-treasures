@@ -62,11 +62,11 @@ class AddProductForm(forms.ModelForm):
         help_text='Provide details about this product',
     )
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
-            'type': 'number', 'class': 'mt-2 mb-2',
+            'type': 'number', 'class': 'mt-2 mb-2', 'min': '0',
         }),
     )
     price = forms.FloatField(widget=forms.TextInput(attrs={
-            'type': 'number', 'class': 'mb-2',
+            'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
     )
     img_file = forms.FileField(widget=forms.FileInput(attrs={
@@ -153,11 +153,11 @@ class EditProductInfoForm(forms.ModelForm):
         help_text='Provide details about this product',
     )
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
-            'type': 'number', 'class': 'mt-2 mb-2',
+            'type': 'number', 'class': 'mt-2 mb-2', 'min': '0',
         }),
     )
     price = forms.FloatField(widget=forms.TextInput(attrs={
-            'type': 'number', 'class': 'mb-2',
+            'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
     )
     img_file = forms.FileField(widget=forms.FileInput(attrs={
