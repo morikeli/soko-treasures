@@ -36,7 +36,10 @@ form label {
 	color: #093f9c;
 	font-weight: 600;
 }
-
+.navbar-brand {
+	font-size: 25px;
+	font-family: "Nunito", sans-serif;
+}
 #main {
 	margin-top: 60px;
 	padding: 20px 30px;
