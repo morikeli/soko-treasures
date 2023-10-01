@@ -68,7 +68,7 @@
                                                     <td>{{ item.product }}</td>
                                                     <td>{{ item.quantity }}</td>
                                                     <td>{{ item.price|floatformat:"2g" }}</td>
-                                                    <td>{{ item.cost }}</td>
+                                                    <td>{{ item.cost|floatformat:"2g" }}</td>
                                                     <td><img src="{{ item.img_file.url }}" alt="img" height="50px" width="50px"></td>
                                                     <td class="text-center">
                                                         {% if item.out_of_stock is False %}
