@@ -14,7 +14,7 @@ class CreateRetailStoreForm(forms.ModelForm):
         ('Laundry', 'Laundry'),
     )
     name = forms.CharField(widget=forms.TextInput(attrs={
-        'type': 'text', 'class': 'mb-0',
+        'type': 'text',
         }),
         help_text='Enter the name of your retail store',
     )
@@ -24,7 +24,7 @@ class CreateRetailStoreForm(forms.ModelForm):
         help_text='Provide details about your store: mobile no., location, address, working days, opening/closing hours, etc.',
     )
     services = forms.ChoiceField(widget=forms.Select(attrs={
-            'type': 'select', 'class': 'mt-2 mb-2',
+            'type': 'select', 'class': 'mb-2',
         }),
         choices=SELECT_SERVICES_OFFERED,
     )
@@ -57,12 +57,12 @@ class CreateRetailStoreForm(forms.ModelForm):
 
 class AddProductForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
-            'type': 'text', 'class': 'mt-2',
+            'type': 'text',
         }),
         help_text='Provide details about this product, e.g. products specs or warranty or dimensions, etc.',
     )
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
-            'type': 'number', 'class': 'mt-2 mb-2', 'min': '0',
+            'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
     )
     price = forms.FloatField(widget=forms.TextInput(attrs={
@@ -70,7 +70,7 @@ class AddProductForm(forms.ModelForm):
         }),
     )
     img_file = forms.FileField(widget=forms.FileInput(attrs={
-            'type': 'file', 'class': 'form-control mt-2 mb-2', 'accept': '.jpg, .jpeg, .png',
+            'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
         }),
         required=True,
         validators=[validate_image_file],
@@ -100,12 +100,12 @@ class EditStoreInfoForm(forms.ModelForm):
         disabled=True,
     )
     description = forms.CharField(widget=forms.Textarea(attrs={
-            'type': 'text', 'class': 'mt-2',
+            'type': 'text',
         }),
         help_text='Provide details about your store: mobile no., location, address, working days, opening/closing hours, etc.',
     )
     services = forms.ChoiceField(widget=forms.Select(attrs={
-            'type': 'select', 'class': 'mt-2 mb-2',
+            'type': 'select', 'class': 'mb-2',
         }),
         choices=SELECT_SERVICES_OFFERED,
     )
@@ -143,12 +143,12 @@ class EditStoreInfoForm(forms.ModelForm):
 
 class EditProductInfoForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
-            'type': 'text', 'class': 'mt-2',
+            'type': 'text',
         }),
         help_text='Provide details about this product, e.g. products specs or warranty or dimensions, etc.',
     )
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
-            'type': 'number', 'class': 'mt-2 mb-2', 'min': '0',
+            'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
     )
     price = forms.FloatField(widget=forms.TextInput(attrs={
@@ -156,7 +156,7 @@ class EditProductInfoForm(forms.ModelForm):
         }),
     )
     img_file = forms.FileField(widget=forms.FileInput(attrs={
-            'type': 'file', 'class': 'form-control mt-2 mb-2', 'accept': '.jpg, .jpeg, .png',
+            'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
         }),
         required=False,
         validators=[validate_image_file],
