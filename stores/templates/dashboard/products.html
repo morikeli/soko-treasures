@@ -1,4 +1,5 @@
 {% extends 'dashboard/base.html' %}{% block title %}Products overview{% endblock %}
+{% load crispy_forms_tags %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,15 +15,84 @@
                     <div class="card-body pt-3">
                         <ul class="nav nav-tabs nav-tabs-bordered">
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#new-product">Add product</button>
+                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#products-records">Records</button>
                             </li>
                             <li class="nav-item">
-                                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#product-records">Records</button>
+                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#new-product">Add product</button>
                             </li>
                         </ul>
                         <div class="tab-content pt-2">
-                            {% include 'messages.html' %}                            
-                            <div class="tab-pane fade show profile-edit pt-3" id="new-product">
+                            {% include 'messages.html' %}
+                            <div class="tab-pane fade show active pt-1" id="products-records">
+                                <h5 class="card-title my-0 py-0">{{ store_obj.name }}'s stock records</h5>
+                                <hr>
+                                <div class="row">
+                                    <div class="table-responsive">
+                                        <table class="table table-sm table-bordered table-striped table-hover">
+                                            <thead>
+                                                <tr class="table-primary">
+                                                    <th>#</th>
+                                                    <th>Product</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                    <th>Total cost</th>
+                                                    <th>Image</th>
+                                                    <th>Out of stock</th>
+                                                    <th>Info.</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for item in items_in_stock %}
+                                                <div class="modal fade" id="description-{{ item.id }}" tabindex="-1" aria-labelledby="description" aria-hidden="true">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h1 class="modal-title fs-5" id="description">Product details</h1>
+                                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <img src="{{ item.img_file.url }}" alt="item-image" class="img-fluid mb-2">
+                                                                <h4 class="text-muted fw-bold">{{ item.product }}</h4>
+                                                                <label class="form-label mb-0">Description</label>
+                                                                <h6 class="text-muted fst-italic">{{ item.description }}</h6>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <a href="" class="btn btn-sm btn-outline-secondary"><i class="bi-pen-fill"></i> Edit</a>
+                                                                <a href="" class="btn btn-sm btn-danger"><i class="bi-trash-fill"></i> Delete</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <tr>
+                                                    <td>{{ forloop.counter }}</td>
+                                                    <td>{{ item.product }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.price|floatformat:"2g" }}</td>
+                                                    <td>{{ item.cost }}</td>
+                                                    <td><img src="{{ item.img_file.url }}" alt="img" height="50px" width="50px"></td>
+                                                    <td class="text-center">
+                                                        {% if item.out_of_stock is False %}
+                                                        <i class="bi-check-circle-fill" style="color: #0fa835;"></i>
+                                                        {% else %}
+                                                        <i class="bi-x-circle-fill" style="color: #dd4546;"></i>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">
+                                                        <a href="" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#description-{{ item.id }}"><i class="bi-info-circle-fill"></i></a>
+                                                    </td>
+                                                </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                            <tfoot>
+                                                
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane fade pt-3 px-2" id="new-product">
+                                <p class="fst-italic">Use this form to add new products to your stock records</p>
                                 <form action="" method="post" enctype="multipart/form-data">
                                     {% csrf_token %}
                                     <div class="row mb-2">
@@ -35,23 +105,6 @@
                                         <button type="submit" class="btn btn-outline-secondary">Add product</button>
                                     </div>
                                 </form>
-
-                            </div>
-
-                            <div class="tab-pane fade pt-3" id="products-record">
-                                <div class="table-responsive">
-                                    <table class="table table-sm table-bordered table-striped">
-                                        <thead>
-
-                                        </thead>
-                                        <tbody>
-
-                                        </tbody>
-                                        <tfoot>
-                                            
-                                        </tfoot>
-                                    </table>
-                                </div>
                             </div>
                         </div>
                     </div>
