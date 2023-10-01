@@ -67,20 +67,36 @@ class RetailStoresRegistrationView(View):
 @method_decorator(login_required(login_url='login'), name='get')
 class NewProductsView(View):
     form_class = AddProductForm
-    template_name = ''
+    template_name = 'dashboard/products.html'
 
-    def get(self, request, store, *args, **kwargs):
+    def get(self, request, store_id, *args, **kwargs):
         form = self.form_class()
-        context = {'NewProductsForm': form}
+        store_obj = RetailStores.objects.get(id=store_id)
+        stock_items = Products.objects.filter(seller_id=store_id).all().order_by('-created', 'product')    # items on sale (i.e. current stock)
+
+        context = {
+            'NewProductsForm': form,
+            'items_in_stock': stock_items,
+            'store_obj': store_obj,
+        }
         return render(request, self.template_name, context)
     
-    def post(self, request, store, *args, **kwargs):
-        form = self.form_class(request.POST)
+    def post(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        form = self.form_class(request.POST, request.FILES)
         
         if form.is_valid():
-            form.save()
+            new_product = form.save(commit=False)
+            new_product.seller = store_obj
+            new_product.save()
             messages.info(request, 'Product has been added successfully!')
-            return redirect('add_product', store)
+            return redirect('add_product', store_id)
+        
+        context = {
+            'NewProductsForm': form,
+            'store_obj': store_obj,
+        }
+        return render(request, self.template_name, context)
 
 # CRUD views
 @method_decorator(login_required(login_url='login'), name='get')
@@ -107,17 +123,28 @@ class UpdateRetailStoreInfoView(View):
 @method_decorator(login_required(login_url='login'), name='get')
 class EditProductsView(View):
     form_class = EditProductInfoForm
-    template_name = ''
+    template_name = 'dashboard/edit-products.html'
 
-    def get(self, request, id, *args, **kwargs):
-        form = self.form_class(instance=id)
-        context = {'EditProductsForm': form}
+    def get(self, request, product_id, *args, **kwargs):
+        product_obj = Products.objects.get(id=product_id)
+        store_obj = RetailStores.objects.get(id=product_obj.seller_id)
+        form = self.form_class(instance=product_obj)
+
+        context = {
+            'EditProductsForm': form,
+            'store_obj': store_obj,
+        }
         return render(request, self.template_name, context)
     
-    def post(self, request, id, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES, instance=id)
+    def post(self, request, product_id, *args, **kwargs):
+        product_obj = Products.objects.get(id=product_id)
+        store_obj = RetailStores.objects.get(id=product_obj.seller_id)
+        form = self.form_class(request.POST, request.FILES, instance=product_obj)
 
         if form.is_valid():
             form.save()
             messages.info(request, 'Product info. updated successfully!')
-            return redirect('edit_product', id)
+            return redirect('add_product', store_obj.id)
+        
+        context = {'EditProductsForm': form}
+        return render(request, self.template_name, context)
