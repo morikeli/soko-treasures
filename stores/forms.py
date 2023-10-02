@@ -49,7 +49,7 @@ class CreateRetailStoreForm(forms.ModelForm):
 
     class Meta:
         model = RetailStores
-        fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url', 'image']
+        fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url']
 
 class AddProductForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
