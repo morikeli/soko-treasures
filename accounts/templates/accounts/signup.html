@@ -1,5 +1,8 @@
     {% extends 'base.html' %}
     {% block title %}Signup{% endblock %}
+    {% block head %}
+    {{ wizard.form.media }}
+    {% endblock %}
     {% load crispy_forms_tags %}
     {% block content %}
     <main class="form-container">
@@ -25,17 +28,12 @@
                                 <div class="d-flex justify-content-between align-items-center">
                                 {% if wizard.steps.prev %}
                                         <button class="btn btn-sm btn-outline-secondary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Back</button>
-                                        <button class="btn btn-outline-success" name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Submit</button>
                                 {% endif %}
-                                {% if wizard.steps.next %}
-                                    <button class="btn btn-sm btn-outline-primary" name="wizard_goto_step" type="submit" value="{{ wizard.steps.next }}">Next step</button>
-                                {% endif %}
+                                <button type="submit" class="btn btn-outline-success">Signup</button>
                                 </div>
                                 <h6 class="small text-center mt-2">Already registered? <a href="{% url 'login' %}">Login</a></h6>
-
                             </div>
                         </div>
-
                     </form>
                 </div>
             </div>
