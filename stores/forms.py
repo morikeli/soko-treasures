@@ -1,4 +1,4 @@
-from .models import RetailStores, Products
+from .models import RetailStores, Products, Orders
 from .utils import validate_image_file
 from django import forms
 
@@ -79,6 +79,35 @@ class AddProductForm(forms.ModelForm):
     class Meta:
         model = Products
         fields = ['product', 'description', 'quantity', 'price', 'img_file']
+
+
+class PlaceOrderForm(forms.ModelForm):
+    customer = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text', 'class': 'mb-0',
+        }),
+        help_text='Enter your full name',
+        required=True,
+    )
+    item = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text', 'class': 'mb-2',
+        }),
+        disabled=True,
+    )
+    quantity = forms.FloatField(widget=forms.NumberInput(attrs={
+            'type': 'number', 'class': 'mb-0', 'min': 0,
+        }),
+        help_text='Enter number of item(s) you wish to order',
+    )
+    price = forms.FloatField(widget=forms.NumberInput(attrs={
+            'type': 'number', 'class': 'mb-0',
+        }),
+        help_text='Price of each item',
+        disabled=True,
+    )
+
+    class Meta:
+        model = Orders
+        fields = ['customer', 'item', 'quantity', 'price']
 
 
 # Edit forms
