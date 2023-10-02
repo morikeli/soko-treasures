@@ -26,7 +26,7 @@ class RetailStores(models.Model):
         img = Image.open(self.image.path)
         cover_img = Image.open(self.cover_photo.path)
 
-        if img.height > 480 and img.width > 640:
+        if (img.height >= 480 and img.width >= 640) or (img.height <= 480 and img.width <= 640):
             output_size = (640, 480)
             img.thumbnail(output_size)
             img.save(self.image.path)
@@ -62,7 +62,7 @@ class Products(models.Model):
 
         img = Image.open(self.img_file.path)
 
-        if img.height > 500 and img.width > 500:
+        if (img.height >= 480 and img.width >= 640) or (img.height <= 480 and img.width <= 640):
             output_size = (640, 480)
             img.thumbnail(output_size)
             img.save(self.img_file.path)
