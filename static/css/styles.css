@@ -431,11 +431,11 @@ form label {
 	padding: 15px;
 }
 
-.card-title {
+.card-body .card-title {
 	padding: 20px 0 15px 0;
 	font-size: 22px;
 	font-weight: 500;
-	color: #012970;
+	color: #0e51c4;
 	font-family: "Poppins", sans-serif;
 }
 
@@ -545,7 +545,7 @@ form label {
 	z-index: 997;
 	height: 60px;
 	box-shadow: 0px 1px 15px rgba(0, 0, 0, 0.4);
-	background-color: #113e6e;
+	background-color: #141414;
 	padding-left: 20px;
 }
 
@@ -767,7 +767,7 @@ form label {
 	scrollbar-width: thin;
 	scrollbar-color: #aab7cf transparent;
 	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.7);
-	background-color: #204770;
+	background-color: #141414;
 }
 
 @media (max-width: 1199px) {
@@ -964,14 +964,19 @@ form label {
   	padding-bottom: 10px;
 }
 
+.dashboard .info-card .card-title {
+	color: #0e51c4;
+	font-weight: 700;
+	font-family: "Nunito", sans-serif;
+}
 .dashboard .info-card h6 {
 	font-size: 28px;
-	color: #012970;
+	color: #124265;
 	font-weight: 700;
+	font-family: "Nunito", sans-serif;
 	margin: 0;
 	padding: 0;
 }
-
 .dashboard .card-icon {
 	font-size: 32px;
 	line-height: 0;
@@ -981,17 +986,17 @@ form label {
 	flex-grow: 0;
 }
 
-.dashboard .vehicles-card .card-icon {
+.dashboard .orders-card .card-icon {
 	color: #4154f1;
 	background: #f6f6fe;
 }
 
-.dashboard .victims-card .card-icon {
+.dashboard .customers-card .card-icon {
 	color: #18ad51;
 	background: #e0f8e9;
 }
 
-.dashboard .reports-card .card-icon {
+.dashboard .products-card .card-icon {
 	color: #c72121;
 	background: #ffecdf;
 }
