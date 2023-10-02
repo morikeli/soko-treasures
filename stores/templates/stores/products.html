@@ -1,0 +1,35 @@
+    {% extends 'base.html' %}
+    {% block content %}
+    <main>
+        <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{store_obj.cover_photo.url}});">
+            <div class="container position-relative d-flex flex-column align-items-center">
+                <h2>{{ store_obj.name|title }}</h2>
+                <h4 class="text-white">Specializes in {{ store_obj.services }}</h4>    
+            </div>
+        </div>
+        <div class="py-5 bg-body-tertiary">
+            <div class="container">
+                <div class="row g-3">
+                    {% for item in products_on_sale %}
+                    <div id="retail-stores" class="col-md-4">
+                        <div class="card shadow-sm">
+                            <img src="{{ item.img_file.url }}" alt="store">
+                            <div class="card-body">
+                                <h3 class="card-title mb-0 pb-0">{{ item.name|title }}</h3>
+                                <p class="card-text py-2">{{ item.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-body-secondary"><i class="bi-cash-coin" style="color: #0a9233; font-size: 22px;"></i> {{ item.price|floatformat:"2g" }}</small>
+                                    <div class="btn-group">
+                                        <a href="{% url 'order_item' item.id %}" class="btn btn-sm btn-outline-secondary">Buy</a>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
