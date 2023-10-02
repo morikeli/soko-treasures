@@ -1,0 +1,61 @@
+    {% extends 'base.html' %}
+    {% load crispy_forms_tags %}
+    {% block content %}
+    <main class="form-container">
+        <section class="container mt-4">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="card">
+                        <div class="card-body py-5 px-4">
+                            <form action="" method="post">
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-12 col-xl-12">
+                                        {{ PlaceOrderForm|crispy }}
+                                        <p class="small text-muted text-center mt-2">
+                                            <b>NOTE: </b> A receipt will be generated automatically once you submit this form.
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-outline-secondary">Place order</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                        <span class="text-primary">Product info.</span>
+                    </h4>
+                    <div class="row">
+                        <div class="col">
+                            <div class="card card-body py-2 px-2">
+                                <img src="{{ product_obj.img_file.url }}" class="img-fluid" alt="item-img">
+                                <div class="px-3">
+                                    <h5 class="card-title">{{ product_obj.product }}</h5>
+                                    <p class="fst-italic">{{ product_obj.description }}</p>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center px-3">
+                                    <h6 class="fw-bold">Seller</h6>
+                                    <small class="text-body-secondary">{{ product_obj.seller }}</small>
+                                    
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center px-3">
+                                    <h6 class="fw-bold">Price</h6>
+                                    <small class="text-body-secondary">{{ product_obj.price|floatformat:"2g" }}</small>
+                                </div>
+                                <hr>
+                                <p class="small fst-italic px-3 text-center">
+                                    <b>{{ product_obj.seller }}</b> sells <b>{{ product_obj.seller.services }}</b>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% endblock %}
