@@ -60,11 +60,12 @@ class SignupView(SessionWizardView):
 
     def done(self, form_list, **kwargs):
         registration_form = form_list[1]
-        new_user = form_list[0].save()
-
+        new_user = form_list[0].save(commit=False)
+        
         if registration_form.is_valid():
             new_store = registration_form.save(commit=False)
             new_store.owner = new_user
+            new_user.save()
             new_store.save()
             
             messages.success(self.request, 'Account successfully created!')
