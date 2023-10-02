@@ -152,7 +152,7 @@ class EditStoreInfoForm(forms.ModelForm):
     image = forms.FileField(widget=forms.FileInput(attrs={
             'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
         }),
-        required=False,
+        required=True,
         validators=[validate_image_file],
     )
     cover_photo = forms.FileField(widget=forms.FileInput(attrs={
