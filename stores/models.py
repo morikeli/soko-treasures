@@ -71,3 +71,22 @@ class Products(models.Model):
         ordering = ['seller', 'product']
         verbose_name_plural = 'Products'
 
+class Orders(models.Model):
+    id = models.CharField(primary_key=True, max_length=20, unique=True, editable=False)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    item = models.ManyToManyField(Products, editable=False)
+    store_name = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False, db_column='Retail store')
+    quantity = models.PositiveIntegerField(default=0)
+    price = models.FloatField(default=0)
+    total_cost = models.FloatField(default=0, editable=False)
+    paid = models.BooleanField(default=False, editable=False)   # has the user paid for the product?
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.customer}'
+
+    class Meta:
+        ordering = ['customer', '-created']
+        verbose_name_plural = 'Customer orders'
+
