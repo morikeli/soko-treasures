@@ -32,23 +32,19 @@ class CreateRetailStoreForm(forms.ModelForm):
             'type': 'url', 'class': 'mb-2',
         }),
         label='Facebook url link',
+        required=False,
     )
     x_url = forms.URLField(widget=forms.URLInput(attrs={
             'type': 'url', 'class': 'mb-2',
         }),
         label='X (formerly Twitter) url link',
+        required=False,
     )
     ig_url = forms.URLField(widget=forms.URLInput(attrs={
             'type': 'url', 'class': 'mb-2',
         }),
         label='Instagram url link',
-    )
-    image = forms.FileField(widget=forms.FileInput(attrs={
-            'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
-        }),
-        help_text='Upload a photo of your retail store',
         required=False,
-        validators=[validate_image_file],
     )
 
     class Meta:
