@@ -14,7 +14,7 @@
 				<div class="col-lg-8">
 					<div class="row">
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card vehicles-card">
+							<div class="card info-card orders-card">
 								{% comment %}
 								<div class="filter">
 									<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -31,13 +31,13 @@
 								{% endcomment %}
 				
 								<div class="card-body">
-									<h5 class="card-title">Vehicles involved <span>| Today</span></h5>
+									<h5 class="card-title">Orders <span>| Today</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 											<i class="bi bi-car-front-fill"></i>
 										</div>
 										<div class="ps-3">
-											<h6>{{ TotalVehicles }}</h6>
+											<h6>{{ Orders|default:"0" }}</h6>
 											<span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>	
 										</div>
 									</div>
@@ -46,7 +46,7 @@
 						</div>
 			
 						<div class="col-xxl-4 col-md-6">
-							<div class="card info-card victims-card">
+							<div class="card info-card customers-card">
 								{% comment %}
 								<div class="filter">
 									<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -63,14 +63,13 @@
 								{% endcomment %}
 				
 								<div class="card-body">
-									<h5 class="card-title">Victims involved <span>| This Month</span></h5>
-					
+									<h5 class="card-title">Customers <span>| This Month</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 										<i class="bi bi-people-fill"></i>
 										</div>
 										<div class="ps-3">
-										<h6>{{ TotalVictims|default:"0" }}</h6>
+										<h6>{{ TotalVictims|default:0 }}</h6>
 										<span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 					
 										</div>
@@ -81,7 +80,7 @@
 						</div>
 			
 						<div class="col-xxl-4 col-xl-12">
-							<div class="card info-card reports-card">
+							<div class="card info-card products-card">
 								{% comment %}
 								<div class="filter">
 									<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
@@ -98,14 +97,13 @@
 								{% endcomment %}
 				
 								<div class="card-body">
-									<h5 class="card-title">Reported accidents <span>| This Year</span></h5>
-					
+									<h5 class="card-title">Products <span>| This Year</span></h5>
 									<div class="d-flex align-items-center">
 										<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
 											<i class="bi bi-exclamation-triangle-fill"></i>
 										</div>
 										<div class="ps-3">
-											<h6>{{ TotalAccidents }}</h6>
+											<h6>{{ Products|default:0 }}</h6>
 											<span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
 										</div>
 									</div>
@@ -138,13 +136,13 @@
 										document.addEventListener("DOMContentLoaded", () => {
 										new ApexCharts(document.querySelector("#reportsChart"), {
 											series: [{
-											name: 'Motorcycles',
+											name: 'Sales',
 											data: [31, 40, 28, 51, 42, 82, 56],
 											}, {
-											name: 'Trucks',
+											name: 'Customers',
 											data: [11, 32, 45, 32, 34, 52, 41]
 											}, {
-											name: 'Motorcars',
+											name: 'Products',
 											data: [15, 11, 32, 18, 9, 24, 11]
 											}],
 											chart: {
@@ -209,37 +207,30 @@
 								{% endcomment %}
 				
 								<div class="card-body">
-									<h5 class="card-title">Reported Accidents <span>| Today</span></h5>
+									<h5 class="card-title">Customers orders <span>| Today</span></h5>
 									<table class="table table-bordered table-striped">
 										<thead>
 											<tr class="table-active">
 												<th>#</th>
-												<th>County</th>
-												<th>Sub-county</th>
-												<th>Road</th>
-												<th>Details</th>
-												<th>Date of Occurence</th>
+												<th></th>
+												<th></th>
+												<th></th>
+												<th></th>
+												<th></th>
 											</tr>
 										</thead>
 										<tbody>
 											{% for report in ReportedAccidents %}
 											<tr>
 												<td>{{ forloop.counter }}</td>
-												<td>{{ report.county }}</td>
-												<td>{{ report.sub_county }}</td>
-												<td>{{ report.road }}</td>
-												<td>{{ report.description|truncatewords:7 }}</td>
-												<td>{{ report.dt_occurence }}</td>
+												
 											</tr>
 											{% endfor %}
 										</tbody>
 									</table>
 								</div>
-				
 							</div>
 						</div>
-			
-						
 					</div>
 				</div>
 		
@@ -250,101 +241,38 @@
 							<a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
 							<ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
 								<li class="dropdown-header text-start"><h6>Filter</h6></li>
-								<li><a class="dropdown-item" href="#">Today</a></li>
-								<li><a class="dropdown-item" href="#">This Month</a></li>
-								<li><a class="dropdown-item" href="#">This Year</a></li>
+								<li><a class="dropdown-item" href="">Today</a></li>
+								<li><a class="dropdown-item" href="">This Month</a></li>
+								<li><a class="dropdown-item" href="">This Year</a></li>
 							</ul>
 						</div>
 						{% endcomment %}
 			
 						<div class="card-body">
-							<h5 class="card-title">Recent Reports <span>| Today</span></h5>
+							<h5 class="card-title">Customer orders <span>| Today</span></h5>
 							<div class="activity">
-								{% for report in ReportedAccidents %}
+								{% for order in customer_orders %}
 								<div class="activity-item d-flex">
-									<div class="activity-label">{{ report.reported|timesince|slice:":4" }} ago</div>
-									{% if report.fatality_level == 0 or report.fatality_level == 1 %}
-									<i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-									{% elif report.fatality_level == 2 or report.fatality_level == 3%}
-									<i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-									{% else %}
-									<i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-									{% endif %}
+									<div class="activity-label">{{ blog.written|timesince|slice:":4" }}</div>
+									<img src="{{ order.profile_pic.url }}" class="rounded-circle activity-badge align-self-start" height="45px" width="45px" alt="user-dp">
 									<div class="activity-content">
-										{{ report.description|truncatewords:7 }}
+										<a href="" class="fw-bold text-dark">
+											{{ order. }}'s order pending ...
+										</a>
 									</div>
 								</div>
 								{% empty %}
-								<div class="activity-item d-flex">
-									<div class="activity-content text-center">
-										<h6 class="text-muted fst-italic">No records available</h6>
-									</div>
+								<div class="activity-item">
+									<h6 class="small fst-italic text-center">
+										There is no placed order available!
+									</h6>
 								</div>
-								{% endfor %}				
+								{% endfor %}
+								<hr class="dropdown-divider">
+								<div class="text-center">
+									<a href="" class="badge bg-primary p-2">View all orders</a>
+								</div>
 							</div>
-				
-						</div>
-					</div>
-			
-					<div class="card">
-						<div class="card-body pb-0">
-							<h5 class="card-title">Accident Stats <span>| Today</span></h5>
-							<div id="trafficChart" style="min-height: 400px;" class="echart"></div>
-							<script>
-								document.addEventListener("DOMContentLoaded", () => {
-								echarts.init(document.querySelector("#trafficChart")).setOption({
-									tooltip: {
-									trigger: 'item'
-									},
-									legend: {
-									top: '5%',
-									left: 'center'
-									},
-									series: [{
-									name: 'Access From',
-									type: 'pie',
-									radius: ['40%', '70%'],
-									avoidLabelOverlap: false,
-									label: {
-										show: false,
-										position: 'center'
-									},
-									emphasis: {
-										label: {
-										show: true,
-										fontSize: '18',
-										fontWeight: 'bold'
-										}
-									},
-									labelLine: {
-										show: false
-									},
-									data: [{
-										value: 1048,
-										name: 'Motorcycles'
-										},
-										{
-										value: 735,
-										name: 'Motor cars'
-										},
-										{
-										value: 580,
-										name: 'Trucks'
-										},
-										{
-										value: 484,
-										name: 'Bicycles'
-										},
-										{
-										value: 300,
-										name: 'Pedestrians'
-										}
-									]
-									}]
-								});
-								});
-							</script>
-				
 						</div>
 					</div>
 				</div>
