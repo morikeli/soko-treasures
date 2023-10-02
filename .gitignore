@@ -1,0 +1,15 @@
+# .gitignore
+
+# virtual env
+*venv
+
+# project files
+*env
+# *.txt
+# *.sqlite3
+
+# migrations
+*migrations
+
+# binary files
+*__pycache__
