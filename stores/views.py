@@ -3,7 +3,7 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
-from .forms import CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm
+from .forms import CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm, PlaceOrderForm
 from .models import RetailStores, Products
 
 
@@ -30,6 +30,50 @@ class RetailStoreInfoView(View):
             'products': products,
         }
         return render(request, self.template_name, context)
+    
+class ProductsListView(View):
+    template_name = 'stores/products.html'
+
+    def get(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        products_list = Products.objects.filter(seller_id=store_obj.id).all().order_by('product')
+
+        context = {
+            'products_on_sale': products_list, 
+            'store_obj': store_obj,
+        }
+        return render(request, self.template_name, context)
+    
+class CustomerOrdersView(View):
+    form_class = PlaceOrderForm
+    template_name = 'stores/order.html'
+
+    def get(self, request, product_id, *args, **kwargs):
+        product_obj = Products.objects.get(id=product_id)
+        placed_order_info = {
+            'item': product_obj.product,
+            'price': product_obj.price,
+            'quantity': 0,
+            
+        }
+        form = self.form_class(instance=product_obj, initial=placed_order_info)
+
+
+        context = {
+            'PlaceOrderForm': form,
+            'product_obj': product_obj,
+
+        }
+        return render(request, self.template_name, context)
+    
+    def post(self, request, product_id, *args, **kwargs):
+        product_obj = Products.objects.get(id=product_id)
+        form = self.form_class(instance=product_obj)
+
+        context = {'PlaceOrderForm': form}
+        return render(request, self.template_name, context)
+    
+    
 
 # Dashboard views
 
