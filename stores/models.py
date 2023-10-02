@@ -73,9 +73,9 @@ class Products(models.Model):
 
 class Orders(models.Model):
     id = models.CharField(primary_key=True, max_length=20, unique=True, editable=False)
-    customer = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
-    item = models.ManyToManyField(Products, editable=False)
     store_name = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False, db_column='Retail store')
+    item = models.ManyToManyField(Products)
+    customer = models.CharField(max_length=50, blank=False)
     quantity = models.PositiveIntegerField(default=0)
     price = models.FloatField(default=0)
     total_cost = models.FloatField(default=0, editable=False)
