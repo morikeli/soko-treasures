@@ -1,3 +1,4 @@
+from django.core.files.storage import FileSystemStorage
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import authenticate, login
@@ -5,9 +6,12 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
+from django.conf import settings
 from .forms import UserLoginForm, SignupForm, EditProfileForm
+from stores.forms import CreateRetailStoreForm
 from stores.models import RetailStores
-
+from formtools.wizard.views import SessionWizardView
+import os
 
 class UserLoginView(View):
     """ This view handles login requests, user authentication and validation. """
@@ -48,27 +52,23 @@ class UserLoginView(View):
         context = {'LoginForm': form}
         return render(request, self.template_name, context)
 
-class SignupView(View):
+class SignupView(SessionWizardView):
     """ This view enables a user to create new account. """
-    form_class = SignupForm
+    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'media'))
+    form_list = [SignupForm, CreateRetailStoreForm]
     template_name = 'accounts/signup.html'
 
-    def get(self, request, *args, **kwargs):
-        form = self.form_class()
+    def done(self, form_list, **kwargs):
+        registration_form = form_list[1]
+        new_user = form_list[0].save()
 
-        context = {'SignupForm': form}
-        return render(request, self.template_name, context)
-    
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Account successfully created!')
+        if registration_form.is_valid():
+            new_store = registration_form.save(commit=False)
+            new_store.owner = new_user
+            new_store.save()
+            
+            messages.success(self.request, 'Account successfully created!')
             return redirect('login')
-        
-        context = {'SignupForm': form}
-        return render(request, self.template_name, context)
     
 @method_decorator(login_required(login_url='login'), name='get')
 class UserProfileView(View):
