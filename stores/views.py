@@ -83,8 +83,12 @@ class DashboardView(View):
 
     def get(self, request, store_id, *args, **kwargs):
         store_obj = RetailStores.objects.get(id=store_id)
+        total_products = Products.objects.filter(seller_id=store_id).all().count()
 
-        context = {'store_obj': store_obj}
+        context = {
+            'store_obj': store_obj,
+            'TotalProducts': total_products,
+        }
         return render(request, self.template_name, context)
 
 @method_decorator(login_required(login_url='login'), name='get')
