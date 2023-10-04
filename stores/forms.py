@@ -138,16 +138,19 @@ class EditStoreInfoForm(forms.ModelForm):
             'type': 'url', 'class': 'mb-2',
         }),
         label='Facebook url link',
+        required=False,
     )
     x_url = forms.URLField(widget=forms.URLInput(attrs={
             'type': 'url', 'class': 'mb-2',
         }),
         label='X (formerly Twitter) url link',
+        required=False,
     )
     ig_url = forms.URLField(widget=forms.URLInput(attrs={
             'type': 'url', 'class': 'mb-2',
         }),
         label='Instagram url link',
+        required=False,
     )
     image = forms.FileField(widget=forms.FileInput(attrs={
             'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
