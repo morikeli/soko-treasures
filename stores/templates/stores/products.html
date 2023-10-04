@@ -1,4 +1,4 @@
-    {% extends 'base.html' %}
+    {% extends 'base.html' %}{% block title %} {{ store_obj.name }} | Products for sale {% endblock %}
     {% block content %}
     <main>
         <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{store_obj.cover_photo.url}});">

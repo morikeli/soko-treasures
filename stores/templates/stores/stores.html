@@ -1,4 +1,4 @@
-    {% extends 'base.html' %}{% block title %}Your viewing {{ store_info.name|title }}'s details{% endblock %}
+    {% extends 'base.html' %}{% block title %}{{ store_info.name|title }}{% endblock %}
     {% block content %}
     <main>
         <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{store_info.cover_photo.url}});">
