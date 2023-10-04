@@ -167,7 +167,7 @@ class EditStoreInfoForm(forms.ModelForm):
 
     class Meta:
         model = RetailStores
-        fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url', 'image']
+        fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url', 'image', 'cover_photo']
 
 class EditProductInfoForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
