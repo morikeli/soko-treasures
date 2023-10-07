@@ -8,6 +8,7 @@ class RetailStores(models.Model):
     name = models.CharField(max_length=60, blank=False)   # name of the retail store
     description = models.TextField()
     services = models.CharField(max_length=50, blank=False, db_column='Services offered')
+    address = models.CharField(max_length=40, blank=False)
     image = models.ImageField(upload_to='Retail-Stores/imgs/', default='shop.jpg')
     cover_photo = models.ImageField(upload_to='Retail-Stores/imgs/cover-photos/', default='cover-photo.jpg')
     rating = models.PositiveIntegerField(default=0)
