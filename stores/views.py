@@ -46,6 +46,35 @@ class ProductsListView(View):
         }
         return render(request, self.template_name, context)
     
+class AllProductsListView(View):
+    template_name = 'stores/all-items.html'
+
+    def get(self, request, *args, **kwargs):
+        items = Products.objects.filter(out_of_stock=False).all().order_by('product')
+
+        if request.method == 'GET':
+            item_category = request.GET.get('item-category')
+            search_item = request.GET.get('search-item')
+
+            if item_category is None and search_item is None:
+                items   # if None is returned, use the default QS -> items
+            else:
+                if item_category != '' and search_item != '':   # if the two inputs are not blank, search for exisiting QS.
+                    items = Products.objects.filter(product__icontains=search_item, seller__services=item_category).all().order_by('product')
+                elif item_category != '':
+                    items = Products.objects.filter(seller__services=item_category).all().order_by('product')
+                elif search_item != '':
+                    items = Products.objects.filter(product__icontains=search_item).all().order_by('product')
+                else:
+                    messages.error(request, 'Item not found!')
+                    return items
+
+        context = {
+            'items_for_sale': items,
+
+        }
+        return render(request, self.template_name, context)
+    
 class CustomerOrdersView(View):
     form_class = PlaceOrderForm
     template_name = 'stores/order.html'
