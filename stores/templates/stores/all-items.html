@@ -1,0 +1,60 @@
+    {% extends 'base.html' %}{% block title %} Products for sale {% endblock %}
+    {% block content %}
+    <main>
+        <div class="breadcrumbs d-flex align-items-center">
+            <div class="container position-relative d-flex flex-column align-items-center">
+                <h2>Products for sale</h2>
+                <h4 class="hero-subtitle text-white">
+                    <span class="typed" data-typed-items="Plenty of products to choose, at affordable prices, buy now!"></span>
+                </h4> 
+            </div>
+        </div>
+        <div class="py-5 bg-body-tertiary">
+            <div class="container">
+                <div class="row g-3">
+                    <div class="col-sm-6 offset-sm-7">
+                        {% include 'messages.html' %}
+                        <div class="hstack gap-2">
+                            <form class="d-flex align-items-end" method="get" action="">
+                                <div class="input-group">
+                                    <select class="form-select form-select-sm w-50 mb-2 me-2" name="item-category">
+                                        <option selected>Select category</option>
+                                        <option value="Automotive">Automotive</option>
+                                        <option value="Clothing/Fashion">Clothing</option>
+                                        <option value="Electronics">Electronics</option>
+                                        <option value="Grocery">Grocery</option>
+                                        <option value="Laundry">Laundry</option>
+                                    </select>
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control form-control-sm mb-2 me-2" name="search-item" placeholder="Search for product ...">
+                                    <div class="invalid-feedback">Item not found!</div>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-outline-secondary mb-2"><i class="bi-search"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                    {% for item in items_for_sale %}
+                    <div id="retail-stores" class="col-md-4">
+                        <div class="card shadow-sm">
+                            <img src="{{ item.img_file.url }}" height="220px" alt="store">
+                            <div class="card-body">
+                                <h3 class="card-title text-secondary mb-0 pb-0">{{ item.product|truncatewords:4 }}</h3>
+                                <p class="card-text py-2">{{ item.description }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <small class="text-body-secondary"><i class="bi-cash-coin" style="color: #0a9233; font-size: 22px;"></i> {{ item.price|floatformat:"2g" }}</small>
+                                    <div class="btn-group">
+                                        <a href="" class="btn btn-sm btn-outline-success"><i class="bi-cart-plus-fill"></i></a>
+                                        <a href="{% url 'order_item' item.id %}" class="btn btn-sm btn-outline-secondary">Buy</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
