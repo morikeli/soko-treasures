@@ -67,7 +67,7 @@ class AllProductsListView(View):
                     items = Products.objects.filter(product__icontains=search_item).all().order_by('product')
                 else:
                     messages.error(request, 'Item not found!')
-                    return items
+                    return redirect('all_products')
 
         context = {
             'items_for_sale': items,
