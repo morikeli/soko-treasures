@@ -24,18 +24,19 @@ class RetailStores(models.Model):
     def save(self, *args, **kwargs):
         super(RetailStores, self).save(*args, **kwargs)
 
+        # resize retail store's image file
         img = Image.open(self.image.path)
-        cover_img = Image.open(self.cover_photo.path)
-
-        if (img.height >= 480 and img.width >= 640) or (img.height <= 480 and img.width <= 640):
-            output_size = (640, 480)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
         
-        if cover_img.height > 720 and cover_img.width > 1280:
-            output_size = (1280, 720)
-            cover_img.thumbnail(output_size)
-            cover_img.save(self.cover_photo.path)
+        output_size = (640, 480)
+        img.thumbnail(output_size)
+        img.save(self.image.path)
+        
+        # resize retail store's cover photo used in stores template -> templates/stores.html
+        cover_img = Image.open(self.cover_photo.path)
+        
+        output_size = (1280, 720)
+        cover_img.thumbnail(output_size)
+        cover_img.save(self.cover_photo.path)
     
     class Meta:
         ordering = ['name']
@@ -63,10 +64,9 @@ class Products(models.Model):
 
         img = Image.open(self.img_file.path)
 
-        if (img.height >= 480 and img.width >= 640) or (img.height <= 480 and img.width <= 640):
-            output_size = (640, 480)
-            img.thumbnail(output_size)
-            img.save(self.img_file.path)
+        output_size = (640, 480)
+        img.thumbnail(output_size)
+        img.save(self.img_file.path)
     
     class Meta:
         ordering = ['seller', 'product']
