@@ -5,7 +5,7 @@
             <div class="container position-relative d-flex flex-column align-items-center">
                 <h2>Products for sale</h2>
                 <h4 class="hero-subtitle text-white">
-                    <span class="typed" data-typed-items="Plenty of products to choose, at affordable prices, buy now!"></span>
+                    <span class="typed" data-typed-items="Plenty of products to buy, at affordable prices., Order and buy your items of choice today!"></span>
                 </h4> 
             </div>
         </div>
@@ -32,6 +32,8 @@
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-outline-secondary mb-2"><i class="bi-search"></i></button>
                             </form>
+                            <div class="vr"></div>
+                            <a href="{% url 'all_products_for_sale' %}" class="text-primary">Clear filters</a>
                         </div>
                     </div>
                     {% for item in items_for_sale %}
