@@ -65,7 +65,7 @@ class Products(models.Model):
         img = Image.open(self.img_file.path)
 
         output_size = (640, 480)
-        img.thumbnail(output_size)
+        img.thumbnail(output_size, reducing_gap=2.0)
         img.save(self.img_file.path)
     
     class Meta:
