@@ -23,7 +23,7 @@
                     {% for store in retail_stores %}
                     <div id="retail-stores" class="col">
                         <div class="card shadow-sm">
-                            <img src="{{ store.image.url }}" alt="store">
+                            <img src="{{ store.image.url }}" height="280px" alt="store">
                             <div class="card-body">
                                 <h3 class="card-title mb-0 pb-0">{{ store.name|title }}</h3>
                                 <p class="card-text py-2">{{ store.description }}</p>
