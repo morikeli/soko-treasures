@@ -471,6 +471,9 @@ form label {
 }
 
 /* Breadcrumbs */
+main .breadcrumbs {
+	background-image: url('../img/cover-photo.jpg');
+}
 .breadcrumb {
 	font-size: 14px;
 	font-family: "Nunito", sans-serif;
