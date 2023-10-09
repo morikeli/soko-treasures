@@ -23,6 +23,12 @@ class CreateRetailStoreForm(forms.ModelForm):
         }),
         help_text='Provide details about your store: mobile no., location, address, working days, opening/closing hours, etc.',
     )
+    address = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text',
+        }),
+        help_text='Enter P.O. Box of your retail store.',
+        required=True,
+    )
     services = forms.ChoiceField(widget=forms.Select(attrs={
             'type': 'select', 'class': 'mb-2',
         }),
@@ -49,7 +55,7 @@ class CreateRetailStoreForm(forms.ModelForm):
 
     class Meta:
         model = RetailStores
-        fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url']
+        fields = ['name', 'description', 'address', 'services', 'fb_url', 'x_url', 'ig_url']
 
 class AddProductForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
@@ -129,6 +135,11 @@ class EditStoreInfoForm(forms.ModelForm):
         }),
         help_text='Provide details about your store: mobile no., location, address, working days, opening/closing hours, etc.',
     )
+    address = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text',
+        }),
+        help_text='Enter P.O. Box of your retail store.',
+    )
     services = forms.ChoiceField(widget=forms.Select(attrs={
             'type': 'select', 'class': 'mb-2',
         }),
@@ -167,7 +178,7 @@ class EditStoreInfoForm(forms.ModelForm):
 
     class Meta:
         model = RetailStores
-        fields = ['name', 'description', 'services', 'fb_url', 'x_url', 'ig_url', 'image', 'cover_photo']
+        fields = ['name', 'description', 'address', 'services', 'fb_url', 'x_url', 'ig_url', 'image', 'cover_photo']
 
 class EditProductInfoForm(forms.ModelForm):
     description = forms.CharField(widget=forms.Textarea(attrs={
