@@ -7,7 +7,10 @@
                 <div class="col-lg-8">
                     <div class="card">
                         <div class="card-body py-5 px-4">
+                            <h4 class="card-title text-center text-secondary py-0 mt-0">Place your order</h4>
+                            <hr>
                             <form action="" method="post">
+                                {% include 'messages.html' %}
                                 {% csrf_token %}
                                 <div class="row">
                                     <div class="col-md-12 col-xl-12">
@@ -28,12 +31,12 @@
 
                 <div class="col-lg-4">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
-                        <span class="text-primary">Product info.</span>
+                        <span class="text-secondary">Product info.</span>
                     </h4>
                     <div class="row">
                         <div class="col">
                             <div class="card card-body py-2 px-2">
-                                <img src="{{ product_obj.img_file.url }}" class="img-fluid" alt="item-img">
+                                <img src="{{ product_obj.img_file.url }}" height="200px" alt="item-img">
                                 <div class="px-3">
                                     <h5 class="card-title">{{ product_obj.product }}</h5>
                                     <p class="fst-italic">{{ product_obj.description }}</p>
