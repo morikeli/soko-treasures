@@ -90,6 +90,20 @@ class PlaceOrderForm(forms.ModelForm):
         help_text='Enter your full name',
         required=True,
     )
+    phone_no = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'tel', 'class': 'mb-0',
+        }),
+        label='Mobile number',
+        help_text='Enter your mobile no. with your country code, e.g. +254112345678',
+        required=True,
+    )
+    address = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text', 'class': 'mb-0',
+        }),
+        label='Postal code',
+        help_text='Enter your postal code (P.O. Box) where this item will be delivered.',
+        required=True,
+    )
     item = forms.CharField(widget=forms.TextInput(attrs={
             'type': 'text', 'class': 'mb-2',
         }),
@@ -109,7 +123,7 @@ class PlaceOrderForm(forms.ModelForm):
 
     class Meta:
         model = Orders
-        fields = ['customer', 'item', 'quantity', 'price']
+        fields = ['customer', 'phone_no', 'address', 'item', 'quantity', 'price']
 
 
 # Edit forms
