@@ -1,3 +1,4 @@
+from phonenumber_field.modelfields import PhoneNumberField
 from accounts.models import User
 from django.db import models
 from PIL import Image
@@ -75,8 +76,10 @@ class Products(models.Model):
 class Orders(models.Model):
     id = models.CharField(primary_key=True, max_length=20, unique=True, editable=False)
     store_name = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False, db_column='Retail store')
-    item = models.ManyToManyField(Products)
+    item = models.ForeignKey(Products, on_delete=models.CASCADE)
     customer = models.CharField(max_length=50, blank=False)
+    phone_no = PhoneNumberField(blank=False)
+    address = models.CharField(max_length=20, blank=False)
     quantity = models.PositiveIntegerField(default=0)
     price = models.FloatField(default=0)
     total_cost = models.FloatField(default=0, editable=False)
@@ -91,3 +94,18 @@ class Orders(models.Model):
         ordering = ['customer', '-created']
         verbose_name_plural = 'Customer orders'
 
+class CartItems(models.Model):
+    id = models.CharField(max_length=20, primary_key=True, unique=False, editable=False)
+    buyer = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    item = models.ForeignKey(Products, on_delete=models.CASCADE, editable=False)
+    session_id = models.CharField(max_length=50, blank=False, editable=False)
+    is_paid = models.BooleanField(default=False, editable=False)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f''
+    
+    class Meta:
+        verbose_name_plural = 'Cart items'
+        ordering = []
