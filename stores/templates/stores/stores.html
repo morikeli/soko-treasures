@@ -103,10 +103,7 @@
                                                 <small class="text-body-secondary">
                                                     <i class="bi-cash-coin" style="font-size: 20px; color: #18bb46;"></i> {{ item.price|floatformat:"2g" }}/=
                                                 </small>
-                                                <div class="btn-group">
-                                                    <a href="" class="btn btn-sm btn-outline-success"><i class="bi-cart-plus-fill"></i></a>
-                                                    <a href="{% url 'order_item' item.id %}" class="btn btn-sm btn-outline-primary">Buy</a>
-                                                </div>
+                                                <a href="{% url 'add_to_cart' item.id %}" class="btn btn-sm btn-outline-secondary">View</a>
                                             </div>
                                         </div>
                                     </div>
