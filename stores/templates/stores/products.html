@@ -19,10 +19,7 @@
                                 <p class="card-text py-2">{{ item.description }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <small class="text-body-secondary"><i class="bi-cash-coin" style="color: #0a9233; font-size: 22px;"></i> {{ item.price|floatformat:"2g" }}</small>
-                                    <div class="btn-group">
-                                        <a href="{% url 'order_item' item.id %}" class="btn btn-sm btn-outline-secondary">Buy</a>
-                                        
-                                    </div>
+                                    <a href="{% url 'add_to_cart' item.id %}" class="btn btn-sm btn-outline-secondary">View</a>
                                 </div>
                             </div>
                         </div>
@@ -30,6 +27,7 @@
                     {% endfor %}
                     <hr>
                 </div>
+                {% if similar_products %}
                 <div class="row">
                     <div class="section-header mb-5">
                         <h2 class="text-center">Similar products</h2>
@@ -37,7 +35,7 @@
                     {% for item in similar_products %}
                     <div id="retail-stores" class="col-md-4">
                         <div class="card shadow-sm">
-                            <img src="{{ item.img_file.url }}" height="180px" alt="store">
+                            <img src="{{ item.img_file.url }}" height="220px" alt="store">
                             <div class="card-body">
                                 <h3 class="card-title text-secondary mb-0 pb-2">{{ item.product|truncatewords:4 }}</h3>
                                 {% if item.seller.rating == 1 %}
@@ -55,11 +53,7 @@
                                 {% endif %}
                                 <div class="d-flex justify-content-between align-items-center pt-4">
                                     <small class="text-body-secondary"><i class="bi-cash-coin" style="color: #0a9233; font-size: 22px;"></i> {{ item.price|floatformat:"2g" }}</small>
-                                    <div class="btn-group">
-                                        <a href="" class="btn btn-sm btn-outline-success"><i class="bi-cart-plus-fill"></i></a>
-                                        <a href="{% url 'order_item' item.id %}" class="btn btn-sm btn-outline-secondary">Buy</a>
-                                        
-                                    </div>
+                                    <a href="{% url 'add_to_cart' item.id %}" class="btn btn-sm btn-outline-secondary">View</a>
                                 </div>
                             </div>
                         </div>
@@ -67,6 +61,7 @@
                     {% endfor %}
                     </div>
                 </div>
+                {% endif %}
             </div>
         </div>
     </main>
