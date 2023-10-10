@@ -1,0 +1,55 @@
+    {% extends 'base.html' %}{% block title %}Report this store{% endblock %}
+    {% load crispy_forms_tags %}
+    {% block content %}
+    <main class="form-container">
+        <div class="container">
+            <div class="row">
+                <div id="retail-stores" class="col-md-4 col-lg-4 offset-sm-2">
+                    <div class="card shadow-sm">
+                        <img src="{{ store_obj.image.url }}" height="220px" alt="store">
+                        <div class="card-body">
+                            <h3 class="card-title text-secondary mb-0 pb-0">{{ store_obj.name|truncatewords:4 }}</h3>
+                            <p class="card-text py-2">{{ store_obj.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-body-secondary">{{ store_obj.services }}</small>
+                                <div class="btn-group">
+                                    <a href="" class="btn btn-sm btn-outline-default">
+                                        {% if store_obj.rating == 1 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% elif store_obj.rating == 2 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% elif store_obj.rating == 3 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% elif store_obj.rating == 4 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i>
+                                        {% elif store_obj.rating == 5 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i>
+                                        {% else %}
+                                            <i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% endif %}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5">
+                    <div class="card card-body py-3 shadow-sm">
+                        <h5 class="card-title text-danger mb-0">Report retail store</h5>
+                        <p class="small fst-italic mt-0 py-0">
+                            <b>NOTE: </b>Once this form has been submitted you won't edit it. No user data is collected when reporting a retail store.
+                        </p>
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            {{ ReportRetailStoreForm|crispy }}
+                            <hr>
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-outline-danger">Report</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
