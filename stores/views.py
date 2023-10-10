@@ -3,9 +3,10 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
-from .forms import CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm, PlaceOrderForm
-from .models import RetailStores, Products
-
+from .forms import (CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm,
+    RateRetailStoreForm, RateProductsForm, ReportRetailStoreForm, )
+from .models import RetailStores, Products, CartItems, Cart
+from uuid import uuid4
 
 class HomepageView(View):
     template_name = 'stores/index.html'
