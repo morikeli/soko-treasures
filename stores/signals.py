@@ -1,4 +1,4 @@
-from .models import RetailStores, Products, Orders, CartItems
+from .models import RetailStores, Products, Cart, CartItems
 from django.db.models.signals import pre_save, m2m_changed
 from django.dispatch import receiver
 from uuid import uuid4
@@ -18,12 +18,12 @@ def generate_productsID(sender, instance, **kwargs):
     if instance.cost or instance.cost == 0:
         instance.cost = instance.price * instance.quantity
 
-@receiver(pre_save, sender=Orders)
-def generate_placedordersID(sender, instance, **kwargs):
-    if instance.id == '':
-        instance.id = str(uuid4()).replace('-', '')[:20]
-
-@receiver(pre_save, sender=CartItems)
+@receiver(pre_save, sender=Cart)
 def generate_cartID(sender, instance, **kwargs):
     if instance.id == '':
-        instance.id = str(uuid4()).replace('-', '')[:20]
+        instance.id = str(uuid4()).replace('-', '')[:30]
+
+@receiver(pre_save, sender=CartItems)
+def generate_cart_itemsID(sender, instance, **kwargs):
+    if instance.id == '':
+        instance.id = str(uuid4()).replace('-', '')[:30]
