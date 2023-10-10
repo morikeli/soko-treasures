@@ -125,19 +125,17 @@ class CartItems(models.Model):
 class Reports(models.Model):
     id = models.CharField(max_length=20, primary_key=True, unique=True, editable=False)
     store = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
-    reporter = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
-    reports = models.PositiveIntegerField(default=0, editable=False, db_column='Total reports')
     feedback = models.TextField()
     crime = models.CharField(max_length=30, blank=False)
     date_reported = models.DateTimeField(auto_now_add=True)
     date_edited = models.DateTimeField(auto_now=True)
 
     def __str__(self) -> str:
-        return self.reporter
+        return self.store
     
     class Meta:
         ordering = ['store', '-date_reported']
-        verbose_name_plural = 'Reports'
+        verbose_name_plural = 'Reported stores records'
 
 class Polls(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
