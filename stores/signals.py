@@ -1,4 +1,4 @@
-from .models import RetailStores, Products, Cart, CartItems
+from .models import RetailStores, Products, Cart, CartItems, Polls
 from django.db.models.signals import pre_save, m2m_changed
 from django.dispatch import receiver
 from uuid import uuid4
@@ -27,3 +27,8 @@ def generate_cartID(sender, instance, **kwargs):
 def generate_cart_itemsID(sender, instance, **kwargs):
     if instance.id == '':
         instance.id = str(uuid4()).replace('-', '')[:30]
+
+@receiver(pre_save, sender=Polls)
+def generate_pollsID(sender, instance, **kwargs):
+    if instance.id == '':
+        instance.id = str(uuid4()).replace('-', '')[:25]
