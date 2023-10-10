@@ -55,6 +55,7 @@ class AllProductsListView(View):
         # search queryset for an item and/or category of the item.
         item_category = request.GET.get('item-category')
         search_item = request.GET.get('search-item')
+
         if item_category is None and search_item is None:
             items   # if None is returned, use the default QS -> items
         else:
