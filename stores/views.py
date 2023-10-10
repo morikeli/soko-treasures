@@ -100,10 +100,17 @@ class RateRetailStoresView(View):
     
     def post(self, request, store_id, *args, **kwargs):
         store_obj = RetailStores.objects.get(id=store_id)
-        form = self.form_class()
+        form = self.form_class(request.POST, instance=store_obj)
 
         if form.is_valid():
-            form.save()
+            votes = form.save(commit=False)
+            votes.total_votes += 1
+            votes.save()
+
+            if request.user.is_authenticated:
+                rate_store, created = Polls.objects.get_or_create(voter=request.user, store=store_obj, product=None)
+            else:
+                rate_store, created = Polls.objects.get_or_create(store=store_obj, product=None)
 
             messages.info(request, 'Thank you for your feedback!')
             return redirect('retail_store', store_id)
@@ -121,15 +128,22 @@ class RateProductsView(View):
 
         context = {
             'RateProductsForm': form,
-            'store_obj': product_obj,
+            'product_obj': product_obj,
         }
         return render(request, self.template_name, context)
     
     def post(self, request, product_id, *args, **kwargs):
         product_obj = Products.objects.get(id=product_id)
-        form = self.form_class(request.POST)
+        form = self.form_class(request.POST, instance=product_obj)
         if form.is_valid():
-            form.save()
+            votes = form.save(commit=False)
+            votes.total_votes += 1
+            votes.save()
+
+            if request.user.is_authenticated:
+                rate_store, created = Polls.objects.get_or_create(voter=request.user, store=product_obj.seller, product=product_obj)
+            else:
+                rate_store, created = Polls.objects.get_or_create(voter=None, store=product_obj.seller, product=product_obj)
 
             messages.success(request, 'Your rating was successfully submitted!')
             return redirect('all_products')
