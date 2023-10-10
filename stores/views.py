@@ -5,7 +5,7 @@ from django.contrib import messages
 from django.views import View
 from .forms import (CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm,
     RateRetailStoreForm, RateProductsForm, ReportRetailStoreForm, )
-from .models import RetailStores, Products, CartItems, Cart
+from .models import RetailStores, Products, CartItems, Cart, Polls
 from uuid import uuid4
 
 class HomepageView(View):
