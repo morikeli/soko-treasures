@@ -1,0 +1,68 @@
+{% extends 'base.html' %}{% block title %}Rate retail store{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<main class="form-container">
+    <div class="container">
+        <div class="row">
+            <div id="retail-stores" class="col-md-4 col-lg-4 offset-sm-2">
+                <div class="card shadow-sm">
+                    <img src="{{ store_obj.image.url }}" height="220px" alt="store">
+                    <div class="card-body">
+                        <h3 class="card-title text-secondary mb-0 pb-0">{{ store_obj.name|truncatewords:4 }}</h3>
+                        <p class="card-text py-2">{{ store_obj.description }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-body-secondary">{{ store_obj.services }}</small>
+                            <div class="btn-group">
+                                <a href="" class="btn btn-sm btn-outline-default">
+                                    {% if store_obj.rating == 1 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% elif store_obj.rating == 2 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% elif store_obj.rating == 3 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% elif store_obj.rating == 4 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i>
+                                    {% elif store_obj.rating == 5 %}
+                                        <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i>
+                                    {% else %}
+                                        <i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                    {% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-5 col-lg-5">
+                <div class="card card-body shadow-sm py-3">
+                    <h3 class="card-title py-0 mt-0">Rate this retail store</h3>
+                    <div class="table-responsive">
+                        <table class="table table-sm table-bordered table-striped table-hover">
+                            <thead class="table-active">
+                                <th>#</th>
+                                <th>Total</th>
+                            </thead>
+                            <tbody>
+                                <tr><td>Total Votes</td><td>{{ TotalVotes }}</td></tr>
+                                <tr><td>Reviews</td><td>{{ TotalReviews }}</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-12 col-lg-12">
+                                {{ RateRetailStoreForm|crispy }}
+                                <hr>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-outline-success">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock %}
