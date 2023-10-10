@@ -82,8 +82,84 @@ class ItemsinCartView(View):
         cart = CartItems.objects.filter().all()
 
         context = {'cart': cart}
+        return render(request, self.template_name, context)    
+
+class RateRetailStoresView(View):
+    form_class = RateRetailStoreForm
+    template_name = 'stores/rate.html'
+
+    def get(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        form = self.form_class()
+
+        context = {
+            'RateRetailStoreForm': form,
+            'store_obj': store_obj,
+        }
         return render(request, self.template_name, context)
     
+    def post(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        form = self.form_class()
+
+        if form.is_valid():
+            form.save()
+
+            messages.info(request, 'Thank you for your feedback!')
+            return redirect('retail_store', store_id)
+
+        context = {'RateRetailStoreForm': form, 'store_obj': store_obj}
+        return render(request, self.template_name, context)
+
+class RateProductsView(View):
+    form_class = RateProductsForm
+    template_name = 'stores/rate.html'
+
+    def get(self, request, product_id, *args, **kwargs):
+        product_obj = Products.objects.get(id=product_id)
+        form = self.form_class()
+
+        context = {
+            'RateProductsForm': form,
+            'store_obj': product_obj,
+        }
+        return render(request, self.template_name, context)
+    
+    def post(self, request, product_id, *args, **kwargs):
+        product_obj = Products.objects.get(id=product_id)
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'Your rating was successfully submitted!')
+            return redirect('all_products')
+
+        context = {'RateProductsForm': form, 'store_obj': product_obj}
+        return render(request, self.template_name, context)
+
+class ReportRetailStoresView(View):
+    form_class = ReportRetailStoreForm
+    template_name = 'stores/report.html'
+
+    def get(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        form = self.form_class()
+
+        context = {'ReportRetailStoreForm': form}
+        return render(request, self.template_name, context)
+
+    def post(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        form = self.form_class()
+
+        if form.is_valid():
+            form.save()
+
+            messages.success(request, 'Feedback submiited successfully!')
+            return redirect('index')
+
+        context = {'ReportRetailStoreForm': form}
+        return render(request, self.template_name, context)
 
 # Dashboard views
 
