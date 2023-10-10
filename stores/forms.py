@@ -1,4 +1,4 @@
-from .models import RetailStores, Products, Cart
+from .models import RetailStores, Products, Reports
 from .utils import validate_image_file
 from django import forms
 
@@ -69,10 +69,12 @@ class AddProductForm(forms.ModelForm):
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
             'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
+        help_text='How many product do you wish to sell?'
     )
     price = forms.FloatField(widget=forms.TextInput(attrs={
             'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
+        help_text='How much does each item, packet or product cost?'
     )
     img_file = forms.FileField(widget=forms.FileInput(attrs={
             'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
@@ -108,10 +110,30 @@ class RateProductsForm(forms.ModelForm):
         fields = ['rating']
 
 class ReportRetailStoreForm(forms.ModelForm):
+    SELECT_TYPE_OF_CRIME = (
+        (None, '-- Select crime choice --'),
+        ('Con', 'It\'s a con business'),
+        ('Drugs', 'Selling drugs'),
+        ('Fraud', 'Fraud'),
+        ('Other', 'Other'),
+    )
+   
+    crime = forms.ChoiceField(widget=forms.Select(attrs={
+            'type': 'select', 'class': 'mb-2',
+        }),
+        choices=SELECT_TYPE_OF_CRIME,
+    )
+
+    feedback = forms.CharField(widget=forms.Textarea(attrs={
+            'type': 'text', 'class': 'mb-0', 
+        }),
+        help_text='Provide any additional you have about the selected crime.',
+        required=True,
+    )
 
     class Meta:
-        model = RetailStores
-        fields = []
+        model = Reports
+        fields = ['crime', 'feedback']
 
 # Edit forms
 class EditStoreInfoForm(forms.ModelForm):
@@ -193,10 +215,12 @@ class EditProductInfoForm(forms.ModelForm):
     quantity = forms.FloatField(widget=forms.TextInput(attrs={
             'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
+        help_text='How many product do you wish to sell?'
     )
     price = forms.FloatField(widget=forms.TextInput(attrs={
             'type': 'number', 'class': 'mb-2', 'min': '0',
         }),
+        help_text='How much does each item, packet or product cost?'
     )
     img_file = forms.FileField(widget=forms.FileInput(attrs={
             'type': 'file', 'class': 'form-control mb-2', 'accept': '.jpg, .jpeg, .png',
