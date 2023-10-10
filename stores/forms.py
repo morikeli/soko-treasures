@@ -6,12 +6,15 @@ class CreateRetailStoreForm(forms.ModelForm):
     SELECT_SERVICES_OFFERED = (
         (None, '-- Select service you offer --'),
         ('Automotive', 'Automotive (Cars, motorcycles, trucks, etc.)'),
+        ('Bakery', 'Bakery'),
         ('Clothing/Fashion', 'Clothing'),
+        ('Cosmetics', 'Cosmetics'),
         ('Electronics', 'Electronics'),
         ('Entertainment', 'Entertainment (Games, Movies, etc.)'),
         ('Furniture', 'Furniture'),
         ('Grocery', 'Grocery'),
         ('Laundry', 'Laundry'),
+        ('Restaurant', 'Restaurant'),
     )
     name = forms.CharField(widget=forms.TextInput(attrs={
         'type': 'text',
@@ -114,13 +117,16 @@ class ReportRetailStoreForm(forms.ModelForm):
 class EditStoreInfoForm(forms.ModelForm):
     SELECT_SERVICES_OFFERED = (
         (None, '-- Select service you offer --'),
-        ('Automotive', 'Automotive (Cars, motorcycles, trucks, etc.)'),
+         ('Automotive', 'Automotive (Cars, motorcycles, trucks, etc.)'),
+        ('Bakery', 'Bakery'),
         ('Clothing/Fashion', 'Clothing'),
+        ('Cosmetics', 'Cosmetics'),
         ('Electronics', 'Electronics'),
         ('Entertainment', 'Entertainment (Games, Movies, etc.)'),
         ('Furniture', 'Furniture'),
         ('Grocery', 'Grocery'),
         ('Laundry', 'Laundry'),
+        ('Restaurant', 'Restaurant'),
     )
     name = forms.CharField(widget=forms.TextInput(attrs={
         'type': 'text',
