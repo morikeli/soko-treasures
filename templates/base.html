@@ -34,7 +34,7 @@
                         <h4>Quick links</h4>
                         <ul class="list-unstyled">
                             {% if user.is_authenticated %}
-                            <li><a href="{% url 'dashboard' %}" class="text-white"><i class="bi-grid-1x2-fill"></i> Dashboard</a></li>
+                            <li><a href="{% url 'dashboard' store_obj.id %}" class="text-white"><i class="bi-grid-1x2-fill"></i> Dashboard</a></li>
                             <li><a href="{% url 'register_store' request.user.username %}" class="text-white"><i class="bi-person-fill-add"></i> Register your store</a></li>
                             <li><a href="{% url 'user_profile' %}" class="text-white"><i class="bi-person-circle"></i> Profile</a></li>
                             <li><a href="{% url 'logout_user' %}" class="text-white"><i class="bi-door-open-fill"></i> Logout</a></li>
