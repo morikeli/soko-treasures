@@ -74,35 +74,14 @@ class AllProductsListView(View):
         }
         return render(request, self.template_name, context)
     
-class CustomerOrdersView(View):
-    form_class = PlaceOrderForm
-    template_name = 'stores/order.html'
+class ItemsinCartView(View):
+    template_name = 'stores/cart.html'
 
-    def get(self, request, product_id, *args, **kwargs):
-        product_obj = Products.objects.get(id=product_id)
-        placed_order_info = {
-            'item': product_obj.product,
-            'price': product_obj.price,
-            'quantity': 0,
-            
-        }
-        form = self.form_class(instance=product_obj, initial=placed_order_info)
+    def get(self, request, *args, **kwargs):
+        cart = CartItems.objects.filter().all()
 
-
-        context = {
-            'PlaceOrderForm': form,
-            'product_obj': product_obj,
-
-        }
+        context = {'cart': cart}
         return render(request, self.template_name, context)
-    
-    def post(self, request, product_id, *args, **kwargs):
-        product_obj = Products.objects.get(id=product_id)
-        form = self.form_class(instance=product_obj)
-
-        context = {'PlaceOrderForm': form}
-        return render(request, self.template_name, context)
-    
     
 
 # Dashboard views
