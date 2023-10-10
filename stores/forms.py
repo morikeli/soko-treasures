@@ -87,7 +87,7 @@ class AddProductForm(forms.ModelForm):
 
 class RateRetailStoreForm(forms.ModelForm):
     rating = forms.CharField(widget=forms.NumberInput(attrs={
-            'type': 'number', 'min': 0, 'max': 5,
+            'type': 'number', 'class': 'mb-0', 'min': 0, 'max': 5,
         }),
         required=True,
         help_text='Enter your rate score.'
@@ -98,7 +98,7 @@ class RateRetailStoreForm(forms.ModelForm):
 
 class RateProductsForm(forms.ModelForm):
     rating = forms.CharField(widget=forms.NumberInput(attrs={
-            'type': 'number', 'min': 0, 'max': 5,
+            'type': 'number', 'class': 'mb-0', 'min': 0, 'max': 5,
         }),
         required=True,
         help_text='Enter your rate score.'
