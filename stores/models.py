@@ -15,7 +15,8 @@ class RetailStores(models.Model):
     x_url = models.URLField(blank=True)
     ig_url = models.URLField(blank=True)
     image = models.ImageField(upload_to='Retail-Stores/imgs/', default='shop.jpg')
-    cover_photo = models.ImageField(upload_to='Retail-Stores/imgs/cover-photos/', default='cover-photo.jpg')    
+    cover_photo = models.ImageField(upload_to='Retail-Stores/imgs/cover-photos/', default='cover-photo.jpg') 
+    total_votes = models.PositiveIntegerField(default=0, editable=False)
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
 
@@ -49,9 +50,11 @@ class Products(models.Model):
     seller = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
     product = models.CharField(max_length=70, blank=False, db_column='Product Name')  # name of the product
     description = models.TextField()
+    rating = models.PositiveIntegerField(default=0)
     quantity = models.PositiveIntegerField(default=0)
-    price = models.FloatField(default=0.00)
-    cost = models.FloatField(default=0.00, editable=False)
+    price = models.DecimalField(decimal_places=2, max_digits=10)
+    cost = models.DecimalField(decimal_places=2, max_digits=20, editable=False)
+    total_votes = models.PositiveIntegerField(default=0, editable=False)
     img_file = models.ImageField(upload_to='Products/imgs/', default='cart.jpeg')
     out_of_stock = models.BooleanField(default=False, editable=False)
     created = models.DateTimeField(auto_now_add=True)
@@ -95,6 +98,10 @@ class Cart(models.Model):
         total_items = sum([item.quantity for item in cart_items])
         return total_items
     
+    class Meta:
+        ordering = ['customer', '-date_ordered']
+        verbose_name_plural = 'Cart records'
+    
 class CartItems(models.Model):
     id = models.CharField(max_length=30, primary_key=True, unique=True, editable=False)
     product = models.ForeignKey(Products, on_delete=models.CASCADE, editable=False)
@@ -110,3 +117,39 @@ class CartItems(models.Model):
     def get_total_cost(self):
         total_cost = self.product.price * self.quantity
         return total_cost
+    
+    class Meta:
+        ordering = ['product', '-date_created']
+        verbose_name_plural = 'Items in cart'
+
+class Reports(models.Model):
+    id = models.CharField(max_length=20, primary_key=True, unique=True, editable=False)
+    store = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False)
+    reporter = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    reports = models.PositiveIntegerField(default=0, editable=False, db_column='Total reports')
+    feedback = models.TextField()
+    crime = models.CharField(max_length=30, blank=False)
+    date_reported = models.DateTimeField(auto_now_add=True)
+    date_edited = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.reporter
+    
+    class Meta:
+        ordering = ['store', '-date_reported']
+        verbose_name_plural = 'Reports'
+
+class Polls(models.Model):
+    id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
+    voter = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    store = models.ForeignKey(RetailStores, on_delete=models.CASCADE, null=True, editable=False)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, null=True, editable=False)
+    voting_date = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.voter
+    
+    class Meta:
+        ordering = ['voter', 'voting_date']
+        verbose_name_plural = 'Polls'
