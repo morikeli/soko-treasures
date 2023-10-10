@@ -18,17 +18,21 @@
                             <form class="d-flex align-items-end" method="get" action="">
                                 <div class="input-group">
                                     <select class="form-select form-select-sm w-50 mb-2 me-2" name="item-category">
-                                        <option selected>Select category</option>
+                                        <option value="" selected>Select category</option>
                                         <option value="Automotive">Automotive</option>
+                                        <option value="Bakery">Bakery</option>
                                         <option value="Clothing/Fashion">Clothing</option>
+                                        <option value="Cosmetics">Cosmetics</option>
                                         <option value="Electronics">Electronics</option>
+                                        <option value="Entertainment">Entertainment</option>
                                         <option value="Grocery">Grocery</option>
                                         <option value="Laundry">Laundry</option>
+                                        <option value="Restaurant">Restaurant</option>
+
                                     </select>
                                 </div>
                                 <div class="input-group">
                                     <input type="text" class="form-control form-control-sm mb-2 me-2" name="search-item" placeholder="Search for product ...">
-                                    <div class="invalid-feedback">Item not found!</div>
                                 </div>
                                 <button type="submit" class="btn btn-sm btn-outline-secondary mb-2"><i class="bi-search"></i></button>
                             </form>
