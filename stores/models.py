@@ -52,8 +52,8 @@ class Products(models.Model):
     description = models.TextField()
     rating = models.PositiveIntegerField(default=0)
     quantity = models.PositiveIntegerField(default=0)
-    price = models.DecimalField(decimal_places=2, max_digits=10)
-    cost = models.DecimalField(decimal_places=2, max_digits=20, editable=False)
+    price = models.DecimalField(decimal_places=2, max_digits=15)
+    cost = models.DecimalField(default=0, decimal_places=2, max_digits=20, editable=False)
     total_votes = models.PositiveIntegerField(default=0, editable=False)
     img_file = models.ImageField(upload_to='Products/imgs/', default='cart.jpeg')
     out_of_stock = models.BooleanField(default=False, editable=False)
@@ -106,7 +106,7 @@ class CartItems(models.Model):
     id = models.CharField(max_length=30, primary_key=True, unique=True, editable=False)
     product = models.ForeignKey(Products, on_delete=models.CASCADE, editable=False)
     order = models.ForeignKey(Cart, on_delete=models.CASCADE, editable=False)
-    quantity = models.IntegerField(default=0)
+    quantity = models.PositiveIntegerField(default=0)
     date_created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
@@ -141,7 +141,7 @@ class Reports(models.Model):
 
 class Polls(models.Model):
     id = models.CharField(max_length=25, primary_key=True, unique=True, editable=False)
-    voter = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
+    voter = models.ForeignKey(User, on_delete=models.CASCADE, null=True, editable=False)
     store = models.ForeignKey(RetailStores, on_delete=models.CASCADE, null=True, editable=False)
     product = models.ForeignKey(Products, on_delete=models.CASCADE, null=True, editable=False)
     voting_date = models.DateTimeField(auto_now_add=True)
