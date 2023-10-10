@@ -82,6 +82,33 @@ class AddProductForm(forms.ModelForm):
         model = Products
         fields = ['product', 'description', 'quantity', 'price', 'img_file']
 
+class RateRetailStoreForm(forms.ModelForm):
+    rating = forms.CharField(widget=forms.NumberInput(attrs={
+            'type': 'number', 'min': 0, 'max': 5,
+        }),
+        required=True,
+        help_text='Enter your rate score.'
+    )
+    class Meta:
+        model = RetailStores
+        fields = ['rating']
+
+class RateProductsForm(forms.ModelForm):
+    rating = forms.CharField(widget=forms.NumberInput(attrs={
+            'type': 'number', 'min': 0, 'max': 5,
+        }),
+        required=True,
+        help_text='Enter your rate score.'
+    )
+    class Meta:
+        model = Products
+        fields = ['rating']
+
+class ReportRetailStoreForm(forms.ModelForm):
+
+    class Meta:
+        model = RetailStores
+        fields = []
 
 # Edit forms
 class EditStoreInfoForm(forms.ModelForm):
