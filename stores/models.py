@@ -73,39 +73,40 @@ class Products(models.Model):
         ordering = ['seller', 'product']
         verbose_name_plural = 'Products'
 
-class Orders(models.Model):
-    id = models.CharField(primary_key=True, max_length=20, unique=True, editable=False)
-    store_name = models.ForeignKey(RetailStores, on_delete=models.CASCADE, editable=False, db_column='Retail store')
-    item = models.ForeignKey(Products, on_delete=models.CASCADE)
-    customer = models.CharField(max_length=50, blank=False)
-    phone_no = PhoneNumberField(blank=False)
-    address = models.CharField(max_length=20, blank=False)
-    quantity = models.PositiveIntegerField(default=0)
-    price = models.FloatField(default=0)
-    total_cost = models.FloatField(default=0, editable=False)
-    paid = models.BooleanField(default=False, editable=False)   # has the user paid for the product?
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
+class Cart(models.Model):
+    id = models.CharField(primary_key=True, max_length=30, unique=True, editable=False)
+    customer = models.ForeignKey(User, on_delete=models.CASCADE, null=True, editable=False)
+    session_id = models.CharField(max_length=30, blank=False)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    completed = models.BooleanField(default=False, editable=False)
 
-    def __str__(self):
-        return f'{self.customer}'
-
-    class Meta:
-        ordering = ['customer', '-created']
-        verbose_name_plural = 'Customer orders'
-
-class CartItems(models.Model):
-    id = models.CharField(max_length=20, primary_key=True, unique=False, editable=False)
-    buyer = models.ForeignKey(User, on_delete=models.CASCADE, editable=False)
-    item = models.ForeignKey(Products, on_delete=models.CASCADE, editable=False)
-    session_id = models.CharField(max_length=50, blank=False, editable=False)
-    is_paid = models.BooleanField(default=False, editable=False)
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-
-    def __str__(self):
-        return f''
+    def __str__(self) -> str:
+        return self.customer
     
-    class Meta:
-        verbose_name_plural = 'Cart items'
-        ordering = []
+    @property
+    def get_cart_total(self):
+        cart_items = self.cartitems_set.all()
+        total = sum([item.get_total_cost for item in cart_items])
+        return total
+    
+    @property
+    def get_cart_items(self):
+        cart_items = self.cartitems_set.all()
+        total_items = sum([item.quantity for item in cart_items])
+        return total_items
+    
+class CartItems(models.Model):
+    id = models.CharField(max_length=30, primary_key=True, unique=True, editable=False)
+    product = models.ForeignKey(Products, on_delete=models.CASCADE, editable=False)
+    order = models.ForeignKey(Cart, on_delete=models.CASCADE, editable=False)
+    quantity = models.IntegerField(default=0)
+    date_created = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.product}'
+    
+    @property
+    def get_total_cost(self):
+        total_cost = self.product.price * self.quantity
+        return total_cost
