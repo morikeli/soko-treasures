@@ -172,7 +172,7 @@ class ReportRetailStoresView(View):
             report_store.save()
 
             messages.success(request, 'Report submitted successfully! We will review your report.')
-            return redirect('index')
+            return redirect('retail_store', store_id)
 
         context = {'ReportRetailStoreForm': form, 'store_obj': store_obj}
         return render(request, self.template_name, context)
