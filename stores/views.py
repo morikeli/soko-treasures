@@ -86,7 +86,7 @@ class ItemsinCartView(View):
 
 class RateRetailStoresView(View):
     form_class = RateRetailStoreForm
-    template_name = 'stores/rate.html'
+    template_name = 'stores/rate-stores.html'
 
     def get(self, request, store_id, *args, **kwargs):
         store_obj = RetailStores.objects.get(id=store_id)
@@ -120,7 +120,7 @@ class RateRetailStoresView(View):
 
 class RateProductsView(View):
     form_class = RateProductsForm
-    template_name = 'stores/rate.html'
+    template_name = 'stores/rate-products.html'
 
     def get(self, request, product_id, *args, **kwargs):
         product_obj = Products.objects.get(id=product_id)
