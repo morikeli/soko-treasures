@@ -136,12 +136,10 @@ class ItemsinCartView(View):
         minusitem_id = request.GET.get('minus-cart-item')
         deleteitem_id = request.GET.get('delete-cart-item')
 
-        print('cart-item', item_id)
         session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
         cart_items = CartItems.objects.filter(order__session_id=session).all()
         total_cart_items = cart_items.count()
         total_cost_items = 0
-        cost_list = []
 
         try:
             if not item_id is None:
@@ -149,7 +147,7 @@ class ItemsinCartView(View):
                 update_cart.quantity += 1
                 update_cart.save()
 
-                item_cost = [item.quantity * item.product.price for item in cart_items]
+                item_cost = [item.quantity * item.product.price for item in cart_items]   # calculate item of each item.
                 total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
                 data = {
                     "quantity": update_cart.quantity,
@@ -163,7 +161,7 @@ class ItemsinCartView(View):
                 update_cart.quantity -= 1
                 update_cart.save()
 
-                item_cost = [item.quantity * item.product.price for item in cart_items]
+                item_cost = [item.quantity * item.product.price for item in cart_items]   # calculate item of each item.
                 total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
                 data = {
                     "quantity": update_cart.quantity,
@@ -176,7 +174,7 @@ class ItemsinCartView(View):
                 update_cart = CartItems.objects.get(id=deleteitem_id)
                 update_cart.delete()
 
-                item_cost = [item.quantity * item.product.price for item in cart_items]
+                item_cost = [item.quantity * item.product.price for item in cart_items]   # calculate item of each item.
                 total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
                 data = {
                     "quantity": update_cart.quantity,
@@ -191,7 +189,6 @@ class ItemsinCartView(View):
         
         total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
         item_cost = [item.quantity * item.product.price for item in cart_items]
-        
         context = {
             'cart': cart_items,
             'TotalCartItems': total_cart_items,
