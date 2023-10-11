@@ -47,7 +47,7 @@ class SignupForm(UserCreationForm):
     mobile_no = forms.CharField(widget=forms.TextInput(attrs={
             'type': 'tel', 'class': 'mb-0',
         }),
-        help_text='Enter your phone number including your country code, e.g. +254112345678'
+        help_text='Enter your phone number and include your country code, e.g. +254112345678'
     )
     email = forms.EmailField(widget=forms.EmailInput(attrs={
         'type': 'email', 'class': 'mb-2',
