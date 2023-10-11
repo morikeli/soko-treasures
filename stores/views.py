@@ -90,7 +90,7 @@ class ProductsListView(View):
     def get(self, request, store_id, *args, **kwargs):
         store_obj = RetailStores.objects.get(id=store_id)
         products_list = Products.objects.filter(seller_id=store_obj.id).all().order_by('product')
-        similar_products = Products.objects.filter(seller__services=store_obj.services).all().order_by('product', '-created')
+        similar_products = Products.objects.filter(seller__services=store_obj.services).all().order_by('product', '-created').exclude(seller_id=store_id)
 
         context = {
             'products_on_sale': products_list, 
