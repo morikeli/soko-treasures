@@ -1,0 +1,69 @@
+	{% extends 'base.html' %}{% block title %}Product details{% endblock %}
+    {% block content %}
+    <main class="form-container">
+        <div class="container">
+            <div class="row">
+                <div id="retail-stores" class="col-md-6 col-lg-6 offset-sm-1">
+                    <div class="card shadow-sm">
+                        <img src="{{ product_obj.img_file.url }}" class="img-fluid" alt="store">
+                        <div class="card-body">
+                            <h3 class="card-title text-secondary mb-0 pb-0">{{ product_obj.product|truncatewords:4 }}</h3>
+                            <p class="card-text py-2">{{ product_obj.description }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <small class="text-body-secondary"><i class="bi-cash-coin" style="color: #0a9233; font-size: 22px;"></i> {{ product_obj.price|floatformat:"2g" }}</small>
+                                <div class="btn-group">
+                                    <a href="{% url 'rate_product' product_obj.id %}" class="btn btn-sm btn-outline-default">
+                                        {% if product_obj.rating == 1 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% elif product_obj.rating == 2 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% elif product_obj.rating == 3 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% elif product_obj.rating == 4 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i>
+                                        {% elif product_obj.rating == 5 %}
+                                            <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i>
+                                        {% else %}
+                                            <i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
+                                        {% endif %}
+                                    </a>
+                                    <form action="" method="post">
+                                        {% csrf_token %}
+                                        <input type="hidden" value="{{ product_obj.id }}" name="item-id">
+                                        <button type="submit" class="btn btn-sm btn-outline-success"><i class="bi-cart-plus-fill"></i></button>
+                                    </form>
+                                    <a href="" class="btn btn-sm btn-outline-secondary">Buy now</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5 col-lg-5">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    	<span class="text-dark">Your cart</span>
+                        <span class="badge bg-secondary rounded-pill">{{ cart_items }}</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+						{% for item in cart %}
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+							<div>
+								<h6 class="my-0">{{ item.product }}</h6>
+								<small class="text-success">Quantity: You ordered <b class="text-muted">{{ item.quantity }}</b> items.</small>
+							</div>
+							<span class="text-body-secondary">{{ item.product.price|floatformat:"2g" }}/=</span>
+                        </li>
+						{% endfor %}
+						<li class="list-group-item d-flex justify-content-between">
+							<span>Total items</span>
+							<strong>{{ SumofCartItems|default:"0" }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+							<span>Total (Kshs.)</span>
+							<strong>{{ TotalCost|floatformat:"2g" }}/=</strong>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
