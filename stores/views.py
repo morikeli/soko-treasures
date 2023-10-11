@@ -3,7 +3,8 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
-from django.db.models import Sum, Avg
+from django.http import JsonResponse
+from django.db.models import Sum
 from .forms import (CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm,
     RateRetailStoreForm, RateProductsForm, ReportRetailStoreForm, )
 from .models import RetailStores, Products, CartItems, Cart, Polls
