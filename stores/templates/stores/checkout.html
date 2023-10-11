@@ -1,0 +1,67 @@
+    {% extends 'base.html' %}{% block title %}Place your order{% endblock %}
+    {% load crispy_forms_tags %}
+    {% block content %}
+    <main class="form-container">
+        <section class="container mt-4">
+            <div class="row">
+                <div class="col-md-4 col-lg-8">
+                    <div class="card">
+                        <div class="card-body py-4 px-4">
+                            <h4 class="card-title text-center text-secondary py-0 mt-0">Place your order</h4>
+                            <hr>
+                            <form action="" method="post">
+                                {% include 'messages.html' %}
+                                {% csrf_token %}
+                                <div class="row">
+                                    <div class="col-md-12 col-xl-12">
+                                        {{ CheckoutForm|crispy }}
+                                        {% comment %}
+                                        <p class="small text-muted text-center mt-2">
+                                            <b>NOTE: </b> A receipt will be generated automatically once you submit this form.
+                                        </p>
+                                        {% endcomment %}
+                                        <hr>
+                                    </div>
+                                </div>
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-outline-success">Place order</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-lg-4">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    	<span class="text-dark">Your cart</span>
+                        <span class="badge bg-secondary rounded-pill">{{ TotalCartItems }}</span>
+                    </h4>
+                    <ul class="list-group mb-3">
+						{% for item in cart %}
+                        <li class="list-group-item d-flex justify-content-between lh-sm">
+							<div>
+								<h6 class="my-0">{{ item.product }}</h6>
+								<small class="text-success">
+                                    {% if item.quantity == 1 %}
+                                    Quantity: <b class="text-muted">{{ item.quantity }}</b> item
+                                    {% elif item.quantity > 1 %}
+                                    Quantity: <b class="text-muted">{{ item.quantity }}</b> items
+                                    {% endif %}
+                                </small>
+							</div>
+							<span class="text-body-secondary">{{ item.product.price|floatformat:"2g" }}/=</span>
+                        </li>
+						{% endfor %}
+						<li class="list-group-item d-flex justify-content-between">
+							<span>Total items</span>
+							<strong>{{ SumofCartItems|default:"0" }}</strong>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+							<span>Total (Kshs.)</span>
+							<strong>{{ TotalCost|floatformat:"2g" }}/=</strong>
+                        </li>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% endblock %}
