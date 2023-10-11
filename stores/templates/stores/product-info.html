@@ -3,6 +3,9 @@
     <main class="form-container">
         <div class="container">
             <div class="row">
+                <div class="col-sm-6 col-md-6 offset-sm-1">
+                    <a href="{% url 'all_products' %}" class="btn btn-sm btn-outline-secondary mb-2"><i class="bi-arrow-left-circle-fill"></i> Back to products</a>
+                </div>
                 <div id="retail-stores" class="col-md-6 col-lg-6 offset-sm-1">
                     <div class="card shadow-sm">
                         <img src="{{ product_obj.img_file.url }}" class="img-fluid" alt="store">
@@ -48,7 +51,13 @@
                         <li class="list-group-item d-flex justify-content-between lh-sm">
 							<div>
 								<h6 class="my-0">{{ item.product }}</h6>
-								<small class="text-success">Quantity: You ordered <b class="text-muted">{{ item.quantity }}</b> items.</small>
+								<small class="text-success">
+                                    {% if item.quantity == 1 %}
+                                    Quantity: <b class="text-muted">{{ item.quantity }}</b> item
+                                    {% elif item.quantity > 1 %}
+                                    Quantity: <b class="text-muted">{{ item.quantity }}</b> items
+                                    {% endif %}
+                                </small>
 							</div>
 							<span class="text-body-secondary">{{ item.product.price|floatformat:"2g" }}/=</span>
                         </li>
@@ -62,6 +71,10 @@
 							<strong>{{ TotalCost|floatformat:"2g" }}/=</strong>
                         </li>
                     </ul>
+                    <hr>
+                    <div class="d-grid gap-2">
+                        <a href="{% url 'user_cart' %}" class="btn btn-sm btn-outline-success"><i class="bi-cart-fill"></i> View cart</a>
+                    </div>
                 </div>
             </div>
         </div>
