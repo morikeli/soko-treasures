@@ -42,7 +42,6 @@ class ProductDetailView(View):
         session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
         cart_items = CartItems.objects.filter(order__session_id=session).all()
         sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
-        total_cart_items = cart_items.count()
         total_cost_items = 0
         cost_list = []
 
@@ -55,7 +54,6 @@ class ProductDetailView(View):
         context = {
             'product_obj': product_obj,
             'cart': cart_items,
-            'cart_items': total_cart_items,
             'SumofCartItems': sum_of_cartitems,
             'TotalCost': total_cost_items,
         }
