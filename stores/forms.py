@@ -1,4 +1,4 @@
-from .models import RetailStores, Products, Reports
+from .models import RetailStores, Products, Reports, ShippingDetails
 from .utils import validate_image_file
 from django import forms
 
@@ -134,6 +134,60 @@ class ReportRetailStoreForm(forms.ModelForm):
     class Meta:
         model = Reports
         fields = ['crime', 'feedback']
+
+class CustomerOrderForm(forms.ModelForm):
+    SELECT_COUNTRY_OF_ORIGIN = (
+        (None, '-- Select country --'),
+        ('Kenya', 'Kenya'),
+    )
+    name = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text', 'class': 'mb-0',
+        }),
+        label='Full name',
+        required=True,
+    )
+    mobile_no = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'tel', 'class': 'mb-0',
+        }),
+        help_text='Enter your phone number including your country code, e.g. +254112345678',
+        required=True,
+        label='Mobile number',
+    )
+    email = forms.EmailField(widget=forms.EmailInput(attrs={
+            'type': 'email', 'class': 'mb-0',
+        }),
+        required=True,
+        label='Email address',
+    )
+    country = forms.ChoiceField(widget=forms.Select(attrs={
+            'type': 'text', 'class': 'mb-0',
+        }),
+        required=True,
+        help_text='Select current residential country.',
+        choices=SELECT_COUNTRY_OF_ORIGIN,
+    )
+    county = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text', 'class': 'mb-0',
+        }),
+        required=True,
+        help_text='Select current residential county/state.',
+    )
+    city = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text', 'class': 'mb-0',
+        }),
+        required=True,
+        help_text='Select current residential city/estate/town/village.',
+    )
+    address = forms.CharField(widget=forms.TextInput(attrs={
+            'type': 'text', 'class': 'mb-0',
+        }),
+        required=True,
+        help_text='Enter your P.O. Box or zip code.'
+    )
+    
+    class Meta:
+        model = ShippingDetails
+        fields = ['name', 'email', 'mobile_no', 'country', 'county', 'city', 'address']
 
 # Edit forms
 class EditStoreInfoForm(forms.ModelForm):
