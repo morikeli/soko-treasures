@@ -132,10 +132,73 @@ class ItemsinCartView(View):
     template_name = 'stores/cart.html'
 
     def get(self, request, *args, **kwargs):
-        cart = CartItems.objects.filter().all()
+        item_id = request.GET.get('cart-item')
+        minusitem_id = request.GET.get('minus-cart-item')
+        deleteitem_id = request.GET.get('delete-cart-item')
 
-        context = {'cart': cart}
-        return render(request, self.template_name, context)    
+        print('cart-item', item_id)
+        session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
+        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        total_cart_items = cart_items.count()
+        total_cost_items = 0
+        cost_list = []
+
+        try:
+            if not item_id is None:
+                update_cart = CartItems.objects.get(id=item_id)
+                update_cart.quantity += 1
+                update_cart.save()
+
+                item_cost = [item.quantity * item.product.price for item in cart_items]
+                total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
+                data = {
+                    "quantity": update_cart.quantity,
+                    'total_cost': total_cost_items,
+                    'item_cost': item_cost,
+                }
+                return JsonResponse(data)
+            
+            elif minusitem_id is not None:
+                update_cart = CartItems.objects.get(id=minusitem_id)
+                update_cart.quantity -= 1
+                update_cart.save()
+
+                item_cost = [item.quantity * item.product.price for item in cart_items]
+                total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
+                data = {
+                    "quantity": update_cart.quantity,
+                    'total_cost': total_cost_items,
+                    'item_cost': item_cost,
+                }
+                return JsonResponse(data)
+            
+            elif deleteitem_id is not None:
+                update_cart = CartItems.objects.get(id=deleteitem_id)
+                update_cart.delete()
+
+                item_cost = [item.quantity * item.product.price for item in cart_items]
+                total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
+                data = {
+                    "quantity": update_cart.quantity,
+                    'total_cost': total_cost_items,
+                    'item_cost': item_cost,
+                }
+                return JsonResponse(data)
+            
+
+        except CartItems.DoesNotExist:
+            pass
+        
+        total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
+        item_cost = [item.quantity * item.product.price for item in cart_items]
+        
+        context = {
+            'cart': cart_items,
+            'TotalCartItems': total_cart_items,
+            'TotalCost': total_cost_items,
+            'CostofItem': item_cost,
+        }
+        return render(request, self.template_name, context)
 
 class RateRetailStoresView(View):
     form_class = RateRetailStoreForm
