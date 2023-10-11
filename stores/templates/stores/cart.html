@@ -1,0 +1,52 @@
+    {% extends 'base.html' %}{% block title %}Your cart{% endblock %}
+	{% load crispy_forms_tags %}
+	{% load tags %}
+    {% block content %}
+    <main class="form-container">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-lg-12">
+					{% include 'messages.html' %}
+					<div class="card card-body py-3">
+						<h4 class="card-title mb-0 py-0">Your cart</h4><hr>
+						<div class="table-responsive">
+							<table class="table table-sm table-bordered table-striped table hover">
+								<thead class="table-dark text-center">
+									<th>#</th>
+									<th>Image</th>
+									<th>Item</th>
+									<th>Price</th>
+									<th>Quantity</th>
+									<th></th>
+								</thead>
+								<tbody>
+									{% for items in cart %}
+									<tr>
+										<td>{{ forloop.counter }}</td>
+										<td><img src="{{ items.product.img_file.url }}" height="30px" width="50px" alt="img"></td>
+										<td>{{ items.product }}</td>
+										<td class="text-end">{{ items.product.price|floatformat:"2g" }}</td>
+										<td class="text-end">
+											<a class="minus-cart" pid="{{ items.id }}"><i class="bi-dash-square-fill"></i></a>
+											<span id="quantity" class="mx-2 border px-3">{{ items.quantity }} </span>
+											<a class="plus-cart" pid="{{ items.id }}"><i class="bi-plus-square-fill"></i></a>
+										</td>
+										<td class="text-center px-0"><a pid="{{ items.id }}" class="remove-cart btn btn-sm btn-outline-danger"><i class="bi-trash"></i> Remove item</a></td>
+										{% comment %}<td class="text-end" id="item-cost-{{ items.id }}">{{ items.quantity|totalcost:items.product.price|floatformat:"2g" }}</td>{% endcomment %}
+									</tr>
+									{% endfor %}
+								</tbody>
+								<tfoot>
+									<tr class="table-success">
+										<td colspan="4" class="text-center"><h6>Items: {{ TotalCartItems }}</h6></td>
+										<td colspan="2" class="text-center"><h6>Total cost: Kshs. <b id="total-cost">{{ TotalCost|floatformat:"2g" }}</b>/=</h6></td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </main>
+    {% endblock %}
