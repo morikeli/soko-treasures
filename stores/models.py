@@ -151,3 +151,23 @@ class Polls(models.Model):
     class Meta:
         ordering = ['voter', 'voting_date']
         verbose_name_plural = 'Polls'
+
+class ShippingDetails(models.Model):
+    id = models.CharField(max_length=30, primary_key=True, unique=True, editable=False)
+    name = models.CharField(max_length=50, blank=False)
+    mobile_no = PhoneNumberField(blank=False)
+    email = models.EmailField(blank=False)
+    country = models.CharField(max_length=50, blank=False)
+    county = models.CharField(max_length=30, blank=False, db_column='County/State')
+    city = models.CharField(max_length=30, blank=False, db_column='City/Estate/Town/Village')
+    address = models.CharField(max_length=10, blank=False)
+    date_ordered = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.name
+    
+    class Meta:
+        ordering = ['name', '-date_ordered']
+        verbose_name_plural = 'Customer orders records'
+
