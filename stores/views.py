@@ -6,7 +6,7 @@ from django.views import View
 from django.http import JsonResponse
 from django.db.models import Sum
 from .forms import (CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm,
-    RateRetailStoreForm, RateProductsForm, ReportRetailStoreForm, )
+    RateRetailStoreForm, RateProductsForm, ReportRetailStoreForm, CustomerOrderForm)
 from .models import RetailStores, Products, CartItems, Cart, Polls
 from uuid import uuid4
 
@@ -194,6 +194,47 @@ class ItemsinCartView(View):
             'CostofItem': item_cost,
         }
         return render(request, self.template_name, context)
+
+class CartCheckoutView(View):
+    form_class = CustomerOrderForm
+    template_name = 'stores/checkout.html'
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
+        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        total_cart_items = cart_items.count()
+        total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
+        sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
+
+        
+        context = {
+            'CheckoutForm': form,
+            'cart': cart_items,
+            'TotalCartItems': total_cart_items,
+            'TotalCost': total_cost_items,
+            'SumofCartItems': sum_of_cartitems,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
+        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        total_cart_items = cart_items.count()
+        total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
+        sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
+
+        
+        context = {
+            'CheckoutForm': form,
+            'cart': cart_items,
+            'TotalCartItems': total_cart_items,
+            'TotalCost': total_cost_items,
+            'SumofCartItems': sum_of_cartitems,
+        }
+        return render(request, self.template_name, context)
+
 
 class RateRetailStoresView(View):
     form_class = RateRetailStoreForm
