@@ -5,8 +5,11 @@
     <main class="form-container">
         <div class="container">
             <div class="row">
-				<div class="col-sm-6 col-md-6">
-                    <a href="{% url 'all_products' %}" class="btn btn-sm btn-outline-secondary mb-2"><i class="bi-arrow-left-circle-fill"></i> Back to products</a>
+				<div class="col-sm-6 col-md-12">
+					<div class="d-flex justify-content-between align-items-center">
+						<a href="{% url 'all_products' %}" class="btn btn-sm btn-outline-secondary mb-2"><i class="bi-arrow-left-circle-fill"></i> Back to products</a>
+						<a href="{% url 'checkout' %}" class="btn btn-sm btn-success mb-2">Checkout <i class="bi-arrow-right-circle-fill"></i></a>
+					</div>
                 </div>
                 <div class="col-md-10 col-lg-12">
 					{% include 'messages.html' %}
