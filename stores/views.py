@@ -3,6 +3,7 @@ from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.views import View
+from django.db.models import Sum, Avg
 from .forms import (CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm,
     RateRetailStoreForm, RateProductsForm, ReportRetailStoreForm, )
 from .models import RetailStores, Products, CartItems, Cart, Polls
@@ -13,7 +14,7 @@ class HomepageView(View):
 
     def get(self, request, *args, **kwargs):
         stores = RetailStores.objects.all()
-        
+
         context = {
             'retail_stores': stores,
         }
@@ -31,7 +32,58 @@ class RetailStoreInfoView(View):
             'products': products,
         }
         return render(request, self.template_name, context)
-    
+
+class ProductDetailView(View):
+    template_name = 'stores/product-info.html'
+
+    def get(self, request, product_id, *args, **kwargs):
+        product_obj = Products.objects.get(id=product_id)
+        session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
+        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
+        total_cart_items = cart_items.count()
+        total_cost_items = 0
+        cost_list = []
+
+        for item in cart_items:
+            total_cost_items = item.quantity * item.product.price
+            cost_list.append(total_cost_items)
+            
+        total_cost_items = sum([cost for cost in cost_list])
+
+        context = {
+            'product_obj': product_obj,
+            'cart': cart_items,
+            'cart_items': total_cart_items,
+            'SumofCartItems': sum_of_cartitems,
+            'TotalCost': total_cost_items,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, product_id, *args, **kwargs):
+        item_id = request.POST.get('item-id')
+        product_obj = Products.objects.get(id=item_id)
+
+        if request.user.is_authenticated:
+            cart, created = Cart.objects.get_or_create(customer=request.user, completed=False)
+            cartitem, created = CartItems.objects.get_or_create(product=product_obj, order=cart)
+            cartitem.quantity += 1
+            cartitem.save()
+            total_cart_items = cart.get_cart_items
+
+        else:
+            session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
+            cart, created = Cart.objects.get_or_create(session_id=session, completed=False)        
+            cartitem, created = CartItems.objects.get_or_create(product=product_obj, order=cart)
+            cartitem.quantity += 1
+            cartitem.save()
+            total_cart_items = cart.get_cart_items
+
+            return redirect('add_to_cart', product_id)
+        
+        context = {'product_obj': product_obj, 'cart': cart}
+        return render(request, self.template_name, context)
+
 class ProductsListView(View):
     template_name = 'stores/products.html'
 
