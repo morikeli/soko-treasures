@@ -30,11 +30,11 @@
 										<td>{{ items.product }}</td>
 										<td class="text-end">{{ items.product.price|floatformat:"2g" }}</td>
 										<td class="text-end">
-											<a class="minus-cart" pid="{{ items.id }}"><i class="bi-dash-square-fill"></i></a>
+											<a href="{% url 'user_cart' %}" pid="{{ items.id }}" class="minus-cart"><i class="bi-dash-square-fill"></i></a>
 											<span id="quantity" class="mx-2 border px-3">{{ items.quantity }} </span>
-											<a class="plus-cart" pid="{{ items.id }}"><i class="bi-plus-square-fill"></i></a>
+											<a href="{% url 'user_cart' %}" class="plus-cart" pid="{{ items.id }}"><i class="bi-plus-square-fill"></i></a>
 										</td>
-										<td class="text-center px-0"><a pid="{{ items.id }}" class="remove-cart btn btn-sm btn-outline-danger"><i class="bi-trash"></i> Remove item</a></td>
+										<td class="text-center px-0"><a href="{% url 'user_cart' %}" pid="{{ items.id }}" class="remove-cart btn btn-sm btn-outline-danger"><i class="bi-trash"></i> Remove item</a></td>
 										{% comment %}<td class="text-end" id="item-cost-{{ items.id }}">{{ items.quantity|totalcost:items.product.price|floatformat:"2g" }}</td>{% endcomment %}
 									</tr>
 									{% endfor %}
