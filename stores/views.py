@@ -1,3 +1,5 @@
+from .forms import (CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm, RateRetailStoreForm, RateProductsForm, 
+    ReportRetailStoreForm, CustomerOrderForm, )
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
@@ -5,8 +7,6 @@ from django.contrib import messages
 from django.views import View
 from django.http import JsonResponse
 from django.db.models import Sum
-from .forms import (CreateRetailStoreForm, AddProductForm, EditStoreInfoForm, EditProductInfoForm,
-    RateRetailStoreForm, RateProductsForm, ReportRetailStoreForm, CustomerOrderForm)
 from .models import RetailStores, Products, CartItems, Cart, Polls
 from uuid import uuid4
 
