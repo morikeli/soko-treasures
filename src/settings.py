@@ -1,5 +1,6 @@
 from django.contrib.messages import constants as messages
 from pathlib import Path
+import cloudinary
 import environ
 import os
 
@@ -34,6 +35,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'phonenumber_field',
     'formtools',
+    'cloudinary',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -138,3 +140,9 @@ MESSAGE_TAGS = {
 }
 
 LOGIN_REDIRECT_URL = 'index'
+          
+cloudinary.config( 
+    cloud_name = env('CLOUD_NAME'), 
+    api_key = env('API_KEY'), 
+    api_secret = env('API_SECRET')
+)
