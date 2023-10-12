@@ -14,7 +14,7 @@ class HomepageView(View):
     template_name = 'stores/index.html'
 
     def get(self, request, *args, **kwargs):
-        stores = RetailStores.objects.all()
+        stores = RetailStores.objects.all().order_by('name')
 
         context = {
             'retail_stores': stores,
