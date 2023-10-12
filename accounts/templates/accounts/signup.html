@@ -14,7 +14,32 @@
                         <div class="row">
                             <h3 class="card-title text-center">Create account</h3>
                             <div class="col-md-12">
-                                <p class="text-center fst-italic">Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+                                <div class="form-wizard text-center">
+                                    <p class="small fst-italic">
+                                        {% if wizard.steps.step1 == 1 %}
+                                        Fill all form field to go next step
+                                        {% else %}
+                                        One final step! Register your store using this form.
+                                        {% endif %}
+                                    </p>
+                                    <ul class="list-unstyled form-wizard-steps clearfix">
+                                        {% if wizard.steps.step1 == 1 %}
+                                        <li class="active">
+                                            <span>{% if wizard.steps.step1 == 1 %}{{ wizard.steps.step1 }}{% else %} <i class="bi-check-circle-fill" style="font-size: 30px;"></i> {% endif %}</span>
+                                        </li>
+                                        <li>
+                                            <span>{% if wizard.steps.step1 == 2 %}{{ wizard.steps.step1 }}{% else %}{{ wizard.steps.count }}{% endif %}</span>
+                                        </li>
+                                        {% else %}
+                                        <li class="active">
+                                            <span>{% if wizard.steps.step1 == 1 %}{{ wizard.steps.step1 }}{% else %} <i class="bi-check-circle-fill" style="font-size: 30px;"></i> {% endif %}</span>
+                                        </li>
+                                        <li class="active">
+                                            <span>{% if wizard.steps.step1 == 2 %}{{ wizard.steps.step1 }}{% else %}{{ wizard.steps.count }}{% endif %}</span>
+                                        </li>
+                                        {% endif %}
+                                    </ul>
+                                </div>
                                 {{ wizard.management_form }}
                                 {% if wizard.form.forms %}
                                     {{ wizard.form.management_form }}
