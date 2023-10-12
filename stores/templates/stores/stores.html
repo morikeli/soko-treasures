@@ -4,7 +4,7 @@
         <div class="breadcrumbs d-flex align-items-center" style="background-image: url({{store_info.cover_photo.url}});">
             <div class="container position-relative d-flex flex-column align-items-center">
                 <h2>{{ store_info.name|title }}</h2>
-                <h4 class="text-white">Sells {{ store_info.services }}</h4>    
+                <h4 class="text-white">Specialized {{ store_info.services }} retail store</h4>    
             </div>
         </div>
     
@@ -85,15 +85,15 @@
                                         <div class="product-item">
                                             <div class="stars">
                                                 <h3 class="card-title text-center mb-0 pb-0">{{ item.seller }}</h3>
-                                                {% if item.seller.rating == 1 %}
+                                                {% if item.rating == 1 %}
                                                 <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
-                                                {% elif item.seller.rating == 2 %}
+                                                {% elif item.rating == 2 %}
                                                 <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
-                                                {% elif item.seller.rating == 3 %}
+                                                {% elif item.rating == 3 %}
                                                 <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i><i class="bi-star"></i>
-                                                {% elif item.seller.rating == 4 %}
+                                                {% elif item.rating == 4 %}
                                                 <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star"></i>
-                                                {% elif item.seller.rating == 5 %}
+                                                {% elif item.rating == 5 %}
                                                 <i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i><i class="bi-star-fill" style="color: #ffc107;"></i>
                                                 {% else %}
                                                 <i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i><i class="bi-star"></i>
