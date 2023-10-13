@@ -154,6 +154,7 @@ class Polls(models.Model):
 
 class ShippingDetails(models.Model):
     id = models.CharField(max_length=30, primary_key=True, unique=True, editable=False)
+    order = models.ForeignKey(CartItems, on_delete=models.CASCADE, editable=False)
     name = models.CharField(max_length=50, blank=False)
     mobile_no = PhoneNumberField(blank=False)
     email = models.EmailField(blank=False)
