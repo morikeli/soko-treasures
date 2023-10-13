@@ -84,7 +84,7 @@ class Cart(models.Model):
     completed = models.BooleanField(default=False, editable=False)
 
     def __str__(self) -> str:
-        return self.customer
+        return self.session_id
     
     @property
     def get_cart_total(self):
