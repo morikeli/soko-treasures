@@ -206,7 +206,6 @@ class CartCheckoutView(View):
         total_cart_items = cart_items.count()
         total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
         sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
-
         
         context = {
             'CheckoutForm': form,
