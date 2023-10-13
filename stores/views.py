@@ -224,6 +224,27 @@ class CartCheckoutView(View):
         total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
         sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
 
+        if form.is_valid():
+            placeorder = form.save(commit=False)
+            
+            # iterate user's cart to get all items in cart
+            for item in cart_items:
+                cartitems_obj = CartItems.objects.get(id=item.id)   # fetch item ID and create an object.
+
+                # save user orders using the form and the created object.
+                get_order = ShippingDetails.objects.create(
+                    order=cartitems_obj,
+                    name=placeorder.name,
+                    mobile_no=placeorder.mobile_no,
+                    email=placeorder.email,
+                    country=placeorder.country,
+                    county=placeorder.county,
+                    city=placeorder.city,
+                    address=placeorder.address,
+                ).save()
+            
+            messages.success(request, 'You order has been successfully submitted!')
+            return redirect('checkout')
         
         context = {
             'CheckoutForm': form,
