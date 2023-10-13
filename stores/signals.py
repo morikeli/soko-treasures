@@ -1,4 +1,4 @@
-from .models import RetailStores, Products, Cart, CartItems, Polls, Reports
+from .models import RetailStores, Products, Cart, CartItems, Polls, Reports, ShippingDetails
 from django.db.models.signals import pre_save, m2m_changed
 from django.dispatch import receiver
 from uuid import uuid4
@@ -37,3 +37,8 @@ def generate_reportsID(sender, instance, **kwargs):
 def generate_pollsID(sender, instance, **kwargs):
     if instance.id == '':
         instance.id = str(uuid4()).replace('-', '')[:25]
+
+@receiver(pre_save, sender=ShippingDetails)
+def generate_shippinddetailsID(sender, instance, **kwargs):
+    if instance.id == '':
+        instance.id = str(uuid4()).replace('-', '')[:30]
