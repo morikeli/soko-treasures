@@ -34,5 +34,5 @@ class UserPollsTable(admin.ModelAdmin):
 
 @admin.register(ShippingDetails)
 class ShippingDetailsTable(admin.ModelAdmin):
-    list_display = ['name', 'email', 'country', 'county', 'date_ordered']
-    readonly_fields = ['name', 'email', 'mobile_no', 'country', 'county', 'city', 'address']
+    list_display = ['name', 'country', 'county', 'date_ordered']
+    readonly_fields = ['name', 'mobile_no', 'country', 'county', 'city', 'address']

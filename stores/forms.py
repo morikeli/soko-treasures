@@ -153,12 +153,6 @@ class CustomerOrderForm(forms.ModelForm):
         required=True,
         label='Mobile number',
     )
-    email = forms.EmailField(widget=forms.EmailInput(attrs={
-            'type': 'email', 'class': 'mb-0',
-        }),
-        required=True,
-        label='Email address',
-    )
     country = forms.ChoiceField(widget=forms.Select(attrs={
             'type': 'text', 'class': 'mb-0',
         }),
@@ -187,7 +181,7 @@ class CustomerOrderForm(forms.ModelForm):
     
     class Meta:
         model = ShippingDetails
-        fields = ['name', 'email', 'mobile_no', 'country', 'county', 'city', 'address']
+        fields = ['name', 'mobile_no', 'country', 'county', 'city', 'address']
 
 # Edit forms
 class EditStoreInfoForm(forms.ModelForm):

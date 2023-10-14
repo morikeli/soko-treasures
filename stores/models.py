@@ -157,11 +157,11 @@ class ShippingDetails(models.Model):
     order = models.ForeignKey(CartItems, on_delete=models.CASCADE, editable=False)
     name = models.CharField(max_length=50, blank=False)
     mobile_no = PhoneNumberField(blank=False)
-    email = models.EmailField(blank=False)
     country = models.CharField(max_length=50, blank=False)
     county = models.CharField(max_length=30, blank=False, db_column='County/State')
     city = models.CharField(max_length=30, blank=False, db_column='City/Estate/Town/Village')
     address = models.CharField(max_length=10, blank=False)
+    is_paid = models.BooleanField(default=False, editable=False)
     date_ordered = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
