@@ -1,0 +1,68 @@
+{% extends 'dashboard/base.html' %}{% block title %}Customer orders{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    {% block content %}
+    <main id="main">
+        <section class="section">
+            <div class="row">
+                <div class="col-xl-12 col-lg-12">
+                    <div class="card card-body">
+                        <h5 class="card-title py-0 mt-0 mb-0">Customer orders</h5><hr class="mt-2">
+                        <div class="responsive">
+                            <table class="table table-sm table-hover table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Image</th>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th>Name</th>
+                                        <th>Phone no.</th>
+                                        <th>Country</th>
+                                        <th>County/State</th>
+                                        <th>City/Town</th>
+                                        <th>Address</th>
+                                        <th>Payment</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for order in customer_orders %}
+                                    <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td><img src="{{ order.order.product.img_file.url }}" height="45px" alt=""></td>
+                                        <td>{{ order.order.product |truncatewords:4}}</td>
+                                        <td class="text-end">{{ order.order.quantity }}</td>
+                                        <td>{{ order.name }}</td>
+                                        <td>{{ order.mobile_no }}</td>
+                                        <td>{{ order.country }}</td>
+                                        <td>{{ order.county }}</td>
+                                        <td>{{ order.city }}</td>
+                                        <td>{{ order.address }}</td>
+                                        <td>
+											{% if order.is_paid is True %}
+											<span class="badge bg-primary">Paid <i class="bi-check-circle-fill text-white"></i></span>
+											{% else %}
+											<span class="badge bg-primary">
+                                                Pending 
+												<span class="spinner-border spinner-border-sm"></span>
+											</span>
+											{% endif %}
+										</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    {% endblock %}
+</body>
+</html>
