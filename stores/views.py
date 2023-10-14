@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.views import View
 from django.http import JsonResponse
 from django.db.models import Sum
+from accounts.forms import EditProfileForm
 from uuid import uuid4
 
 class HomepageView(View):
@@ -429,18 +430,28 @@ class UpdateRetailStoreInfoView(View):
     def get(self, request, store_id, *args, **kwargs):
         store_obj = RetailStores.objects.get(id=store_id)
         form = self.form_class(instance=store_obj)
+        profile_form = EditProfileForm(instance=request.user)
 
-        context = {'EditStoreInfoForm': form, 'store_obj': store_obj}
+        context = {'EditStoreInfoForm': form, 'EditProfileForm': profile_form, 'store_obj': store_obj}
         return render(request, self.template_name, context)
     
     def post(self, request, store_id, *args, **kwargs):
         store_obj = RetailStores.objects.get(id=store_id)
         form = self.form_class(request.POST, request.FILES, instance=store_obj)
+        profile_form = EditProfileForm(request.POST, request.FILES, instance=request.user)
         
         if form.is_valid():
             form.save()
             messages.warning(request, 'You have updated your retail store info!')
             return redirect('edit_store', store_id)
+        
+        elif profile_form.is_valid():
+            profile_form.save()
+            messages.info(request, 'Your profile has been sucessfully updated!')
+            return redirect('edit_store', store_id)
+        
+        context = {'EditStoreInfoForm': form, 'EditProfileForm': profile_form, 'store_obj': store_obj}
+        return render(request, self.template_name, context)
 
 @method_decorator(login_required(login_url='login'), name='get')
 class EditProductsView(View):
