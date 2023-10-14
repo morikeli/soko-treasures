@@ -10,7 +10,7 @@ def retailstore_renderer(store_id):
 
 def cart_renderer(request):
     session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
-    cart_items = CartItems.objects.filter(order__session_id=session).all()
+    cart_items = CartItems.objects.filter(order__session_id=session, is_ordered=False).all()
     total_items = cart_items.count()
     
     return {'TotalCartItems': total_items}
