@@ -386,6 +386,23 @@ class DashboardView(View):
         }
         return render(request, self.template_name, context)
 
+class CustomerOrdersView(View):
+    template_name = 'dashboard/orders.html'
+
+    def get(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        orders_qs = ShippingDetails.objects.filter(order__product__seller=store_obj, is_paid=False).all().order_by('name', '-date_ordered')
+
+        context = {'customer_orders': orders_qs, 'store_obj': store_obj}
+        return render(request, self.template_name, context)
+    
+    def post(self, request, store_id, *args, **kwargs):
+        store_obj = RetailStores.objects.get(id=store_id)
+        orders_qs = ShippingDetails.objects.filter(order__product__seller=store_obj, is_paid=False).all().order_by('name', '-date_ordered')
+        
+        context = {'customer_orders': orders_qs, 'store_obj': store_obj}
+        return render(request, self.template_name, context)
+
 @method_decorator(login_required(login_url='login'), name='get')
 class NewProductsView(View):
     form_class = AddProductForm
