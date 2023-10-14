@@ -107,6 +107,7 @@ class CartItems(models.Model):
     product = models.ForeignKey(Products, on_delete=models.CASCADE, editable=False)
     order = models.ForeignKey(Cart, on_delete=models.CASCADE, editable=False)
     quantity = models.PositiveIntegerField(default=0)
+    is_ordered = models.BooleanField(default=False, editable=False)
     date_created = models.DateTimeField(auto_now_add=True)
     edited = models.DateTimeField(auto_now=True)
 
