@@ -41,7 +41,7 @@ class ProductDetailView(View):
     def get(self, request, product_id, *args, **kwargs):
         product_obj = Products.objects.get(id=product_id)
         session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
-        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        cart_items = CartItems.objects.filter(order__session_id=session, is_ordered=False).all()
         sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
         total_cost_items = 0
         cost_list = []
@@ -136,7 +136,7 @@ class ItemsinCartView(View):
         deleteitem_id = request.GET.get('delete-cart-item')
 
         session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
-        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        cart_items = CartItems.objects.filter(order__session_id=session, is_ordered=False).all()
         total_cart_items = cart_items.count()
         total_cost_items = 0
 
