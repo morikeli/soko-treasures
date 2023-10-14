@@ -4,8 +4,8 @@
 ##### Soko is a Swahili word for market.
 
 ### Overview
-##### Soko is an e-commerce platfrom that connects business vendros and their clients. Vendors create business accounts and advertise products they are selling to
-their discerning clients or customers.
+##### Soko-Treasures is an e-commerce platform that connects business vendors and their clients. Vendors create business accounts and advertise products they are selling to their discerning clients or customers.
+
 ##### The platform has features found in e-commerce websites such as:
   - Add to cart
   - Checkout
