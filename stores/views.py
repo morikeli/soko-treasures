@@ -203,7 +203,7 @@ class CartCheckoutView(View):
     def get(self, request, *args, **kwargs):
         form = self.form_class()
         session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
-        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        cart_items = CartItems.objects.filter(order__session_id=session, is_ordered=False).all()
         total_cart_items = cart_items.count()
         total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
         sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
@@ -220,7 +220,7 @@ class CartCheckoutView(View):
     def post(self, request, *args, **kwargs):
         form = self.form_class(request.POST)
         session = str(request.META.get('HTTP_COOKIE')).removeprefix('csrftoken=')
-        cart_items = CartItems.objects.filter(order__session_id=session).all()
+        cart_items = CartItems.objects.filter(order__session_id=session, is_ordered=False).all()
         total_cart_items = cart_items.count()
         total_cost_items = sum(item.quantity * item.product.price for item in cart_items)
         sum_of_cartitems = cart_items.aggregate(quantity=Sum('quantity'))["quantity"]
@@ -237,15 +237,38 @@ class CartCheckoutView(View):
                     order=cartitems_obj,
                     name=placeorder.name,
                     mobile_no=placeorder.mobile_no,
-                    email=placeorder.email,
                     country=placeorder.country,
                     county=placeorder.county,
                     city=placeorder.city,
                     address=placeorder.address,
-                ).save()
-            
-            messages.success(request, 'You order has been successfully submitted!')
-            return redirect('checkout')
+                )
+
+                get_product = Products.objects.get(id=item.product_id)
+
+                calc_quantity = get_product.quantity - cartitems_obj.quantity
+                print(f'Calc_quantity: {calc_quantity}')
+
+                if calc_quantity < 0:
+                    
+                    messages.error(request, f'You ordered {cartitems_obj.quantity} but there are only {get_product.quantity} in stock! Kindly update your cart.')
+                    return redirect('checkout')
+                
+                else:
+                    get_product.quantity = calc_quantity
+                    if get_product.quantity == 0:
+                        get_product.out_of_stock = True
+                        get_product.save()  # save products record
+                        get_order.save()    # save customer's order
+
+                        cartitems_obj.is_ordered = True
+                        cartitems_obj.save()    # update cart items record
+
+                    else:
+                        get_product.save()
+                        get_order.save()                
+        
+                    messages.success(request, 'You order has been successfully submitted!')
+                    return redirect('checkout')
         
         context = {
             'CheckoutForm': form,
