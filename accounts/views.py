@@ -70,29 +70,6 @@ class SignupView(SessionWizardView):
             
             messages.success(self.request, 'Account successfully created!')
             return redirect('login')
-    
-@method_decorator(login_required(login_url='login'), name='get')
-class UserProfileView(View):
-    """ This view enables a user to update/edit his/her profile. """
-    form_class = EditProfileForm
-    template_name = 'accounts/profile.html'
-
-    def get(self, request, *args, **kwargs):
-        form = self.form_class(instance=request.user)
-
-        context = {'EditProfileForm': form}
-        return render(request, self.template_name, context)
-    
-    def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST, request.FILES, instance=request.user)
-
-        if form.is_valid():
-            form.save()
-            messages.info(request, 'You have edited your profile!')
-            return redirect('user_profile')
-        
-        context = {'EditProfileForm': form}
-        return render(request, self.template_name, context)
 
 class LogoutUser(LogoutView):
     template_name = 'accounts/logout.html'
