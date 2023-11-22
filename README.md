@@ -6,13 +6,14 @@
 ### Overview
 Soko Treasures is an e-commerce platform that connects business vendors and their clients. Vendors create business accounts and advertise products they are selling to their discerning clients or customers. You can view the hosted website [here](https://soko-rebd.onrender.com/index/)
 
-#### The platform has features found in e-commerce websites such as:
+The platform has features found in e-commerce websites such as:
   - Add to cart
   - Checkout
   - Rating products
   - Reporting fraudsters (one of the cool features of this platform)
 
-#### User instructions
+
+### User instructions
   The website's main target users are
     1.) clients
     2.) business vendors
@@ -28,9 +29,10 @@ Soko Treasures is an e-commerce platform that connects business vendors and thei
     - add items/products they want to sell
     NB: Items added for sale will be advertised on the retail store's page
 
+
 ### Bug(s) report
   Feel free to report bugs or errors using the `Issues` tab. Provide your feedback using `Discussions` tab. Don't forget to star this [repo](https://github.com/morikeli/soko-treasures/)
 
-#### Buy me coffee
+### Buy me coffee
   I'm not saying I'm addicted to coffee, but let's just say I'm one espresso away from a support group. Wanna be my sponsor? 😁
   You can tip me via my [buy me coffee](https://www.buymeacoffee.com/keli.io) link.
