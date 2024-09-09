@@ -1,10 +1,10 @@
 ## Soko treasures
-##### Soko is a Swahili word for market.
 
+## Demo
 ![Screenshot from 2023-10-12 17-20-34](https://github.com/morikeli/soko-kubwa/assets/78599959/409ee1d4-c974-492d-a4fa-1e279dc17f44)
 
 ### Overview
-Soko Treasures is an e-commerce platform that connects business vendors and their clients. Vendors create business accounts and advertise products they are selling to their discerning clients or customers. You can view the hosted website [here.](https://soko-rebd.onrender.com/index/)
+*Soko* is a swahili word for market. Soko Treasures is an e-commerce platform that connects business vendors and their clients. Vendors create business accounts and advertise products they are selling to their discerning clients or customers. You can view the hosted website [here.](https://soko-rebd.onrender.com/index/)
 
 The platform has features found in e-commerce websites such as:
   - Add to cart
