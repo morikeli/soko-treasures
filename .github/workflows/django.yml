@@ -28,6 +28,6 @@ jobs:
     - name: Run Tests
       env:
         SECRET_KEY: ${{ secrets.SECRET_KEY }}
-        WEBSITE_DOMAIN: ${{ secretS.WEBSITE_DOMAIN }}
+        WEBSITE_DOMAIN: ${{ secrets.WEBSITE_DOMAIN }}
       run: |
         python manage.py test
